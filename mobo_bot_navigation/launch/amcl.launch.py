@@ -7,16 +7,16 @@ from launch.actions import (
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
   # Set the path to this package.
   navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
-  nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
  
   # Set the path to the map file
-  map_file_name = 'simple_world_map.yaml'
-  map_yaml_path = os.path.join(navigation_pkg_path, 'map', map_file_name)
+  map_file_name = 'room_with_walls.yaml'
+  map_yaml_path = os.path.join(navigation_pkg_path, 'maps', map_file_name)
 
   # Set the path to the nav params file
   nav_params_file_name = 'nav2_bringup_params.yaml'
@@ -46,15 +46,43 @@ def generate_launch_description():
 
   #-----------------------------------------------------------------------------
 
-  localization_launch = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [os.path.join(nav2_bringup_pkg_path,'launch','localization_launch.py')]
-            ), 
-            launch_arguments={
-              'map': map,
-              'use_sim_time': use_sim_time,
-              'params_file': params_file
-            }.items()
+  lifecycle_nodes = [
+    'map_server',
+    'amcl',
+  ]
+
+  remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
+
+  nav2_map_server_node = Node(
+    package='nav2_map_server',
+    executable='map_server',
+    name='map_server',
+    output='screen',
+    parameters=[
+      params_file,
+      {'use_sim_time': use_sim_time},
+      {'yaml_filename': map}
+    ],
+    remappings=remappings,
+  )
+
+  nav2_amcl_node = Node(
+    package='nav2_amcl',
+    executable='amcl',
+    name='amcl',
+    output='screen',
+    parameters=[
+      params_file,
+      {'use_sim_time': use_sim_time}
+    ],
+    remappings=remappings,
+  )
+
+  nav2_lifecycle_manager_node = Node(
+    package='nav2_lifecycle_manager',
+    executable='lifecycle_manager',
+    output='screen',
+    parameters=[{"autostart": True, "bond_timeout": 0.0}, {'node_names': lifecycle_nodes}],
   )
 
   #--------------------------------------------------------------------------------
@@ -68,6 +96,8 @@ def generate_launch_description():
   ld.add_action(declare_params_file_cmd)
  
   # Add the nodes to the launch description
-  ld.add_action(localization_launch)
+  ld.add_action(nav2_map_server_node)
+  ld.add_action(nav2_amcl_node)
+  ld.add_action(nav2_lifecycle_manager_node)
 
   return ld
