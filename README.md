@@ -28,7 +28,7 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 
 ![mobo_bot_sim](./docs/mobo_bot_nav_sim.gif)
 </br>
-- [**Simulation Tutorial**](https://github.com/robocre8/mobo_bot/blob/humble/MOBO_BOT_SIM_README.md)
+- [**Simulation Tutorial**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_SIM_README.md)
 
 #
 
@@ -36,6 +36,6 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 
 ![mobo_bot_base](./docs/mobo_bot_slam.gif)
 </br>
-- [**Working with the Actual Robot**](https://github.com/robocre8/mobo_bot/blob/humble/MOBO_BOT_BASE_README.md)
+- [**Working with the Actual Robot**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_BASE_README.md)
 
 </br>

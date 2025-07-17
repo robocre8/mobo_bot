@@ -72,7 +72,7 @@ def generate_launch_description():
   )
 
   lifecycle_nodes = [
-    'costmap',
+    # 'costmap',
     'planner_server',
     'controller_server',
     'bt_navigator',
@@ -151,7 +151,7 @@ def generate_launch_description():
       params_file,
       {'use_sim_time': use_sim_time}
     ],
-    remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
+    remappings=remappings,
   )
 
   nav2_waypoint_follower_node = Node(
@@ -163,7 +163,7 @@ def generate_launch_description():
       params_file,
       {'use_sim_time': use_sim_time}
     ],
-    remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
+    remappings=remappings,
   )
 
   nav2_lifecycle_manager_node = Node(
@@ -187,7 +187,7 @@ def generate_launch_description():
   # Add the nodes to the launch description
   ld.add_action(amcl_launch)
   ld.add_action(slam_launch)
-  ld.add_action(nav2_costmap_2d_node)
+  # ld.add_action(nav2_costmap_2d_node)
   ld.add_action(nav2_planner_server_node)
   ld.add_action(nav2_smoother_server_node)
   ld.add_action(nav2_controller_server_node)
