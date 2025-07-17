@@ -23,13 +23,16 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 - [**Check out the YouTube Videos Here**](https://www.youtube.com/watch?v=dXGVaBl08jw&t=2s)
 
 #
-### GETTING STARTED WITH MoboBot
+
+### Get Started The MoboBot Simulation
 
 ![mobo_bot_sim](./docs/mobo_bot_nav_sim.gif)
 </br>
 - [**Simulation Tutorial**](https://github.com/robocre8/mobo_bot/blob/humble/MOBO_BOT_SIM_README.md)
 
-</br>
+#
+
+### Get Started The MoboBot Hardware (i.e the Actual Robot)
 
 ![mobo_bot_base](./docs/mobo_bot_slam.gif)
 </br>
