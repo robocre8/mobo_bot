@@ -32,13 +32,6 @@ def generate_launch_description():
           PythonExpression(expression=["'", world_name, "'", " + '.sdf'"])
       ]
   )
-  
-  map_path = PathJoinSubstitution([
-          navigation_pkg_path,
-          "maps",
-          PythonExpression(expression=["'", world_name, "'", " + '.yaml'"])
-      ]
-  )
 
   declare_params_name_cmd = DeclareLaunchArgument(
     name='params_name',
@@ -65,16 +58,16 @@ def generate_launch_description():
 
   rviz_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(rviz_pkg_path,'launch','amcl.launch.py')]
+                [os.path.join(rviz_pkg_path,'launch','nav_bringup.launch.py')]
             )
   )
 
-  amcl_launch = IncludeLaunchDescription(
+  nav_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(navigation_pkg_path,'launch','amcl.launch.py')]
+                [os.path.join(navigation_pkg_path,'launch','nav_bringup.launch.py')]
             ), 
             launch_arguments={
-              'map': map_path,
+              'slam': 'True',
               'use_sim_time': 'True',
               'params_file': params_file
             }.items()
@@ -91,7 +84,7 @@ def generate_launch_description():
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)
+  ld.add_action(nav_launch)
   ld.add_action(rviz_launch)
-  ld.add_action(amcl_launch)
 
   return ld
