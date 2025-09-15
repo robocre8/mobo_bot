@@ -272,6 +272,7 @@ controller_server:
       curvature_lookahead_dist: 0.25
     local_costmap:
       plugin: "nav2_costmap_2d::Costmap2DROS"
+    enable_stamped_cmd_vel: true
 
 
 bt_navigator:
@@ -319,6 +320,7 @@ behavior_server:
     max_rotational_vel: 0.4
     min_rotational_vel: 0.1
     rotational_acc_lim: 3.2
+    enable_stamped_cmd_vel: true
 
 
 waypoint_follower:
@@ -331,3 +333,17 @@ waypoint_follower:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
       waypoint_pause_duration: 200
+
+velocity_smoother:
+  ros__parameters:
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.2, 0.0, 1.0]
+    min_velocity: [-0.2, 0.0, -1.0]
+    max_accel: [2.0, 0.0, 3.5]
+    max_decel: [-2.0, 0.0, -3.5]
+    odom_topic: "odom"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0

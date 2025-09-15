@@ -34,14 +34,14 @@ def generate_launch_description():
 
   # set some ignition environment variable
   gz_models_path = os.path.join(sim_pkg_path, "models")
-  gz_sim_system_plugin_path = '/opt/ros/humble/lib/'
+  gz_sim_system_plugin_path = '/opt/ros/jazzy/lib/'
 
-  set_env_ign_resource_cmd = SetEnvironmentVariable(
+  set_env_gz_sim_resource_cmd = SetEnvironmentVariable(
           name="GZ_SIM_RESOURCE_PATH",
           value=gz_models_path,
       )
   
-  set_env_ign_path_cmd = SetEnvironmentVariable(
+  set_env_gz_sim_path_cmd = SetEnvironmentVariable(
           name="GZ_SIM_SYSTEM_PLUGIN_PATH",
           value=gz_sim_system_plugin_path,
       )
@@ -91,14 +91,14 @@ def generate_launch_description():
                         'run_gz_sim': 'True'}.items()
   )
 
-  start_ign_gazebo = ExecuteProcess(
+  start_gz_sim = ExecuteProcess(
       condition=UnlessCondition(headless),
       cmd=['gz', 'sim',  '-r', '-v', gz_verbosity, world_path],
       output='screen',
       # shell=False,
   )
         
-  start_ign_gazebo_headless = ExecuteProcess(
+  start_gz_sim_headless = ExecuteProcess(
       condition=IfCondition(headless),
       cmd=['gz', 'sim',  '-r', '-v', gz_verbosity, '-s', '--headless-rendering', world_path],
       output='screen',
@@ -136,13 +136,26 @@ def generate_launch_description():
       parameters=[{"use_sim_time": use_sim_time}]
   )
 
+  twist_mux_file_name = 'twist_mux.yaml'
+  twist_mux_config_path = os.path.join(sim_pkg_path, 'config', twist_mux_file_name)
+  twist_mux_node = Node(
+    package='twist_mux',
+    executable='twist_mux',
+    name='twist_mux',
+    output='screen',
+    parameters=[twist_mux_config_path],
+    remappings=[
+        ('cmd_vel_out', '/cmd_vel')  # final merged velocity topic
+    ]
+  )
+
   #--------------------------------------------------------------------------
   
   # Create the launch description
   ld = LaunchDescription()
 
-  ld.add_action(set_env_ign_resource_cmd)
-  ld.add_action(set_env_ign_path_cmd)
+  ld.add_action(set_env_gz_sim_resource_cmd)
+  ld.add_action(set_env_gz_sim_path_cmd)
  
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_headless_cmd)
@@ -153,10 +166,11 @@ def generate_launch_description():
  
   # Add the nodes to the launch description
   ld.add_action(rsp_launch)
-  ld.add_action(start_ign_gazebo)
-  ld.add_action(start_ign_gazebo_headless)
+  ld.add_action(start_gz_sim)
+  ld.add_action(start_gz_sim_headless)
   ld.add_action(bridge_node)
   ld.add_action(spawn_entity_in_ign)
+  ld.add_action(twist_mux_node)
 
  
   return ld

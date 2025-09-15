@@ -1,0 +1,24 @@
+twist_mux:
+  ros__parameters:
+    use_stamped: true
+    topics:
+      teleop:
+        topic   : cmd_vel_teleop
+        timeout : 0.5        # seconds before teleop cmd is considered inactive
+        priority: 100        # highest priority
+
+      joystick:
+        topic   : cmd_vel_joy
+        timeout : 0.5
+        priority: 60         # medium priority
+
+      nav2:
+        topic   : cmd_vel_nav
+        timeout : 0.5
+        priority: 20         # lowest priority
+
+      # locks:
+      #   e_stop:
+      #     topic   : e_stop
+      #     timeout : 0.0
+      #     priority: 255

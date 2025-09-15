@@ -79,20 +79,21 @@ def generate_launch_description():
     'behavior_server',
     'smoother_server',
     'waypoint_follower',
+    'velocity_smoother',
   ]
 
   remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
-  nav2_costmap_2d_node = Node(
-    package='nav2_costmap_2d',
-    executable='nav2_costmap_2d',
-    name='costmap',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-  )
+  # nav2_costmap_2d_node = Node(
+  #   package='nav2_costmap_2d',
+  #   executable='nav2_costmap_2d',
+  #   name='costmap',
+  #   output='screen',
+  #   parameters=[
+  #     params_file,
+  #     {'use_sim_time': use_sim_time}
+  #   ],
+  # )
 
   nav2_planner_server_node = Node(
     package='nav2_planner',
@@ -127,7 +128,7 @@ def generate_launch_description():
       params_file,
       {'use_sim_time': use_sim_time}
     ],
-    remappings=remappings,
+    remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
   )
 
   nav2_bt_navigator_node = Node(
@@ -151,7 +152,7 @@ def generate_launch_description():
       params_file,
       {'use_sim_time': use_sim_time}
     ],
-    remappings=remappings,
+    remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
   )
 
   nav2_waypoint_follower_node = Node(
@@ -164,6 +165,19 @@ def generate_launch_description():
       {'use_sim_time': use_sim_time}
     ],
     remappings=remappings,
+  )
+
+  nav2_velocity_smoother_node = Node(
+    package='nav2_velocity_smoother',
+    executable='velocity_smoother',
+    name='velocity_smoother',
+    output='screen',
+    parameters=[
+      params_file,
+      {'use_sim_time': use_sim_time}
+    ],
+    remappings=remappings
+    + [('cmd_vel', 'cmd_vel_nav')],
   )
 
   nav2_lifecycle_manager_node = Node(
@@ -194,6 +208,7 @@ def generate_launch_description():
   ld.add_action(nav2_bt_navigator_node)
   ld.add_action(nav2_behavior_server_node)
   ld.add_action(nav2_waypoint_follower_node)
+  ld.add_action(nav2_velocity_smoother_node)
   ld.add_action(nav2_lifecycle_manager_node)
 
   return ld

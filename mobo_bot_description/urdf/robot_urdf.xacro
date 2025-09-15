@@ -68,19 +68,19 @@
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/lidar.xacro"/>
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/cam.xacro"/>
 
-    <xacro:property name="chassis_length" value="0.21"/>
-    <xacro:property name="chassis_width" value="0.21"/>
-    <xacro:property name="chassis_height" value="0.06"/>
+    <xacro:property name="chassis_length" value="0.20"/>
+    <xacro:property name="chassis_width" value="0.20"/>
+    <xacro:property name="chassis_height" value="0.05"/>
     <xacro:property name="slab_height" value="0.005"/>
     <xacro:property name="chassis_mass" value="2.0"/>
     <xacro:property name="chassis_color" value="orange"/>
 
-    <xacro:property name="wheel_seperation" value="0.24"/>
+    <xacro:property name="wheel_seperation" value="0.225"/>
     <xacro:property name="wheel_radius" value="0.034"/>
-    <xacro:property name="wheel_width" value="0.026"/>
+    <xacro:property name="wheel_width" value="0.014"/>
     <xacro:property name="wheel_mass" value="0.08"/>
 
-    <xacro:property name="wheel_height_offset" value="0.024"/>
+    <xacro:property name="wheel_height_offset" value="0.015"/>
 
     <xacro:property name="castor_wheel_diameter" value="${wheel_radius+wheel_height_offset}"/>
     <xacro:property name="castor_wheel_mass" value="0.08"/>
@@ -101,10 +101,10 @@
     <link name="chassis">
         <xacro:insert_box_with_fillet x="-0.040" y="0" z="0" 
             size_x="${chassis_length}" size_y="${chassis_width}" size_z="${slab_height}" 
-            fillet_radius="0.04"/>
+            fillet_radius="0.02"/>
         <xacro:insert_box_with_fillet x="-0.040" y="0" z="${chassis_height}" 
             size_x="${chassis_length}" size_y="${chassis_width}" size_z="${slab_height}" 
-            fillet_radius="0.04"/>
+            fillet_radius="0.02"/>
 
         <visual>
             <origin xyz="0.04 0.08 ${chassis_height/2}" rpy="0 0 0"/>
@@ -249,7 +249,7 @@
         <xacro:include filename="$(find mobo_bot_description)/urdf/gazebo_properties.xacro" />
     </xacro:if>
     <xacro:unless value="$(arg run_gz_sim)">
-        <xacro:include filename="$(find mobo_bot_description)/urdf/epmc_ros2_control.xacro" />
+        <xacro:include filename="$(find mobo_bot_description)/urdf/ros2_control.xacro" />
     </xacro:unless>
     
     

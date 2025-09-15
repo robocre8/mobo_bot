@@ -224,7 +224,7 @@
     </visual>
     <sensor name="camera_optical" type="camera">
     <!-- <sensor name="camera_optical" type="depth"> -->
-      <gz_frame_id>camera</gz_frame_id>
+      <gz_frame_id>camera_optical</gz_frame_id>
       <camera>
         <horizontal_fov>1.047</horizontal_fov>
         <image>
@@ -248,8 +248,8 @@
 
   <gazebo>
     <plugin
-      filename="ignition-gazebo-diff-drive-system"
-      name="ignition::gazebo::systems::DiffDrive">
+      filename="gz-sim-diff-drive-system"
+      name="gz::sim::systems::DiffDrive">
       <left_joint>left_wheel_joint</left_joint>
       <right_joint>right_wheel_joint</right_joint>
       <wheel_separation>0.25</wheel_separation>
@@ -270,9 +270,9 @@
   <!-- OdometryPublisher being used instead of Diff Drive's odometry -->
   <gazebo>
     <plugin
-      filename="ignition-gazebo-odometry-publisher-system"
-      name="ignition::gazebo::systems::OdometryPublisher">
-      <odom_publish_frequency>30</odom_publish_frequency>
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_publish_frequency>70</odom_publish_frequency>
       <robot_base_frame>base_link</robot_base_frame>
       <odom_frame>odom</odom_frame>
     </plugin>
@@ -280,8 +280,8 @@
 
   <gazebo>
     <plugin
-      filename="ignition-gazebo-joint-state-publisher-system"
-      name="ignition::gazebo::systems::JointStatePublisher">
+      filename="gz-sim-joint-state-publisher-system"
+      name="gz::sim::systems::JointStatePublisher">
       <joint_name>left_wheel_joint</joint_name>
       <joint_name>right_wheel_joint</joint_name>
     </plugin>
