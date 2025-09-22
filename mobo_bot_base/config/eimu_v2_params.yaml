@@ -4,6 +4,6 @@ eimu_v2_ros:
     # port: "/dev/serial/by-path/pci-0000:00:14.0-usb-0:1.3:1.0-port0"
     port: "/dev/ttyACM0"
     frame_id: "imu"
-    publish_frequency: 100.0
+    publish_frequency: 80.0
     eimu_reference_frame_id: 1  # 0 - NWU,  1 - ENU,  2 - NED
     publish_tf_on_map_frame: false
