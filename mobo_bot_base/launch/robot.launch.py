@@ -17,6 +17,7 @@ def generate_launch_description():
     base_pkg_path = get_package_share_directory('mobo_bot_base')
 
     robot_controllers = os.path.join(base_pkg_path,'config','robot_base_controller.yaml')
+    eimu_v2_config_file = os.path.join(base_pkg_path,'config','eimu_v2_params.yaml')
     ekf_config_path = os.path.join(base_pkg_path,'config','ekf.yaml')
 
     #--------------------------------------------------------------------------
@@ -97,20 +98,17 @@ def generate_launch_description():
         condition=IfCondition(use_ekf),
     )
 
-    imu_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "imu_broadcaster",
-            "--param-file",
-            robot_controllers,
-            "--controller-ros-args",
-            "-r /imu_broadcaster/imu:=/imu/data",
+    eimu_v2_node = Node(
+        package='eimu_v2_ros',
+        executable='eimu_v2_ros',
+        name='eimu_v2_ros',
+        output='screen',
+        parameters=[
+            eimu_v2_config_file
         ],
-        condition=IfCondition(use_ekf),
+        condition=IfCondition(use_ekf)
     )
 
-    ekf_config_path = os.path.join(base_pkg_path,'config','ekf.yaml')
     ekf_node = Node(
         package='robot_localization',
         executable='ekf_node',
@@ -135,20 +133,6 @@ def generate_launch_description():
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
             on_exit=[diff_drive_controller_spawner_no_ekf],
-        )
-    )
-
-    start_imu_broadcaster_spawner_after_diff_drive_controller_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=diff_drive_controller_spawner,
-            on_exit=[imu_broadcaster_spawner],
-        )
-    )
-
-    start_ekf_node_after_imu_broadcaster_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=imu_broadcaster_spawner,
-            on_exit=[ekf_node],
         )
     )
 
@@ -239,9 +223,9 @@ def generate_launch_description():
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(start_diff_drive_controller_spawner_after_joint_state_broadcaster_spawner)
     ld.add_action(start_diff_drive_controller_spawner_after_joint_state_broadcaster_spawner_no_ekf)
-    ld.add_action(start_imu_broadcaster_spawner_after_diff_drive_controller_spawner)
-    ld.add_action(start_ekf_node_after_imu_broadcaster_spawner)
     # ld.add_action(rp_lidar_c1_node)
+    ld.add_action(eimu_v2_node)
+    ld.add_action(ekf_node)
     ld.add_action(start_rp_lidar_c1_node_after_diff_drive_controller_spawner)
     ld.add_action(lidar_angle_filter_node)
     ld.add_action(camera_node)
