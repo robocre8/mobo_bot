@@ -245,5 +245,6 @@ def generate_launch_description():
     ld.add_action(start_rp_lidar_c1_node_after_diff_drive_controller_spawner)
     ld.add_action(lidar_angle_filter_node)
     ld.add_action(camera_node)
+    ld.add_action(twist_mux_node)
 
     return ld      # return (i.e send) the launch description for excecution
