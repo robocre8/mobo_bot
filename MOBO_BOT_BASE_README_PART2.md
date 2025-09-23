@@ -74,7 +74,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.08 0.6 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -104,7 +104,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.08 0.6 1
   ```
 
 ##### On The Raspberry Pi
@@ -141,7 +141,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
   >```shell
   >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
+  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.08 0.6 1
   >```
 
 - Now use the Nav2Goal button from RVIZ to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.
