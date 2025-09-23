@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Check if an argument is provided
+if [ -z "$1" ]; then
+  echo "map name required"
+  echo "Usage: $0 <map_name>"
+  exit 1
+fi
+
+MAP_NAME=$1
+
 # Reset USB Serial CH340 (EPMC_V2)
 sudo usbreset 1a86:7523
 echo "EPMC_V2 USB Reset Successful"
@@ -13,15 +22,6 @@ sudo usbreset 10c4:ea60
 echo "RPLIDAR USB Reset Successful"
 
 echo "Launching Mobobot AMCL Navigation Bringup ROS2 Node"
-
-# Check if an argument is provided
-if [ -z "$1" ]; then
-  echo "map name required"
-  echo "Usage: $0 <map_name>"
-  exit 1
-fi
-
-MAP_NAME=$1
 
 # Source ROS2 workspace
 source ~/mobo_bot_ws/install/setup.bash
