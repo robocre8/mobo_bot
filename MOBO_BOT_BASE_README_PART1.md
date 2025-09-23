@@ -158,13 +158,6 @@
 
 - run the `usb-reset-test-script.sh` to see if it is working:
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/usb-reset-test-script.sh
-  OR
-  source ~/mobo_bot_ws/src/mobo_bot/scripts/usb-reset-test-script.sh
-  ```
-
-- or you can also run the `usb-reset-test-script.sh` this way:
-  ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/scripts/
   ./usb-reset-test-script.sh
   ```

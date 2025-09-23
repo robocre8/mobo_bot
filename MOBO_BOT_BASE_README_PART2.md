@@ -1,5 +1,20 @@
 ## Working with the Physical MoboBot (PART 2) | Running and Testing MoboBot
 
+### Make the robot launch script files executables (Only Once)
+
+> [!NOTE]
+> if you did the USB RESET section in PART 1 then tyou have to do this part once.
+
+```shell
+cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+sudo chmod +x ros2_launch_robot.sh
+sudo chmod +x ros2_launch_robot_mapping.sh
+sudo chmod +x ros2_launch_robot_mapping_with_navigation.sh
+sudo chmod +x ros2_launch_robot_navigation.sh
+```
+
+#
+
 ### View Robot and Transform Tree
 ![mobo_bot_tf](./docs/mobo_bot_tf.png)
 this shows the transformation between the differnt robot parts. it uses the **robot_state_publisher** the transforms, **RVIZ** to view the actual robot, and the **rqt_tf_tree** to view the transform graph.
@@ -16,7 +31,8 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   OR
 - preferably run the mobobot robot bringup bash script
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot.sh
+  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+  ./ros2_launch_robot.sh
   ```
   > [!NOTE]
   > this would software reset the Hardware USB before launching to avoid error form the hardwares
@@ -28,18 +44,6 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   ros2 launch mobo_bot_bringup tf_view.launch.py use_hardware:=true
   ```
 
-
-### Make the robot launch script files executables (Only Once)
-
-> [!NOTE]
-> if you did the USB RESET section in PART 1 then tyou have to do this part once.
-
-```shell
-sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot.sh
-sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_mapping.sh
-sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_mapping_with_navigation.sh
-sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh
-```
 #
 
 ![mobo_bot_base_drive](./docs/mobo_bot_drive_test.gif)
@@ -55,7 +59,8 @@ sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh
   OR
 - preferably run the mobobot robot bringup bash script
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot.sh
+  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+  ./ros2_launch_robot.sh
   ```
 
 ##### On The Dev PC
@@ -86,7 +91,8 @@ sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh
   OR
 - preferably run the mobobot robot mapping bringup bash script
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_mapping.sh
+  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+  ./ros2_launch_robot_mapping.sh
   ```
 
 ##### On The Dev PC
@@ -121,7 +127,8 @@ sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh
   OR
 - preferably run the mobobot robot mapping with navigation bringup bash script
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_mapping_with_navigation.sh
+  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+  ./ros2_launch_robot_mapping_with_navigation.sh
   ```
 
 ##### On The Dev PC
@@ -162,7 +169,8 @@ The robot is able to autonomously navigate using the map of the environment crea
   OR
 - preferably run the mobobot robot navigation bringup bash script
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh <enter the name of the map>
+  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+  ./ros2_launch_robot_navigation.sh <enter the name of the map>
   ```
 
 ##### On The Dev PC
