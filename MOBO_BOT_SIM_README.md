@@ -79,7 +79,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   source ~/mobo_bot_ws/install/setup.bash
   ros2 launch mobo_bot_bringup sim.launch.py
   ```
-- In a different terminal, run the mobo_bot_teleop to drive the robot around using the arrow keys on your keyboard
+- In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
