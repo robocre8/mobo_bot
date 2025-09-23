@@ -42,6 +42,8 @@ sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh
 ```
 #
 
+![mobo_bot_base_drive](./docs/mobo_bot_drive_test.gif)
+
 ### Launch the Physical MoboBot
 
 ##### On The Raspberry Pi

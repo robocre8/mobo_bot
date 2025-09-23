@@ -71,6 +71,8 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 
 #
 
+![mobo_bot_sim](./docs/mobo_bot_nav_sim.gif)
+
 ### Run the MoboBot simulation
 - On your dev-PC, open a new terminal and start the mobo_bot_sim 
   ```shell
