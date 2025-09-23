@@ -47,7 +47,7 @@ def generate_launch_description():
 
   slam_mapping_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(navigation_pkg_path,'launch','slam_mapping.launch.py')]
+                [os.path.join(navigation_pkg_path,'launch','mapping.launch.py')]
             ), 
             launch_arguments={
               'params_file': params_file

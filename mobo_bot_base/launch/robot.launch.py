@@ -143,7 +143,8 @@ def generate_launch_description():
         executable='sllidar_node',
         name='sllidar_node',
         parameters=[{'channel_type': 'serial',
-                    'serial_port': '/dev/serial/by-path/pci-0000:00:14.0-usb-0:3.2:1.0-port0', 
+                    # 'serial_port': '/dev/ttyUSB0', 
+                    'serial_port': '/dev/rplidar_c1', 
                     'serial_baudrate': 460800, 
                     'frame_id': 'lidar',
                     'inverted': False, 
@@ -182,7 +183,7 @@ def generate_launch_description():
         name='camera_publisher',
         output='screen',
         parameters=[{'frame_id': "camera_optical",
-                      'port_no': 2,
+                      'port_no': 0,
                       'frame_width': 640,
                       'frame_height': 480,
                       'compression_format': "jpeg", # you can also use "jpeg"

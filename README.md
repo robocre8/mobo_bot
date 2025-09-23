@@ -34,8 +34,9 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 
 ### Get Started The MoboBot Hardware (i.e the Actual Robot)
 
-![mobo_bot_base](./docs/mobo_bot_slam.gif)
+![mobo_bot_base_drive](./docs/mobo_bot_drive_test.gif)
 </br>
-- [**Working with the Actual Robot**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_BASE_README.md)
+- [**Working with the Physical MoboBot (PART 1) | Seting up the on-board Raspberry Pi**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_BASE_README_PART1.md)
+- [**Working with the Physical MoboBot (PART 2) | Running and Testing MoboBot**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_BASE_README_PART2.md)
 
 </br>

@@ -65,13 +65,13 @@ def generate_launch_description():
 
   rviz_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(rviz_pkg_path,'launch','nav_bringup.launch.py')]
+                [os.path.join(rviz_pkg_path,'launch','robot_navigation.launch.py')]
             )
   )
 
   nav_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(navigation_pkg_path,'launch','nav_bringup.launch.py')]
+                [os.path.join(navigation_pkg_path,'launch','navigation.launch.py')]
             ), 
             launch_arguments={
               'slam': 'False',

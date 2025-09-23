@@ -1,13 +1,4 @@
-## MoboBot Gazebo Simulation
-
-![mobo_bot_slam](./docs/mobo_bot_slam_sim.gif)
-
-> [!NOTE]
-> Your Dev PC must be running **Ubuntu 24.04** and **ros-jazzy-desktop** with **gazebo harmonic**.
-> </br>
-> **Gazebo** would be installed as you follow the installation process below.
-
-#
+## MoboBot Gazebo Simulation | Dev PC
 
 ### Some Prerequisites
 
@@ -31,9 +22,9 @@
   sudo apt install python3-pip
   sudo apt install python3-pynput
   cd ~/mobo_bot_ws/src
-  git clone https://github.com/robocre8/arrow_key_teleop_drive.git
+  git clone -b mobo-bot-teleop https://github.com/samuko-things/arrow_key_teleop_drive.git
   ```
-  Learn more about the [**arrow_key_teleop_drive**](https://github.com/robocre8/arrow_key_teleop_drive)
+  Learn more about the [**arrow_key_teleop_drive**](https://github.com/samuko-things/arrow_key_teleop_drive)
 
 - Build your workspace
   ```shell
@@ -49,7 +40,6 @@
   ```
   
 - If you are not interested in running or testing the MoboBot hardware (i.e the actual robot), run the following command below. this will add the COLCON_IGNORE file to it.
-  </br>If not, please go ahead and skip this, then check the [**Working with the Actual MoboBot**]() tutorial.
   ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_base
   touch COLCON_IGNORE
@@ -66,11 +56,6 @@
   ```shell
   cd ~/mobo_bot_ws
   colcon build --symlink-install
-  ```
-
-- Don't forget to source your **mobo_bot_ws** in any new terminal
-  ```shell
-  source ~/mobo_bot_ws/install/setup.bash
   ```
 
 #
@@ -95,7 +80,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the mobo_bot_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 0.9
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
   
@@ -111,7 +96,7 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - Then drive the robot around with teleop and see the map being created. you'll need to run the teleop in a differnt terminal
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 0.9
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -124,7 +109,7 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 
 #
 
-### Run the MoboBot Mapping (Navigate while Mapping) - SLAM
+### Run the MoboBot Mapping (Navigate with Nav2 while Mapping) - SLAM
 The robot is able to map its evironment while running navigation. this is because the SLAM algorithm is able to localize the robot while creating the map of the environment. With this information of the robot location in the map being created, the robot is able to autonomously navigate to known poses on the map. 
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
@@ -135,7 +120,7 @@ The robot is able to map its evironment while running navigation. this is becaus
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
   >```shell
   >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 0.9
+  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
   >```
 
 - Now use the Nav2Goal button to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.
@@ -160,17 +145,3 @@ The robot is able to autonomously navigate using the map of the environment crea
   ```
 
 - Now use the Nav2Goal button to move the robot to any Goal pose on the map.
-
-#
-
-### Drive MoboBot with a special arrow-key teleop
-- in a different terminal, run the arrow_key_teleop_drive to drive the robot around using the arrow keys on your keyboard
-  ```shell
-  source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive
-  ```
-  OR
-  ```shell
-  source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive <v in m/s> <w in rad/sec>
-  ```
