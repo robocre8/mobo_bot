@@ -14,5 +14,17 @@ echo "RPLIDAR USB Reset Successful"
 
 echo "Launching Mobobot AMCL Navigation Bringup ROS2 Node"
 
+# Check if an argument is provided
+if [ -z "$1" ]; then
+  echo "map name required"
+  echo "Usage: $0 <map_name>"
+  exit 1
+fi
+
+MAP_NAME=$1
+
+# Source ROS2 workspace
 source ~/mobo_bot_ws/install/setup.bash
-ros2 launch mobo_bot_bringup robot_navigation.launch.py
+
+# Launch ROS2 node with provided map name
+ros2 launch mobo_bot_bringup robot_navigation.launch.py map_name:=$MAP_NAME

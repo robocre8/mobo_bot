@@ -129,7 +129,7 @@ The robot is able to map its evironment while running navigation. this is becaus
 
 - save the map once you are done mapping. (map file would be saved in the `maps` folder inside the `mobo_bot_navigation` pakage folder)
   >NOTE: Whenever you build a new map you can save it using the command below: 
-  >**pls ensure the <map_name> is exactly the same as the name of the world being used**
+  >**pls ensure the <map_name> is exactly the same as the name of the world being used e.g  `room_with_walls`**
   >```shell
   >   ros2 run nav2_map_server map_saver_cli -f ~/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/<map_name>  # Saves the current map to the mobo_bot map folder
   >```
@@ -143,7 +143,8 @@ The robot is able to autonomously navigate using the map of the environment crea
 - Launch the MoboBot Naviagtion (with AMCL):
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup sim_navigation.launch.py
+  ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls
   ```
+  >**NOTE**: you can change the world_name you the world you are woking with and have created a map for.
 
 - Now use the Nav2Goal button to move the robot to any Goal pose on the map.

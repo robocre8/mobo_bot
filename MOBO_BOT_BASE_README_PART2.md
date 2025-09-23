@@ -157,12 +157,12 @@ The robot is able to autonomously navigate using the map of the environment crea
 - open a new terminal and start the mobobot robot navigation bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup robot_navigation.launch.py
+  ros2 launch mobo_bot_bringup robot_navigation.launch.py map_name:=<enter the name of the map>
   ```
   OR
 - preferably run the mobobot robot navigation bringup bash script
   ```shell
-  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh
+  sudo bash ~/mobo_bot_ws/src/mobo_bot/scripts/ros2_launch_robot_navigation.sh <enter the name of the map>
   ```
 
 ##### On The Dev PC
