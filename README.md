@@ -10,7 +10,7 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 </br> **Key Features**
 </br>✅ Powered by Raspberry Pi 4B for onboard processing
 </br>✅ RPLidar C1 for SLAM, AMCL and Navigation (pre-configured with Nav2)
-</br>✅ It uses the [EPMC module](https://github.com/robocre8/epmc_documentation) and [EIMU Module](https://github.com/robocre8/eimu_documentation) for its base control and sensor fusion (EKF).
+</br>✅ It uses the **EPMC_V2 module** and **EIMU_V2 Module** for its base control and sensor fusion (EKF).
 </br>✅ USB Camera for OpenCV + ROS2  perception and camera streaming
 </br>✅ Gazebo Ignition simulation environment for algorithm test before implementation.
 </br>✅ Easy to work with and build.
