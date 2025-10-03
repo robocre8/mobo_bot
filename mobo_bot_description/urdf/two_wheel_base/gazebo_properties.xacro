@@ -229,7 +229,7 @@
         <horizontal_fov>1.047</horizontal_fov>
         <image>
           <width>640</width>
-          <height>360</height>
+          <height>480</height>
         </image>
         <clip>
           <near>0.1</near>
@@ -252,7 +252,7 @@
       name="gz::sim::systems::DiffDrive">
       <left_joint>left_wheel_joint</left_joint>
       <right_joint>right_wheel_joint</right_joint>
-      <wheel_separation>0.25</wheel_separation>
+      <wheel_separation>0.236</wheel_separation>
       <wheel_radius>0.034</wheel_radius>
       <!--
       Odometry in the diff drive plugin is quite bad, therefore 
@@ -272,7 +272,7 @@
     <plugin
       filename="gz-sim-odometry-publisher-system"
       name="gz::sim::systems::OdometryPublisher">
-      <odom_publish_frequency>70</odom_publish_frequency>
+      <odom_publish_frequency>60</odom_publish_frequency>
       <robot_base_frame>base_link</robot_base_frame>
       <odom_frame>odom</odom_frame>
     </plugin>
