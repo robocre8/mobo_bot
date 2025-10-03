@@ -141,7 +141,7 @@
 ### Optional (but Recommended) USB RESET SETUP
 
 > [!NOTE]
-> usb-reset allows you to reset USB via sofware rather than always having to unplug and plug the hardware.
+> usb-reset allows you to reset USB via sofware (more like cleanup USB port incase the nodes do not exit well for the hardwares).
 
 - install usb-reset package ubuntu:
   ```shell
@@ -153,7 +153,8 @@
 
 - make the `usb-reset-test-script.sh` executable to see if it is working:
   ```shell
-  sudo chmod +x ~/mobo_bot_ws/src/mobo_bot/scripts/usb-reset-test-script.sh
+  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
+  sudo chmod +x usb-reset-test-script.sh
   ```
 
 - run the `usb-reset-test-script.sh` to see if it is working:

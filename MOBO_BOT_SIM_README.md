@@ -1,5 +1,7 @@
 ## MoboBot Gazebo Simulation | Dev PC
 
+![mobo_bot_sim](./docs/mobo_bot_sim_test2.gif)
+
 ### Some Prerequisites
 
 - Install and set up Cyclone DDS on your PC (if you don't have it installed yet).
@@ -61,7 +63,6 @@
 #
 
 ### View Robot and Transform Tree
-![mobo_bot_tf](./docs/mobo_bot_tf.png)
 this shows the transformation between the differnt robot parts. it uses the **robot_state_publisher** the transforms, **RVIZ** to view the actual robot, and the **rqt_tf_tree** to view the transform graph.
 - on your dev-PC, open a new terminal and launch the **tf_view** to view the transform
   ```shell
@@ -75,8 +76,6 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   ```
 
 #
-
-![mobo_bot_sim](./docs/mobo_bot_nav_sim.gif)
 
 ### Run the MoboBot simulation
 - On your dev-PC, open a new terminal and start the mobo_bot_sim 
