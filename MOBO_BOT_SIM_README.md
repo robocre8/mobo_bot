@@ -1,5 +1,7 @@
 ## MoboBot Gazebo Simulation | Dev PC
 
+![mobo_bot_sim](./docs/mobo_bot_sim_test2.gif)
+
 ### Some Prerequisites
 
 - Install and set up Cyclone DDS on your PC (if you don't have it installed yet).
@@ -61,23 +63,30 @@
 #
 
 ### View Robot and Transform Tree
-![mobo_bot_tf](./docs/mobo_bot_tf.png)
 this shows the transformation between the differnt robot parts. it uses the **robot_state_publisher** the transforms, **RVIZ** to view the actual robot, and the **rqt_tf_tree** to view the transform graph.
 - on your dev-PC, open a new terminal and launch the **tf_view** to view the transform
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
+
+  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup tf_view.launch.py use_hardware:=false
+
+  # for four wheel MoboBot
+  ros2 launch mobo_bot_bringup tf_view.launch.py use_hardware:=false use_4_wheels:=true
   ```
 
 #
-
-![mobo_bot_sim](./docs/mobo_bot_nav_sim.gif)
 
 ### Run the MoboBot simulation
 - On your dev-PC, open a new terminal and start the mobo_bot_sim 
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
+
+  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup sim.launch.py
+
+  # for four wheel MoboBot
+  ros2 launch mobo_bot_bringup sim.launch.py use_4_wheels:=true
   ```
 - In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
   ```shell
@@ -93,7 +102,12 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - to just build map of the world with slam run:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
+
+  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup sim_mapping.launch.py
+
+  # for four wheel MoboBot
+  ros2 launch mobo_bot_bringup sim_mapping.launch.py use_4_wheels:=true
   ```
 - Then drive the robot around with teleop and see the map being created. you'll need to run the teleop in a differnt terminal
   ```shell
@@ -116,7 +130,12 @@ The robot is able to map its evironment while running navigation. this is becaus
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
+
+  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup sim_mapping_with_navigation.launch.py
+
+  # for four wheel MoboBot
+  ros2 launch mobo_bot_bringup sim_mapping_with_navigation.launch.py use_4_wheels:=true
   ```
   >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
@@ -143,7 +162,12 @@ The robot is able to autonomously navigate using the map of the environment crea
 - Launch the MoboBot Naviagtion (with AMCL):
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
+
+  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls
+
+  # for four wheel MoboBot
+  ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls use_4_wheels:=true
   ```
   >**NOTE**: you can change the world_name you the world you are woking with and have created a map for.
 

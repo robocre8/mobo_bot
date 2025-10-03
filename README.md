@@ -26,7 +26,7 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 
 ### Get Started The MoboBot Simulation
 
-![mobo_bot_sim](./docs/mobo_bot_nav_sim.gif)
+![mobo_bot_sim](./docs/mobo_bot_sim_test2.gif)
 </br>
 - [**Simulation Tutorial**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_SIM_README.md)
 
