@@ -54,6 +54,7 @@ def generate_launch_description():
   world_path = LaunchConfiguration('world_path')
   gz_verbosity = LaunchConfiguration('gz_verbosity')
   robot_name = LaunchConfiguration('robot_name')
+  use_4_wheels = LaunchConfiguration('use_4_wheels')
  
   declare_headless_cmd = DeclareLaunchArgument(
     name='headless',
@@ -79,6 +80,12 @@ def generate_launch_description():
       name='robot_name',
       default_value='mobo_bot',
       description='name of the robot')
+  
+  declare_use_4_wheels_cmd = DeclareLaunchArgument(
+      'use_4_wheels',
+      default_value='False',
+      description='Use 4 wheels base if true else it uses 2 wheels'
+  )
 
   #--------------------------------------------------------------------------
 
@@ -88,6 +95,7 @@ def generate_launch_description():
           [os.path.join(description_pkg_path,'launch','rsp.launch.py')]
       ), 
       launch_arguments={'use_sim_time': use_sim_time,
+                        'use_4_wheels': use_4_wheels,
                         'run_gz_sim': 'True'}.items()
   )
 
@@ -163,6 +171,7 @@ def generate_launch_description():
   ld.add_action(declare_world_path_cmd)
   ld.add_action(declare_gz_verbosity_cmd)
   ld.add_action(declare_robot_name_cmd)
+  ld.add_action(declare_use_4_wheels_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(rsp_launch)

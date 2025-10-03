@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="gz_material_orange">
+    <material>
+      <ambient>1.0 0.5 0.0 1.0</ambient>
+      <diffuse>1.0 0.5 0.0 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <emissive>0.0 0.0 0.0 1.0</emissive>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gz_material_red">
+    <material>
+      <ambient>1.0 0.0 0.0 1.0</ambient>
+      <diffuse>1.0 0.0 0.0 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <emissive>0.0 0.0 0.0 1.0</emissive>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gz_material_blue">
+    <material>
+      <ambient>0.0 0.0 1.0 1.0</ambient>
+      <diffuse>0.0 0.0 1.0 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <emissive>0.0 0.0 0.0 1.0</emissive>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gz_material_black">
+    <material>
+      <ambient>0.1 0.1 0.1 1.0</ambient>
+      <diffuse>0.1 0.1 0.1 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <emissive>0.0 0.0 0.0 1.0</emissive>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gz_material_silver">
+    <material>
+      <ambient>0.6 0.6 0.6 1.0</ambient>
+      <diffuse>0.6 0.6 0.6 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <emissive>0.0 0.0 0.0 1.0</emissive>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="gz_material_grey">
+    <material>
+      <ambient>0.25 0.25 0.25 1.0</ambient>
+      <diffuse>0.25 0.25 0.25 1.0</diffuse>
+      <specular>0.1 0.1 0.1 1.0</specular>
+      <emissive>0.0 0.0 0.0 1.0</emissive>
+    </material>
+  </xacro:macro>
+
+
+
+  <gazebo reference="chassis">
+    <visual>
+      <xacro:gz_material_orange/>
+    </visual>
+  </gazebo>
+
+
+
+  <gazebo reference="front_left_wheel">
+    <visual>
+      <xacro:gz_material_black/>
+    </visual>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+  <gazebo reference="front_left_rim">
+    <visual>
+      <xacro:gz_material_red/>
+    </visual>
+  </gazebo>
+
+
+  <gazebo reference="front_right_wheel">
+    <visual>
+      <xacro:gz_material_black/>
+    </visual>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+  <gazebo reference="front_right_rim">
+    <visual>
+      <xacro:gz_material_red/>
+    </visual>
+  </gazebo>
+
+
+  <gazebo reference="rear_left_wheel">
+    <visual>
+      <xacro:gz_material_black/>
+    </visual>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+  <gazebo reference="rear_left_rim">
+    <visual>
+      <xacro:gz_material_red/>
+    </visual>
+  </gazebo>
+
+
+  <gazebo reference="rear_right_wheel">
+    <visual>
+      <xacro:gz_material_black/>
+    </visual>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+  <gazebo reference="rear_right_rim">
+    <visual>
+      <xacro:gz_material_red/>
+    </visual>
+  </gazebo>
+
+
+
+  <!-- <gazebo reference="imu">
+    <sensor name="imu" type="imu">
+      <ignition_frame_id>imu</ignition_frame_id>
+      <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
+      </plugin>
+
+      <topic>imu/data</topic>
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <visualize>true</visualize>
+      <imu>
+        <angular_velocity>
+          <x>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>2e-4</stddev>
+              <bias_mean>0.0000075</bias_mean>
+              <bias_stddev>0.0000008</bias_stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>2e-4</stddev>
+              <bias_mean>0.0000075</bias_mean>
+              <bias_stddev>0.0000008</bias_stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>2e-4</stddev>
+              <bias_mean>0.0000075</bias_mean>
+              <bias_stddev>0.0000008</bias_stddev>
+            </noise>
+          </z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>1.7e-2</stddev>
+              <bias_mean>0.1</bias_mean>
+              <bias_stddev>0.001</bias_stddev>
+            </noise>
+          </x>
+          <y>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>1.7e-2</stddev>
+              <bias_mean>0.1</bias_mean>
+              <bias_stddev>0.001</bias_stddev>
+            </noise>
+          </y>
+          <z>
+            <noise type="gaussian">
+              <mean>0.0</mean>
+              <stddev>1.7e-2</stddev>
+              <bias_mean>0.1</bias_mean>
+              <bias_stddev>0.001</bias_stddev>
+            </noise>
+          </z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo> -->
+
+
+
+  <gazebo reference="sonar">
+    <visual>
+      <xacro:gz_material_blue/>
+    </visual>
+  </gazebo>
+
+
+
+  <gazebo reference="lidar">
+    <visual>
+      <xacro:gz_material_grey/>
+    </visual>
+    <sensor name="lidar" type="gpu_lidar">
+      <gz_frame_id>lidar</gz_frame_id>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <min_angle>${-pi}</min_angle>
+            <max_angle>${pi}</max_angle>
+            <resolution>1</resolution>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.1</min>
+          <max>8.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>10.0</update_rate>
+    </sensor>
+  </gazebo>
+
+
+
+  <gazebo reference="camera">
+    <visual>
+      <xacro:gz_material_grey/>
+    </visual>
+    <sensor name="camera_optical" type="camera">
+    <!-- <sensor name="camera_optical" type="depth"> -->
+      <gz_frame_id>camera_optical</gz_frame_id>
+      <camera>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>30</update_rate>
+      <visualize>true</visualize>
+      <!-- <topic>camera</topic> -->
+      <enable_metrics>true</enable_metrics>
+    </sensor>
+  </gazebo>
+
+
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-diff-drive-system"
+      name="gz::sim::systems::DiffDrive">
+
+      <num_wheel_pairs>2</num_wheel_pairs>
+
+      <left_joint>front_left_wheel_joint</left_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
+      <right_joint>front_right_wheel_joint</right_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
+
+      <wheel_separation>0.236</wheel_separation>
+      <wheel_separation>0.236</wheel_separation>
+
+      <wheel_radius>0.034</wheel_radius>
+      <wheel_radius>0.034</wheel_radius>
+            
+      <!--
+      Odometry in the diff drive plugin is quite bad, therefore 
+      a dedicated OdometryPublisher plugin is being used.
+      As it can not be disabled we publish odom info to an unused topic
+      -->
+      <odom_topic>/unused/diff_drive_odometry</odom_topic>
+      <tf_topic>/unused/diff_drive_tf</tf_topic>
+      <odom_publish_frequency>1</odom_publish_frequency>
+      <frame_id>unused_odom_diff_drive</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+    </plugin>
+  </gazebo>
+
+  <!-- OdometryPublisher being used instead of Diff Drive's odometry -->
+  <gazebo>
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <odom_publish_frequency>60</odom_publish_frequency>
+      <robot_base_frame>base_link</robot_base_frame>
+      <odom_frame>odom</odom_frame>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-state-publisher-system"
+      name="gz::sim::systems::JointStatePublisher">
+      <joint_name>front_left_wheel_joint</joint_name>
+      <joint_name>front_right_wheel_joint</joint_name>
+      <joint_name>rear_left_wheel_joint</joint_name>
+      <joint_name>rear_right_wheel_joint</joint_name>
+    </plugin>
+  </gazebo>
+  
+</robot>

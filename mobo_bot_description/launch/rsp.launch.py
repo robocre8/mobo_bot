@@ -19,6 +19,7 @@ def generate_launch_description():
     xacro_file = os.path.join(description_pkg_path,'urdf','robot_urdf.xacro')
 
     # Check if we're told to use sim time
+    use_4_wheels = LaunchConfiguration('use_4_wheels')
     run_gz_sim = LaunchConfiguration('run_gz_sim')
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_joint_state_pub = LaunchConfiguration('use_joint_state_pub')
@@ -28,6 +29,12 @@ def generate_launch_description():
         'use_sim_time',
         default_value='False',
         description='Use sim time if true'
+    )
+
+    declare_use_4_wheels_cmd = DeclareLaunchArgument(
+        'use_4_wheels',
+        default_value='False',
+        description='Use 4 wheels base if true else it uses 2 wheels'
     )
 
     declare_run_gz_sim_cmd = DeclareLaunchArgument(
@@ -48,6 +55,7 @@ def generate_launch_description():
     # robot_description_xml = doc.toxml()
 
     robot_description_config= Command(['xacro ', xacro_file,
+                                       ' use_4_wheels:=', use_4_wheels,
                                        ' run_gz_sim:=', run_gz_sim])
     robot_description_xml = ParameterValue(robot_description_config, value_type=str)
 
@@ -71,6 +79,7 @@ def generate_launch_description():
 
     # add the necessary declared launch arguments to the launch description
     ld.add_action(declare_use_sim_time_cmd)
+    ld.add_action(declare_use_4_wheels_cmd)
     ld.add_action(declare_run_gz_sim_cmd)
     ld.add_action(declare_use_joint_state_pub_cmd)
 
