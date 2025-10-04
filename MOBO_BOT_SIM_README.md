@@ -1,6 +1,6 @@
 ## MoboBot Gazebo Simulation | Dev PC
 
-![mobo_bot_sim](./docs/mobo_bot_sim_test2.gif)
+![mobo_bot_sim](./docs/mobo_bot4_sim_test.gif)
 
 ### Some Prerequisites
 

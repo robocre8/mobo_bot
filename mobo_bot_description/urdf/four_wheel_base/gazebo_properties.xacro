@@ -209,8 +209,8 @@
         <scan>
           <horizontal>
             <samples>360</samples>
-            <min_angle>${-pi}</min_angle>
-            <max_angle>${pi}</max_angle>
+            <min_angle>${-0.833*pi}</min_angle>
+            <max_angle>${0.833*pi}</max_angle>
             <resolution>1</resolution>
           </horizontal>
         </scan>

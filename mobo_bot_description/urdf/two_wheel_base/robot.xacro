@@ -9,7 +9,7 @@
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/cam.xacro"/>
 
 
-    <xacro:property name="chassis_length" value="0.20"/>
+    <xacro:property name="chassis_length" value="0.24"/>
     <xacro:property name="chassis_width" value="0.20"/>
     <xacro:property name="chassis_height" value="0.05"/>
     <xacro:property name="slab_height" value="0.005"/>
@@ -48,14 +48,14 @@
             fillet_radius="0.02"/>
 
         <visual>
-            <origin xyz="0.04 0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="0.06 0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.005" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <visual>
-            <origin xyz="0.04 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="0.06 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.005" length="${chassis_height}"/>
             </geometry>
@@ -63,14 +63,14 @@
         </visual>
 
         <visual>
-            <origin xyz="-0.11 0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.14 0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.005" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <visual>
-            <origin xyz="-0.11 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.14 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.005" length="${chassis_height}"/>
             </geometry>
@@ -78,13 +78,13 @@
         </visual>
 
         <collision>
-           <origin xyz="-0.02 0 ${chassis_height/2}" rpy="0 0 0"/>
+           <origin xyz="-0.04 0 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
         </collision>
         <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
-            <origin xyz="-0.06 0 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.08 0 ${chassis_height/2}" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
 
@@ -92,7 +92,7 @@
 
     <xacro:insert_drive_wheel 
         base_name="left_wheel" 
-        parent_name="base_link" 
+        parent_name="base_link"
         x="0" y="${wheel_seperation/2}" z="${wheel_radius}"
         mass="${wheel_mass}"
         radius="${wheel_radius}"
@@ -127,7 +127,7 @@
     <joint name="castor_wheel_joint" type="fixed">
         <parent link="base_link"/>
         <child link="castor_wheel"/>
-        <origin xyz="-0.1 0 ${castor_wheel_diameter/2}"/>
+        <origin xyz="-0.11 0 ${castor_wheel_diameter/2}"/>
     </joint>
 
     <link name="castor_wheel">
@@ -175,14 +175,14 @@
     <xacro:insert_sonar
         base_name="sonar" 
         parent_name="chassis" 
-        x="0.065" y="0" z="${chassis_height/6}"
+        x="0.08" y="0" z="${chassis_height/6}"
         mass="0.005"/>
 
 
     <xacro:insert_camera
         base_name="camera" 
         parent_name="chassis" 
-        x="0.075" y="0" z="${chassis_height+0.015}"
+        x="0.09" y="0" z="${chassis_height+0.015}"
         mass="0.005" tilt_angle="0.00"/>     
     
 </robot>
