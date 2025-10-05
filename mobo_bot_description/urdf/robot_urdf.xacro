@@ -2,9 +2,11 @@
 <robot name="mobo_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:arg name="run_gz_sim" default="false"/>
-    <xacro:arg name="use_4_wheels" default="false"/>
 
+    <xacro:arg name="wheel_type" default="2wheel"/>
+    <xacro:property name="wheel_type_name" value="$(arg wheel_type)"/>
 
+    
     <material name="orange">
         <color rgba="1 0.55 0 1"/>
     </material>
@@ -61,8 +63,8 @@
     </xacro:macro>
 
 
-    <xacro:if value="$(arg use_4_wheels)">
-
+    <!-- Conditional inclusion -->
+    <xacro:if value="${wheel_type_name == '4wheel'}">
         <xacro:include filename="$(find mobo_bot_description)/urdf/four_wheel_base/robot.xacro" />
 
         <xacro:if value="$(arg run_gz_sim)">
@@ -71,11 +73,9 @@
         <xacro:unless value="$(arg run_gz_sim)">
             <xacro:include filename="$(find mobo_bot_description)/urdf/four_wheel_base/ros2_control.xacro" />
         </xacro:unless>
-
     </xacro:if>
 
-    <xacro:unless value="$(arg use_4_wheels)">
-
+    <xacro:if value="${wheel_type_name == '2wheel'}">
         <xacro:include filename="$(find mobo_bot_description)/urdf/two_wheel_base/robot.xacro" />
 
         <xacro:if value="$(arg run_gz_sim)">
@@ -84,10 +84,7 @@
         <xacro:unless value="$(arg run_gz_sim)">
             <xacro:include filename="$(find mobo_bot_description)/urdf/two_wheel_base/ros2_control.xacro" />
         </xacro:unless>
-
-    </xacro:unless>
-
-    
+    </xacro:if>    
     
     
 </robot>

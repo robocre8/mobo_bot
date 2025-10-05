@@ -17,6 +17,21 @@ sudo chmod +x ros2_launch_robot_navigation.sh
 
 #
 
+### Set MoboBot Wheel Type Environment Variable  
+- If you are using the **two wheel** differntial drive base
+  ```shell
+  export MOBOBOT_WHEEL_TYPE=2wheel
+  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~./bashrc
+  ```
+
+- if you are using the **four wheel** differntial drive base
+  ```shell
+  export MOBOBOT_WHEEL_TYPE=4wheel
+  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~./bashrc
+  ```
+
+#
+
 ### View Robot and Transform Tree
 this shows the transformation between the differnt robot parts. it uses the **robot_state_publisher** the transforms, **RVIZ** to view the actual robot, and the **rqt_tf_tree** to view the transform graph.
 
@@ -24,12 +39,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot base bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-
-  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup robot.launch.py
-
-  # for four wheel MoboBot
-  ros2 launch mobo_bot_bringup robot.launch.py use_4_wheels:=true
   ```
   > [!NOTE]
   > If any error occurs, you might need to unplug and plug back the hardwares.
@@ -38,12 +48,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - preferably run the mobobot robot bringup bash script
   ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-
-  # for two wheel MoboBot
-  ./ros2_launch_robot.sh use_2_wheels
-
-  # for four wheel MoboBot
-  ./ros2_launch_robot.sh use_4_wheels
+  ./ros2_launch_robot.sh
   
   ```
   > [!NOTE]
@@ -64,23 +69,13 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot base bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-
-  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup robot.launch.py
-
-  # for four wheel MoboBot
-  ros2 launch mobo_bot_bringup robot.launch.py use_4_wheels:=true
   ```
   OR
 - preferably run the mobobot robot bringup bash script
   ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-
-  # for two wheel MoboBot
-  ./ros2_launch_robot.sh use_2_wheels
-
-  # for four wheel MoboBot
-  ./ros2_launch_robot.sh use_4_wheels
+  ./ros2_launch_robot.sh
   ```
 
 ##### On The Dev PC
@@ -94,7 +89,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.08 0.6 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.1 0.5 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -106,23 +101,13 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot mapping bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-
-  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup robot_mapping.launch.py
-
-  # for four wheel MoboBot
-  ros2 launch mobo_bot_bringup robot_mapping.launch.py use_4_wheels:=true
   ```
   OR
 - preferably run the mobobot robot mapping bringup bash script
   ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-
-  # for two wheel MoboBot
-  ./ros2_launch_robot_mapping.sh use_2_wheels
-
-  # for four wheel MoboBot
-  ./ros2_launch_robot_mapping.sh use_4_wheels
+  ./ros2_launch_robot_mapping.sh
   ```
 
 ##### On The Dev PC
@@ -134,7 +119,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.08 0.6 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.1 0.5 1
   ```
 
 ##### On The Raspberry Pi
@@ -152,23 +137,13 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot mapping with navigation bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-
-  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup robot_mapping_with_navigation.launch.py
-
-  # for four wheel MoboBot
-  ros2 launch mobo_bot_bringup robot_mapping_with_navigation.launch.py use_4_wheels:=true
   ```
   OR
 - preferably run the mobobot robot mapping with navigation bringup bash script
   ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-
-  # for two wheel MoboBot
-  ./ros2_launch_robot_mapping_with_navigation.sh use_2_wheels
-
-  # for four wheel MoboBot
-  ./ros2_launch_robot_mapping_with_navigation.sh use_4_wheels
+  ./ros2_launch_robot_mapping_with_navigation.sh
   ```
 
 ##### On The Dev PC
@@ -177,12 +152,6 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   source ~/mobo_bot_ws/install/setup.bash
   ros2 launch mobo_bot_rviz robot_mapping_with_navigation.launch.py
   ```
-  >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
-  >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
-  >```shell
-  >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.08 0.6 1
-  >```
 
 - Now use the Nav2Goal button from RVIZ to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.
 
@@ -204,23 +173,13 @@ The robot is able to autonomously navigate using the map of the environment crea
 - open a new terminal and start the mobobot robot navigation bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-
-  # for two wheel MoboBot
   ros2 launch mobo_bot_bringup robot_navigation.launch.py map_name:=<enter the name of the map>
-
-  # for four wheel MoboBot
-  ros2 launch mobo_bot_bringup robot_navigation.launch.py use_4_wheels:=true map_name:=<enter the name of the map>
   ```
   OR
 - preferably run the mobobot robot navigation bringup bash script
   ```shell
   cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-
-  # for two wheel MoboBot
-  ./ros2_launch_robot_navigation.sh use_2_wheels <enter the name of the map>
-
-  # for four wheel MoboBot
-  ./ros2_launch_robot_navigation.sh use_4_wheels <enter the name of the map>
+  ./ros2_launch_robot_navigation.sh <enter the name of the map>
   ```
 
 ##### On The Dev PC

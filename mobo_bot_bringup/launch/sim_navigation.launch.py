@@ -20,18 +20,11 @@ def generate_launch_description():
   # Launch configuration variables specific to simulation
   world_name = LaunchConfiguration('world_name')
   params_name = LaunchConfiguration('params_name')
-  use_4_wheels = LaunchConfiguration('use_4_wheels')
  
   declare_world_name_cmd = DeclareLaunchArgument(
     name='world_name',
     default_value='room_with_walls',
     description='name of the world file')
-  
-  declare_use_4_wheels_cmd = DeclareLaunchArgument(
-      'use_4_wheels',
-      default_value='False',
-      description='Use 4 wheels base if true else it uses 2 wheels'
-  )
   
   world_path = PathJoinSubstitution([
           sim_pkg_path,
@@ -66,7 +59,6 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': 'True',
-              'use_4_wheels': use_4_wheels,
               'world_path': world_path,
             }.items(),
   )
@@ -97,7 +89,6 @@ def generate_launch_description():
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_world_name_cmd)
   ld.add_action(declare_params_name_cmd)
-  ld.add_action(declare_use_4_wheels_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)

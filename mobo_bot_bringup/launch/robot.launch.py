@@ -13,14 +13,7 @@ def generate_launch_description():
   # Set the path to this package.
   base_pkg_path = get_package_share_directory('mobo_bot_base')
  
-  use_4_wheels = LaunchConfiguration('use_4_wheels')
   use_ekf = LaunchConfiguration('use_ekf')
-
-  declare_use_4_wheels_cmd = DeclareLaunchArgument(
-      'use_4_wheels',
-      default_value='False',
-      description='Use 4 wheels base if true else it uses 2 wheels'
-  )
 
   declare_use_ekf_cmd = DeclareLaunchArgument(
       name='use_ekf',
@@ -37,7 +30,6 @@ def generate_launch_description():
             launch_arguments={
               'use_sim_time': 'False',
               'use_ekf': use_ekf,
-              'use_4_wheels': use_4_wheels,
               'use_lidar': 'True',
               'use_camera': 'True',
             }.items(),
@@ -49,7 +41,6 @@ def generate_launch_description():
   ld = LaunchDescription()
 
   # add the necessary declared launch arguments to the launch description
-  ld.add_action(declare_use_4_wheels_cmd)
   ld.add_action(declare_use_ekf_cmd)
  
   # Add the nodes to the launch description

@@ -25,7 +25,6 @@ def generate_launch_description():
     use_ekf = LaunchConfiguration('use_ekf')
     use_lidar = LaunchConfiguration('use_lidar')
     use_camera = LaunchConfiguration('use_camera')
-    use_4_wheels = LaunchConfiguration('use_4_wheels')
     
     declare_use_ekf_cmd = DeclareLaunchArgument(
       name='use_ekf',
@@ -42,26 +41,32 @@ def generate_launch_description():
       default_value='False',
       description='use camera if true')
     
-    declare_use_4_wheels_cmd = DeclareLaunchArgument(
-      'use_4_wheels',
-      default_value='False',
-      description='Use 4 wheels base if true else it uses 2 wheels')
+    #--------------------------------------------------------------
+    valid_wheel_types = ['2wheel', '4wheel']
+    wheel_type = os.environ.get("MOBOBOT_WHEEL_TYPE")
 
-    #--------------------------------------------------------------------------
+    if wheel_type is None:
+        print("[ERROR]: MOBOBOT_WHEEL_TYPE environment variable not found")
+        exit(1)
+    elif wheel_type not in valid_wheel_types:
+        print(f"[ERROR]: Invalid MOBOBOT_WHEEL_TYPE='{wheel_type}'. Expected one of {valid_wheel_types}")
+        exit(1)
+
+    print(f"Launching robot with {wheel_type} configuration")
+    #--------------------------------------------------------------
 
     robot_controller = None
 
-    use_4_wheel_controller = bool(IfCondition(use_4_wheels))
-    if use_4_wheel_controller:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_4.yaml')
-    else:
+    if wheel_type == valid_wheel_types[0]:
         robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_2.yaml')
+    elif wheel_type == valid_wheel_types[1]:
+        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_4.yaml')
 
     # create needed nodes or launch files
     rsp_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(description_pkg_path,'launch','rsp.launch.py')]), 
         launch_arguments={'use_sim_time': 'False',
-                          'use_4_wheels': use_4_wheels,
+                          'wheel_type': wheel_type,
                           'run_gz_sim': 'False'}.items(),
         )
     
@@ -237,7 +242,6 @@ def generate_launch_description():
     ld.add_action(declare_use_ekf_cmd)
     ld.add_action(declare_lidar_cmd)
     ld.add_action(declare_camera_cmd)
-    ld.add_action(declare_use_4_wheels_cmd)
     
 
     # Add the nodes to the launch description
