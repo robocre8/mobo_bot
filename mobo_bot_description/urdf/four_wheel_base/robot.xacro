@@ -8,7 +8,7 @@
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/lidar.xacro"/>
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/cam.xacro"/>
 
-    <xacro:property name="chassis_length" value="0.24"/>
+    <xacro:property name="chassis_length" value="0.22"/>
     <xacro:property name="chassis_width" value="0.20"/>
     <xacro:property name="chassis_height" value="0.05"/>
     <xacro:property name="slab_height" value="0.005"/>
@@ -22,7 +22,7 @@
 
     <xacro:property name="wheel_height_offset" value="0.025"/>
 
-    <xacro:property name="wheel_base_dist" value="0.14"/>
+    <xacro:property name="wheel_base_dist" value="0.12"/>
 
     
 
@@ -46,31 +46,31 @@
             fillet_radius="0.02"/>
 
         <visual>
-            <origin xyz="0.1 0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="0.09 0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.005" length="${chassis_height}"/>
+                <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <visual>
-            <origin xyz="0.1 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="0.09 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.005" length="${chassis_height}"/>
+                <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
 
         <visual>
-            <origin xyz="-0.1 0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.09 0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.005" length="${chassis_height}"/>
+                <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <visual>
-            <origin xyz="-0.1 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.09 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
-                <cylinder radius="0.005" length="${chassis_height}"/>
+                <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
@@ -189,14 +189,14 @@
     <xacro:insert_sonar
         base_name="sonar" 
         parent_name="chassis" 
-        x="0.12" y="0" z="${chassis_height/6}"
+        x="0.11" y="0" z="${chassis_height/6}"
         mass="0.005"/>
 
 
     <xacro:insert_camera
         base_name="camera" 
         parent_name="chassis" 
-        x="0.14" y="0" z="${chassis_height+0.015}"
+        x="0.13" y="0" z="${chassis_height+0.015}"
         mass="0.005" tilt_angle="0.00"/>     
     
 </robot>
