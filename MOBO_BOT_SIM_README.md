@@ -43,8 +43,7 @@
   
 - If you are not interested in running or testing the MoboBot hardware (i.e the actual robot), run the following command below. this will add the COLCON_IGNORE file to it.
   ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_base
-  touch COLCON_IGNORE
+  cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_base && touch COLCON_IGNORE
   ```
 
 - cd into the root directory of your mobo_bot_ws and run rosdep to install all necessary ROS  package dependencies
@@ -96,7 +95,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
   
@@ -112,7 +111,7 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - Then drive the robot around with teleop and see the map being created. you'll need to run the teleop in a differnt terminal
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -136,7 +135,7 @@ The robot is able to map its evironment while running navigation. this is becaus
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
   >```shell
   >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 1.0 1
+  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
   >```
 
 - Now use the Nav2Goal button to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.

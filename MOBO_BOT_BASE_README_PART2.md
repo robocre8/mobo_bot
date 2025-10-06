@@ -8,11 +8,7 @@
 > if you did the USB RESET section in PART 1 then tyou have to do this part once.
 
 ```shell
-cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-sudo chmod +x ros2_launch_robot.sh
-sudo chmod +x ros2_launch_robot_mapping.sh
-sudo chmod +x ros2_launch_robot_mapping_with_navigation.sh
-sudo chmod +x ros2_launch_robot_navigation.sh
+cd ~/mobo_bot_ws/src/mobo_bot/scripts/ && sudo chmod +x ros2_launch_robot.sh ros2_launch_robot_mapping.sh ros2_launch_robot_mapping_with_navigation.sh ros2_launch_robot_navigation.sh
 ```
 
 #
@@ -21,13 +17,13 @@ sudo chmod +x ros2_launch_robot_navigation.sh
 - If you are using the **two wheel** differntial drive base
   ```shell
   export MOBOBOT_WHEEL_TYPE=2wheel
-  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~./bashrc
+  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~/.bashrc
   ```
 
 - if you are using the **four wheel** differntial drive base
   ```shell
   export MOBOBOT_WHEEL_TYPE=4wheel
-  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~./bashrc
+  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~/.bashrc
   ```
 
 #
@@ -89,7 +85,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.1 0.5 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -119,7 +115,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.1 0.5 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
   ```
 
 ##### On The Raspberry Pi

@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 80  # Hz
+    update_rate: 60  # Hz
     use_sim_time: false
 
     joint_state_broadcaster:
@@ -29,7 +29,7 @@ diff_drive_controller:
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
-    publish_rate: 60.0
+    publish_rate: 40.0
     odom_frame_id: odom
     base_frame_id: base_link
     pose_covariance_diagonal : [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]

@@ -4,6 +4,6 @@ eimu_v2_ros:
     # port: "/dev/ttyACM0"
     port: "/dev/eimu"
     frame_id: "imu"
-    publish_frequency: 60.0
+    publish_frequency: 40.0
     eimu_reference_frame_id: 1  # 0 - NWU,  1 - ENU,  2 - NED
     publish_tf_on_map_frame: false

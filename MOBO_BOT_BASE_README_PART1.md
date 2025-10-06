@@ -35,14 +35,12 @@
 
 - cd into the mobo_bot/mobo_bot_sim folder and add a `COLCON_IGNORE` file to the mobo_bot_sim package to prevent runnig simulation on the Raspberry Pi. 
   ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_sim
-  touch COLCON_IGNORE
+  cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_sim && touch COLCON_IGNORE
   ```
 
 - cd into the mobo_bot/mobo_bot_rviz folder and add a `COLCON_IGNORE` file to the mobo_bot_rviz package to prevent running rviz visualization on the Raspberry Pi.
   ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_rviz
-  touch COLCON_IGNORE
+  cd ~/mobo_bot_ws/src/mobo_bot/mobo_bot_rviz && touch COLCON_IGNORE
   ```
   
 #
