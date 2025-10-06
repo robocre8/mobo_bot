@@ -65,13 +65,13 @@
 - If you are using the **two wheel** differntial drive base
   ```shell
   export MOBOBOT_WHEEL_TYPE=2wheel
-  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~./bashrc
+  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~/.bashrc
   ```
 
 - if you are using the **four wheel** differntial drive base
   ```shell
   export MOBOBOT_WHEEL_TYPE=4wheel
-  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~./bashrc
+  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~/.bashrc
   ```
 
 #
