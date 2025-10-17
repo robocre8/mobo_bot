@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 60  # Hz
+    update_rate: 50  # Hz
     use_sim_time: false
 
     joint_state_broadcaster:

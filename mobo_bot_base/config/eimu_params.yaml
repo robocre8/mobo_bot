@@ -1,5 +1,5 @@
 # Example parameters for a UART connection to the Easy IMU module (i.e MPU9250 EIMU Module).
-eimu_v2_ros:
+eimu_ros:
   ros__parameters:
     # port: "/dev/ttyACM0"
     port: "/dev/eimu"

@@ -16,7 +16,7 @@ def generate_launch_description():
     description_pkg_path = get_package_share_directory('mobo_bot_description')
     base_pkg_path = get_package_share_directory('mobo_bot_base')
 
-    eimu_v2_config_file = os.path.join(base_pkg_path,'config','eimu_v2_params.yaml')
+    eimu_config_file = os.path.join(base_pkg_path,'config','eimu_params.yaml')
     ekf_config_path = os.path.join(base_pkg_path,'config','ekf.yaml')
 
     #--------------------------------------------------------------------------
@@ -117,13 +117,13 @@ def generate_launch_description():
         condition=IfCondition(use_ekf),
     )
 
-    eimu_v2_node = Node(
-        package='eimu_v2_ros',
-        executable='eimu_v2_ros',
-        name='eimu_v2_ros',
+    eimu_node = Node(
+        package='eimu_ros',
+        executable='eimu_ros',
+        name='eimu_ros',
         output='screen',
         parameters=[
-            eimu_v2_config_file
+            eimu_config_file
         ],
         condition=IfCondition(use_ekf)
     )
@@ -250,7 +250,7 @@ def generate_launch_description():
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(start_diff_drive_controller_spawner_after_joint_state_broadcaster_spawner)
     ld.add_action(start_diff_drive_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner)
-    ld.add_action(eimu_v2_node)
+    ld.add_action(eimu_node)
     ld.add_action(ekf_node)
     ld.add_action(start_rp_lidar_c1_node_after_diff_drive_controller_spawner)
     ld.add_action(start_rp_lidar_c1_node_after_diff_drive_controller_spawner_no_ekf)
