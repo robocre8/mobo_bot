@@ -52,19 +52,25 @@
   cd ~/mobo_bot_ws/src
   mkdir hardware
   ```
+#### EPMC Motor Driver (For 2 Wheels)
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin package
+  ```shell
+  cd ~/mobo_bot_ws/src/hardware
+  git clone https://github.com/robocre8/epmc_hardware_interface.git
+  ```
 
-#### EPMC V2 Motor Driver
+#### EPMC V2 Motor Driver (for 4 wheels)
 - go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_v2_hardware_interface` ros2 plugin package
   ```shell
   cd ~/mobo_bot_ws/src/hardware
   git clone https://github.com/robocre8/epmc_v2_hardware_interface.git
   ```
 
-#### EIMU V2 Module
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_v2_ros` ros2 package
+#### EIMU Module
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_ros` ros2 package
   ```shell
   cd ~/mobo_bot_ws/src/hardware
-  git clone https://github.com/robocre8/eimu_v2_ros.git
+  git clone https://github.com/robocre8/eimu_ros.git
   ```
 
 #### RPLIDAR C1

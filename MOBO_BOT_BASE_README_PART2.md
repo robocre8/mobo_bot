@@ -65,7 +65,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot base bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup robot.launch.py
+  ros2 launch mobo_bot_bringup robot.launch.py # use_ekf:=true
   ```
   OR
 - preferably run the mobobot robot bringup bash script
@@ -97,7 +97,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot mapping bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup robot_mapping.launch.py
+  ros2 launch mobo_bot_bringup robot_mapping.launch.py # use_ekf:=true
   ```
   OR
 - preferably run the mobobot robot mapping bringup bash script
@@ -133,7 +133,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot mapping with navigation bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup robot_mapping_with_navigation.launch.py
+  ros2 launch mobo_bot_bringup robot_mapping_with_navigation.launch.py # use_ekf:=true
   ```
   OR
 - preferably run the mobobot robot mapping with navigation bringup bash script
@@ -169,7 +169,7 @@ The robot is able to autonomously navigate using the map of the environment crea
 - open a new terminal and start the mobobot robot navigation bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup robot_navigation.launch.py map_name:=<enter the name of the map>
+  ros2 launch mobo_bot_bringup robot_navigation.launch.py map_name:=<enter the name of the map> # use_ekf:=true
   ```
   OR
 - preferably run the mobobot robot navigation bringup bash script
