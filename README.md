@@ -1,5 +1,5 @@
 ## MoboBot
-![mobo_bot_pic](./docs/mobo_bot_pic.png)
+![mobo_bot_pic](./docs/mobo_bot_new_pic1.png)
 
 **MoboBot** is a compact yet powerful open-source robot designed to help students, makers, and engineers explore mobile robotics with ROS2—both in real-world applications and simulation.
 </br>
@@ -34,7 +34,7 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 
 ### Get Started The MoboBot Hardware (i.e the Actual Robot)
 
-![mobo_bot_base_drive](./docs/mobo_bot_drive_test.gif)
+![mobo_bot_base_drive](./docs/mobo_bot_in_action_1.gif)
 </br>
 - [**Working with the Physical MoboBot (PART 1) | Seting up the on-board Raspberry Pi**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_BASE_README_PART1.md)
 - [**Working with the Physical MoboBot (PART 2) | Running and Testing MoboBot**](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_BASE_README_PART2.md)

@@ -1,6 +1,6 @@
 ## Working with the Physical MoboBot (PART 2) | Running and Testing MoboBot
 
-![mobo_bot_base_drive](./docs/mobo_bot_drive_test.gif)
+![mobo_bot_base_drive](./docs/mobo_bot_in_action_2.gif)
 
 ### Make the robot launch script files executables (Only Once)
 
