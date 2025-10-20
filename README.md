@@ -6,8 +6,17 @@
 It is an open-source differential drive ROS2 educational robot (similar to the popular TurtleBot, Andino, Lino robot, Duckiebot etc.), created to foster hands-on learning of advanced mobile robotics concepts such as **sensor-fusion**, **control**, **state-estimation**, **localization**, **SLAM**, **navigation**, **obstacle avoidance**, **perception**, and **AI**, leveraging the use of ROS2 (as well as Arduino) Framework.
 </br>
 This will ensure the longevity and future of open-source robotics in Nigeria and Africa, as well as the world.
+
+✅ supports multiple drive bases types:
+
+
+✅ clear, step-by-step documentation, so anyone can build and learn with it
 </br>
 </br> **Key Features**
+</br>✅ supports multiple drive bases types:
+</br> - 2 Wheel Diff Drive chassis
+</br> - 4 Wheel Diff Drive chassis
+</br> - Mecanum Drive (Coming Soon)
 </br>✅ Powered by Raspberry Pi 4B for onboard processing
 </br>✅ RPLidar C1 for SLAM, AMCL and Navigation (pre-configured with Nav2)
 </br>✅ It uses the **EPMC_V2 module** and **EIMU_V2 Module** for its base control and sensor fusion (EKF).
