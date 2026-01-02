@@ -24,7 +24,7 @@
   sudo apt install python3-pip
   sudo apt install python3-pynput
   cd ~/mobo_bot_ws/src
-  git clone -b mobo-bot-teleop https://github.com/samuko-things/arrow_key_teleop_drive.git
+  git clone https://github.com/samuko-things/arrow_key_teleop_drive.git
   ```
   Learn more about the [**arrow_key_teleop_drive**](https://github.com/samuko-things/arrow_key_teleop_drive)
 
