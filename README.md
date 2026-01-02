@@ -1,4 +1,5 @@
 ## MoboBot
+![mobo_bot_pic](./docs/mobo-bot-pic-default.png)
 ![mobo_bot_pic](./docs/mobo_bot_new_pic1.png)
 
 **MoboBot** is a compact yet powerful open-source robot designed to help students, makers, and engineers explore mobile robotics with ROS2—both in real-world applications and simulation.
@@ -19,7 +20,7 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 </br> - Mecanum Drive (Coming Soon)
 </br>✅ Powered by Raspberry Pi 4B for onboard processing
 </br>✅ RPLidar C1 for SLAM, AMCL and Navigation (pre-configured with Nav2)
-</br>✅ It uses the **EPMC_V2 module** and **EIMU_V2 Module** for its base control and sensor fusion (EKF).
+</br>✅ It uses the **EPMC module** and **EIMU Module** for its base control and sensor fusion (EKF).
 </br>✅ USB Camera for OpenCV + ROS2  perception and camera streaming
 </br>✅ Gazebo Ignition simulation environment for algorithm test before implementation.
 </br>✅ Easy to work with and build.
