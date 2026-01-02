@@ -2,28 +2,22 @@
 
 ![mobo_bot_base_drive](./docs/mobo_bot_in_action_2.gif)
 
-### Make the robot launch script files executables (Only Once)
+### Set MoboBot Base Type Environment Variable  
+- Depending on the base chassis type you are using run any of the command below:
 
-> [!NOTE]
-> if you did the USB RESET section in PART 1 then tyou have to do this part once.
-
-```shell
-cd ~/mobo_bot_ws/src/mobo_bot/scripts/ && sudo chmod +x ros2_launch_robot.sh ros2_launch_robot_mapping.sh ros2_launch_robot_mapping_with_navigation.sh ros2_launch_robot_navigation.sh
-```
-
-#
-
-### Set MoboBot Wheel Type Environment Variable  
-- If you are using the **two wheel** differntial drive base
   ```shell
-  export MOBOBOT_WHEEL_TYPE=2wheel
-  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=2WHEEL
+  echo "export MOBOBOT_BASE_TYPE=2WHEEL" >> ~/.bashrc
   ```
 
-- if you are using the **four wheel** differntial drive base
   ```shell
-  export MOBOBOT_WHEEL_TYPE=4wheel
-  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=2WHEEL_STD
+  echo "export MOBOBOT_BASE_TYPE=2WHEEL" >> ~/.bashrc
+  ```
+
+  ```shell
+  export MOBOBOT_BASE_TYPE=4WHEEL_STD
+  echo "export MOBOBOT_BASE_TYPE=4WHEEL" >> ~/.bashrc
   ```
 
 #
@@ -35,20 +29,8 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot base bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup robot.launch.py
+  ros2 launch mobo_bot_description rsp.launch.py use_joint_state_pub:=true
   ```
-  > [!NOTE]
-  > If any error occurs, you might need to unplug and plug back the hardwares.
-
-  OR
-- preferably run the mobobot robot bringup bash script
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  ./ros2_launch_robot.sh
-  
-  ```
-  > [!NOTE]
-  > this would software reset the Hardware USB before launching to avoid error form the hardwares
 
 ##### On The Dev PC
 - on your dev-PC, open a new terminal and launch the **tf_view** to view the transform
@@ -67,12 +49,8 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   source ~/mobo_bot_ws/install/setup.bash
   ros2 launch mobo_bot_bringup robot.launch.py # use_ekf:=true
   ```
-  OR
-- preferably run the mobobot robot bringup bash script
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  ./ros2_launch_robot.sh
-  ```
+  > [!NOTE]
+  > If any error occurs, you might need to unplug and plug back the hardwares.
 
 ##### On The Dev PC
 - open a new terminal and start the mobo_bot_rviz by running
@@ -85,7 +63,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -99,12 +77,6 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   source ~/mobo_bot_ws/install/setup.bash
   ros2 launch mobo_bot_bringup robot_mapping.launch.py # use_ekf:=true
   ```
-  OR
-- preferably run the mobobot robot mapping bringup bash script
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  ./ros2_launch_robot_mapping.sh
-  ```
 
 ##### On The Dev PC
 - open a new terminal and start the mobo_bot_rviz mapping Viz by running
@@ -115,7 +87,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_teleop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
   ```
 
 ##### On The Raspberry Pi
@@ -134,12 +106,6 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
   ros2 launch mobo_bot_bringup robot_mapping_with_navigation.launch.py # use_ekf:=true
-  ```
-  OR
-- preferably run the mobobot robot mapping with navigation bringup bash script
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  ./ros2_launch_robot_mapping_with_navigation.sh
   ```
 
 ##### On The Dev PC
@@ -170,12 +136,6 @@ The robot is able to autonomously navigate using the map of the environment crea
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
   ros2 launch mobo_bot_bringup robot_navigation.launch.py map_name:=<enter the name of the map> # use_ekf:=true
-  ```
-  OR
-- preferably run the mobobot robot navigation bringup bash script
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  ./ros2_launch_robot_navigation.sh <enter the name of the map>
   ```
 
 ##### On The Dev PC

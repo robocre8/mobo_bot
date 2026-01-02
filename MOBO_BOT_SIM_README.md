@@ -61,17 +61,22 @@
 
 #
 
-### Set MoboBot Wheel Type Environment Variable  
-- If you are using the **two wheel** differntial drive base
+### Set MoboBot Base Type Environment Variable  
+- Depending on the base chassis type you are using run any of the command below:
+
   ```shell
-  export MOBOBOT_WHEEL_TYPE=2wheel
-  echo "export MOBOBOT_WHEEL_TYPE=2wheel" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=2WHEEL
+  echo "export MOBOBOT_BASE_TYPE=2WHEEL" >> ~/.bashrc
   ```
 
-- if you are using the **four wheel** differntial drive base
   ```shell
-  export MOBOBOT_WHEEL_TYPE=4wheel
-  echo "export MOBOBOT_WHEEL_TYPE=4wheel" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=2WHEEL_STD
+  echo "export MOBOBOT_BASE_TYPE=2WHEEL" >> ~/.bashrc
+  ```
+
+  ```shell
+  export MOBOBOT_BASE_TYPE=4WHEEL_STD
+  echo "export MOBOBOT_BASE_TYPE=4WHEEL" >> ~/.bashrc
   ```
 
 #
@@ -95,7 +100,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
   ```
   >NOTE: feel free to use any other **teleop package** you want 
   
@@ -111,7 +116,7 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - Then drive the robot around with teleop and see the map being created. you'll need to run the teleop in a differnt terminal
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -135,7 +140,7 @@ The robot is able to map its evironment while running navigation. this is becaus
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
   >```shell
   >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.15 0.75 1
+  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
   >```
 
 - Now use the Nav2Goal button to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.

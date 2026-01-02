@@ -16,8 +16,8 @@ diff_drive_controller:
     left_wheel_names: ["left_wheel_joint"]
     right_wheel_names: ["right_wheel_joint"]
 
-    wheel_separation: 0.235
-    wheel_radius: 0.034 # diameter 0.068m
+    wheel_separation: 0.207
+    wheel_radius: 0.033 # diameter 0.068m
 
     # wheels_per_side: Number of wheels on each side of the robot. 
     # This is important to take the wheels slip into account when multiple wheels on each side are present.
@@ -30,11 +30,11 @@ diff_drive_controller:
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
-    publish_rate: 40.0
+    publish_rate: 50.0
     odom_frame_id: odom
     base_frame_id: base_link
-    pose_covariance_diagonal : [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
-    twist_covariance_diagonal: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+    pose_covariance_diagonal : [1e-5, 1e-5, 1e-5, 1e-5, 1e-5, 1e-5]
+    twist_covariance_diagonal: [1e-5, 1e-5, 1e-5, 1e-5, 1e-5, 1e-5]
 
     open_loop: false
     enable_odom_tf: true

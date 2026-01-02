@@ -43,17 +43,17 @@ def generate_launch_description():
     )
 
     #--------------------------------------------------------------
-    valid_wheel_types = ['2wheel', '4wheel']
-    wheel_type = os.environ.get("MOBOBOT_WHEEL_TYPE")
+    valid_base_types = ['2WHEEL', '2WHEEL_STD', '4WHEEL_STD']
+    base_type = os.environ.get("MOBOBOT_BASE_TYPE")
 
-    if wheel_type is None:
-        print("[ERROR]: MOBOBOT_WHEEL_TYPE environment variable not found")
+    if base_type is None:
+        print("[ERROR]: MOBOBOT_BASE_TYPE environment variable not found")
         exit(1)
-    elif wheel_type not in valid_wheel_types:
-        print(f"[ERROR]: Invalid MOBOBOT_WHEEL_TYPE='{wheel_type}'. Expected one of {valid_wheel_types}")
+    elif base_type not in valid_base_types:
+        print(f"[ERROR]: Invalid MOBOBOT_BASE_TYPE='{base_type}'. Expected one of {valid_base_types}")
         exit(1)
 
-    print(f"Launching robot with {wheel_type} configuration")
+    print(f"Launching robot with {base_type} configuration")
     #--------------------------------------------------------------
 
     # Create a robot_state_publisher node
@@ -63,7 +63,7 @@ def generate_launch_description():
 
     robot_description_config= Command(['xacro ', xacro_file,
                                        ' run_gz_sim:=', run_gz_sim,
-                                       ' wheel_type:=', wheel_type ])
+                                       ' base_type:=', base_type ])
     robot_description_xml = ParameterValue(robot_description_config, value_type=str)
 
     params = {'robot_description': robot_description_xml, 'use_sim_time': use_sim_time}

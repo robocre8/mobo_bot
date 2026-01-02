@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /TF1/Frames1
         - /Odometry1/Shape1
+        - /LaserScan1
         - /Odometry2
         - /Odometry2/Shape1
       Splitter Ratio: 0.5
@@ -82,27 +83,12 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        castor_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         chassis:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_left_rim:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_left_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_right_rim:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_right_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -111,27 +97,27 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_rim:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         lidar:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_left_rim:
+        right_rim:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_left_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rear_right_rim:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rear_right_wheel:
+        right_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -162,29 +148,23 @@ Visualization Manager:
           Value: true
         camera_optical:
           Value: true
+        castor_wheel:
+          Value: true
         chassis:
           Value: false
-        front_left_rim:
-          Value: true
-        front_left_wheel:
-          Value: true
-        front_right_rim:
-          Value: true
-        front_right_wheel:
-          Value: true
         imu:
+          Value: true
+        left_rim:
+          Value: true
+        left_wheel:
           Value: true
         lidar:
           Value: true
         odom:
           Value: true
-        rear_left_rim:
+        right_rim:
           Value: true
-        rear_left_wheel:
-          Value: true
-        rear_right_rim:
-          Value: true
-        rear_right_wheel:
+        right_wheel:
           Value: true
         sonar:
           Value: true
@@ -196,6 +176,8 @@ Visualization Manager:
       Tree:
         odom:
           base_link:
+            castor_wheel:
+              {}
             chassis:
               camera:
                 camera_optical:
@@ -206,17 +188,11 @@ Visualization Manager:
                 {}
               sonar:
                 {}
-            front_left_wheel:
-              front_left_rim:
+            left_wheel:
+              left_rim:
                 {}
-            front_right_wheel:
-              front_right_rim:
-                {}
-            rear_left_wheel:
-              rear_left_rim:
-                {}
-            rear_right_wheel:
-              rear_right_rim:
+            right_wheel:
+              right_rim:
                 {}
       Update Interval: 0
       Value: true
@@ -281,7 +257,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.019999999552965164
+      Size (m): 0.029999999329447746
       Style: Flat Squares
       Topic:
         Depth: 5
@@ -333,10 +309,10 @@ Visualization Manager:
         Axes Length: 1
         Axes Radius: 0.10000000149011612
         Color: 87; 227; 137
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
+        Head Length: 0.15000000596046448
+        Head Radius: 0.05000000074505806
+        Shaft Length: 0.4000000059604645
+        Shaft Radius: 0.02500000037252903
         Value: Arrow
       Topic:
         Depth: 5
@@ -391,26 +367,21 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz_default_plugins/Orbit
-      Distance: 8.447769165039062
+      Angle: 3.145007848739624
+      Class: rviz_default_plugins/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 0.5969966053962708
-        Y: -0.14467544853687286
-        Z: -0.016427144408226013
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2553962469100952
+      Scale: 81.08610534667969
       Target Frame: <Fixed Frame>
-      Value: Orbit (rviz)
-      Yaw: 1.2104066610336304
+      Value: TopDownOrtho (rviz_default_plugins)
+      X: 0.7935499548912048
+      Y: 0.4102851152420044
     Saved: ~
 Window Geometry:
   Displays:
@@ -420,7 +391,7 @@ Window Geometry:
   Hide Right Dock: true
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd000000040000000000000156000002acfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f00000214000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650100000259000000920000001700ffffff000000010000010f000002b0fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d000002b0000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004b00000003efc0100000002fb0000000800540069006d00650100000000000004b00000026f00fffffffb0000000800540069006d0065010000000000000450000000000000000000000354000002ac00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd000000040000000000000156000002acfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f00000214000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650100000259000000920000001700ffffff000000010000010f000002acfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003f000002ac000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004b00000003efc0100000002fb0000000800540069006d00650100000000000004b00000026f00fffffffb0000000800540069006d0065010000000000000450000000000000000000000354000002ac00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

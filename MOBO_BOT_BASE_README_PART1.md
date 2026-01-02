@@ -52,18 +52,12 @@
   cd ~/mobo_bot_ws/src
   mkdir hardware
   ```
-#### EPMC Motor Driver (For 2 Wheels)
+
+#### EPMC Motor Driver
 - go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin package
   ```shell
   cd ~/mobo_bot_ws/src/hardware
   git clone https://github.com/robocre8/epmc_hardware_interface.git
-  ```
-
-#### EPMC V2 Motor Driver (for 4 wheels)
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_v2_hardware_interface` ros2 plugin package
-  ```shell
-  cd ~/mobo_bot_ws/src/hardware
-  git clone https://github.com/robocre8/epmc_v2_hardware_interface.git
   ```
 
 #### EIMU Module
@@ -120,56 +114,44 @@
 #
 
 ### Start/Run the udev rule scripts for the hardware communication
+- edit the udev file in the `udev_sample_script` folder:
+  > [!NOTE]
+  > what you are mostly concerned about is the `ATTRS{serial}=="34:B7:DA:F7:B2:6C"`.
+  > all you need to do is to check and change the epmc and eimu serial attribute
+  > run this command:
+  ```shell
+  udevadm info --attribute-walk /dev/ttyACM0 | grep ATTRS{serial}
+  ```
 
-- copy mobobot's hardware udev rule file into the udev rule folder with the following command:
+- copy the edited hardware udev rule file into the udev rule folder with the following command:
   ```shell
   sudo cp ~/mobo_bot_ws/src/mobo_bot/scripts/75-mobobot-hardware.rules /etc/udev/rules.d/
   ```
+  or
+  ```shell
+  sudo cp ~/mobo_bot_ws/src/mobo_bot/scripts/75-mobobot-hardware-4wheel.rules /etc/udev/rules.d/
+  ```
 
-- get udev to recognize the newly addeed `75-mobobot-hardware.rules` rule
+- get udev to recognize the newly addeed `75-mobobot-hardware.rules` or the `75-mobobot-hardware-4wheel.rules` rule
   > [!NOTE]
   > You only need to run this commands once. You do not need to run it again after a new restart.
   ```shell
   sudo udevadm control --reload-rules && sudo service udev restart && sudo udevadm trigger
   ```
 
-- you can do a quick test to see if hardwares (epmc_v2 motor controller, eimu_v2 imu module, and rplidar c1) are recognized. run each line below:
+- you can do a quick test to see if hardwares (epmc motor controller, eimu imu module, and rplidar c1) are recognized. run each line below:
   ```shell
   ls /dev/eimu
   ls /dev/epmc
   ls /dev/rplidar_c1
   ```
-
-#
-
-### Optional (but Recommended) USB RESET SETUP
-
-> [!NOTE]
-> usb-reset allows you to reset USB via sofware (more like cleanup USB port incase the nodes do not exit well for the hardwares).
-
-- install usb-reset package ubuntu:
+  or (for 4 wheel)
   ```shell
-  sudo apt update
-  sudo apt install snapd
-  sudo snap install core
-  sudo snap install usb-reset
+  ls /dev/eimu
+  ls /dev/epmc_front
+  ls /dev/epmc_rear
+  ls /dev/rplidar_c1
   ```
-
-- make the `usb-reset-test-script.sh` executable to see if it is working:
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  sudo chmod +x usb-reset-test-script.sh
-  ```
-
-- run the `usb-reset-test-script.sh` to see if it is working:
-  ```shell
-  cd ~/mobo_bot_ws/src/mobo_bot/scripts/
-  ./usb-reset-test-script.sh
-  ```
-
-> [!NOTE]
-> if all goes well the usb-reset is now working well for the hardwares.
-> this would later be used while running the robot via scripts files
 
 #
 

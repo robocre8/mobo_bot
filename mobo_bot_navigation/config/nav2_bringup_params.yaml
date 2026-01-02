@@ -165,7 +165,7 @@ global_costmap:
           obstacle_min_range: 0.0
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 9.0
+        cost_scaling_factor: 6.0
         inflation_radius: 0.3
       always_send_full_costmap: True
 
@@ -199,7 +199,7 @@ local_costmap:
           obstacle_min_range: 0.0
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 9.0
+        cost_scaling_factor: 6.0
         inflation_radius: 0.3
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
@@ -255,12 +255,12 @@ controller_server:
       stateful: True
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.15
+      desired_linear_vel: 0.125
       lookahead_dist: 0.3
       min_lookahead_dist: 0.1
       max_lookahead_dist: 0.5
       lookahead_time: 1.5
-      rotate_to_heading_angular_vel: 0.75
+      rotate_to_heading_angular_vel: 0.7
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: false
       min_approach_linear_velocity: 0.1
@@ -339,8 +339,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.15, 0.0, 0.75]
-    min_velocity: [-0.15, 0.0, -0.75]
+    max_velocity: [0.125, 0.0, 0.7]
+    min_velocity: [-0.125, 0.0, -0.7]
     max_accel: [2.0, 0.0, 3.5]
     max_decel: [-2.0, 0.0, -3.5]
     odom_topic: "odom"
