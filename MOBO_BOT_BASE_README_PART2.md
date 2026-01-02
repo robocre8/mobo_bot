@@ -12,12 +12,12 @@
 
   ```shell
   export MOBOBOT_BASE_TYPE=2WHEEL_STD
-  echo "export MOBOBOT_BASE_TYPE=2WHEEL" >> ~/.bashrc
+  echo "export MOBOBOT_BASE_TYPE=2WHEEL_STD" >> ~/.bashrc
   ```
 
   ```shell
   export MOBOBOT_BASE_TYPE=4WHEEL_STD
-  echo "export MOBOBOT_BASE_TYPE=4WHEEL" >> ~/.bashrc
+  echo "export MOBOBOT_BASE_TYPE=4WHEEL_STD" >> ~/.bashrc
   ```
 
 #
