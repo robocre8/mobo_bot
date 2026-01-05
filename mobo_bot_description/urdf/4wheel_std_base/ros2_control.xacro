@@ -20,6 +20,7 @@
             <param name="max">8.0</param>
         </command_interface>
         <state_interface name="position"/>
+        <state_interface name="velocity"/>
       </joint>
 
       <joint name="front_right_wheel_joint">
@@ -28,6 +29,7 @@
             <param name="max">8.0</param>
         </command_interface>
         <state_interface name="position"/>
+        <state_interface name="velocity"/>
       </joint>
     </ros2_control>
 
@@ -48,6 +50,7 @@
             <param name="max">8.0</param>
         </command_interface>
         <state_interface name="position"/>
+        <state_interface name="velocity"/>
       </joint>
 
       <joint name="rear_right_wheel_joint">
@@ -56,6 +59,7 @@
             <param name="max">8.0</param>
         </command_interface>
         <state_interface name="position"/>
+        <state_interface name="velocity"/>
       </joint>
     </ros2_control>
 
