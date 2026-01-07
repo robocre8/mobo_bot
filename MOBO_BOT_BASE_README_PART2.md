@@ -6,18 +6,23 @@
 - Depending on the base chassis type you are using run any of the command below:
 
   ```shell
-  export MOBOBOT_BASE_TYPE=2WHEEL
-  echo "export MOBOBOT_BASE_TYPE=2WHEEL" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=2WD
+  echo "export MOBOBOT_BASE_TYPE=2WD" >> ~/.bashrc
   ```
 
   ```shell
-  export MOBOBOT_BASE_TYPE=2WHEEL_STD
-  echo "export MOBOBOT_BASE_TYPE=2WHEEL_STD" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=4WD
+  echo "export MOBOBOT_BASE_TYPE=4WD" >> ~/.bashrc
   ```
 
   ```shell
-  export MOBOBOT_BASE_TYPE=4WHEEL_STD
-  echo "export MOBOBOT_BASE_TYPE=4WHEEL_STD" >> ~/.bashrc
+  export MOBOBOT_BASE_TYPE=MEC
+  echo "export MOBOBOT_BASE_TYPE=MEC" >> ~/.bashrc
+  ```
+
+  ```shell
+  export MOBOBOT_BASE_TYPE=22WD
+  echo "export MOBOBOT_BASE_TYPE=22WD" >> ~/.bashrc
   ```
 
 #

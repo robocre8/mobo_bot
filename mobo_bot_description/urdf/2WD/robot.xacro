@@ -9,19 +9,19 @@
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/cam.xacro"/>
 
 
-    <xacro:property name="chassis_length" value="0.24"/>
-    <xacro:property name="chassis_width" value="0.20"/>
+    <xacro:property name="chassis_length" value="0.20"/>
+    <xacro:property name="chassis_width" value="0.18"/>
     <xacro:property name="chassis_height" value="0.05"/>
     <xacro:property name="slab_height" value="0.005"/>
     <xacro:property name="chassis_mass" value="2.0"/>
     <xacro:property name="chassis_color" value="orange"/>
 
-    <xacro:property name="wheel_seperation" value="0.236"/>
-    <xacro:property name="wheel_radius" value="0.034"/>
-    <xacro:property name="wheel_width" value="0.026"/>
+    <xacro:property name="wheel_seperation" value="0.207"/>
+    <xacro:property name="wheel_radius" value="0.033"/>
+    <xacro:property name="wheel_width" value="0.015"/>
     <xacro:property name="wheel_mass" value="0.08"/>
 
-    <xacro:property name="wheel_height_offset" value="0.025"/>
+    <xacro:property name="wheel_height_offset" value="0.01"/>
 
     <xacro:property name="castor_wheel_diameter" value="${wheel_radius+wheel_height_offset}"/>
     <xacro:property name="castor_wheel_mass" value="0.08"/>
@@ -48,14 +48,14 @@
             fillet_radius="0.02"/>
 
         <visual>
-            <origin xyz="0.06 0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="0.04 0.07 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <visual>
-            <origin xyz="0.06 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="0.04 -0.07 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
@@ -63,14 +63,14 @@
         </visual>
 
         <visual>
-            <origin xyz="-0.14 0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.12 0.07 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
             <material name="orange"/>
         </visual>
         <visual>
-            <origin xyz="-0.14 -0.08 ${chassis_height/2}" rpy="0 0 0"/>
+            <origin xyz="-0.12 -0.07 ${chassis_height/2}" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.004" length="${chassis_height}"/>
             </geometry>
@@ -127,7 +127,7 @@
     <joint name="castor_wheel_joint" type="fixed">
         <parent link="base_link"/>
         <child link="castor_wheel"/>
-        <origin xyz="-0.11 0 ${castor_wheel_diameter/2}"/>
+        <origin xyz="-0.10 0 ${castor_wheel_diameter/2}"/>
     </joint>
 
     <link name="castor_wheel">
@@ -152,31 +152,28 @@
     </link>
 
 
+    <xacro:insert_sonar
+        base_name="sonar" 
+        parent_name="chassis" 
+        x="0.055" y="0" z="${chassis_height/6}"
+        mass="0.005"/>
+
 
     <xacro:property name="lidar_z_offset" value="0.04"/>
     <xacro:insert_lidar 
         base_name="lidar" 
         parent_name="chassis" 
-        x="0.01" y="0" z="${chassis_height+lidar_z_offset}"
+        x="-0.0115" y="0" z="${chassis_height+lidar_z_offset}"
         mass="0.1"/>
-    
 
 
     <joint name="imu_joint" type="fixed">
         <parent link="chassis"/>
         <child link="imu"/>
-        <origin xyz="0 0 ${chassis_height}"/>
+        <origin xyz="0.03 0 ${chassis_height}"/>
     </joint>
         
     <link name="imu"></link>
-
-
-
-    <xacro:insert_sonar
-        base_name="sonar" 
-        parent_name="chassis" 
-        x="0.07" y="0" z="${chassis_height/6}"
-        mass="0.005"/>
 
 
     <xacro:insert_camera

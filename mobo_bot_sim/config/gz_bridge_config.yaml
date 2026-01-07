@@ -1,52 +1,70 @@
-# Placeholders to be rewritten by launch file:
-# - <entity> : Should be replaced by entity name: For example "mobo_bot".
+# Sending velocity commands from ROS 2 to Gazebo
+- ros_topic_name: "/cmd_vel"
+  gz_topic_name: "/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/TwistStamped"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+  lazy: false
 
+# Clock configuration
 - ros_topic_name: "clock"
   gz_topic_name: "clock"
   ros_type_name: "rosgraph_msgs/msg/Clock"
   gz_type_name: "gz.msgs.Clock"
   direction: GZ_TO_ROS
+  lazy: false
 
-- ros_topic_name: "odom"
-  gz_topic_name: "/model/<entity>/odometry"
-  ros_type_name: "nav_msgs/msg/Odometry"
-  gz_type_name: "gz.msgs.Odometry"
-  direction: GZ_TO_ROS
-
-# odom <-> base_link transform
-- ros_topic_name: "tf"
-  gz_topic_name: "/model/<entity>/pose"
-  ros_type_name: "tf2_msgs/msg/TFMessage"
-  gz_type_name: "gz.msgs.Pose_V"
-  direction: GZ_TO_ROS
-
-- ros_topic_name: "joint_states"
-  gz_topic_name: "/world/gazebo_world/model/<entity>/joint_state"
+# Joint States
+- ros_topic_name: "/joint_states"
+  gz_topic_name: "/joint_states"
   ros_type_name: "sensor_msgs/msg/JointState"
   gz_type_name: "gz.msgs.Model"
   direction: GZ_TO_ROS
+  lazy: false
 
-- ros_topic_name: "cmd_vel"
-  gz_topic_name: "/model/<entity>/cmd_vel"
-  ros_type_name: "geometry_msgs/msg/TwistStamped"
-  # ros_type_name: "geometry_msgs/msg/Twist"
-  gz_type_name: "gz.msgs.Twist"
-  direction: ROS_TO_GZ
+# tf
+- ros_topic_name: "/tf"
+  gz_topic_name: "/tf"
+  ros_type_name: "tf2_msgs/msg/TFMessage"
+  gz_type_name: "gz.msgs.Pose_V"
+  direction: GZ_TO_ROS
+  lazy: false
 
+# odometry
+- ros_topic_name: "/odom"
+  gz_topic_name: "/odom"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  direction: GZ_TO_ROS
+  lazy: false
+
+  # LIDAR configuration
 - ros_topic_name: "lidar/scan"
-  gz_topic_name: "/world/gazebo_world/model/<entity>/link/base_link/sensor/lidar/scan"
+  gz_topic_name: "lidar/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
   direction: GZ_TO_ROS
+  lazy: false
 
-- ros_topic_name: "camera_optical/camera_info"
-  gz_topic_name: "/world/gazebo_world/model/<entity>/link/base_link/sensor/camera_optical/camera_info"
-  ros_type_name: "sensor_msgs/msg/CameraInfo"
-  gz_type_name: "gz.msgs.CameraInfo"
+# IMU configuration
+- ros_topic_name: "imu/data"
+  gz_topic_name: "imu/data"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS
+  lazy: false
 
-- ros_topic_name: "camera_optical/image_raw"
-  gz_topic_name: "/world/gazebo_world/model/<entity>/link/base_link/sensor/camera_optical/image"
-  ros_type_name: "sensor_msgs/msg/Image"
-  gz_type_name: "gz.msgs.Image"
+# Camera topics
+- ros_topic_name: /camera_optical/image
+  gz_topic_name: /camera_optical
+  ros_type_name: sensor_msgs/msg/Image
+  gz_type_name: gz.msgs.Image
   direction: GZ_TO_ROS
+  lazy: true
+
+- ros_topic_name: /camera_optical/camera_info
+  gz_topic_name: /camera_info
+  ros_type_name: sensor_msgs/msg/CameraInfo
+  gz_type_name: gz.msgs.CameraInfo
+  direction: GZ_TO_ROS
+  lazy: true

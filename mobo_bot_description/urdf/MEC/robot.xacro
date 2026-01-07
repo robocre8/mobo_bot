@@ -2,8 +2,7 @@
 <robot name="mobo_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/box_with_fillet_macro.xacro"/>
-    <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/drive_wheel_macro.xacro"/>
-    <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/drive_wheel_rim_macro.xacro"/>
+    <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/mecanum_drive_wheel_macro.xacro"/>
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/sonar.xacro"/>
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/lidar.xacro"/>
     <xacro:include filename="$(find mobo_bot_description)/urdf/urdf_models/cam.xacro"/>
@@ -91,7 +90,7 @@
 
 
 
-    <xacro:insert_drive_wheel 
+    <xacro:insert_mecanum_left_wheel 
         base_name="front_left_wheel" 
         parent_name="base_link" 
         x="${wheel_base_dist/2}" y="${wheel_seperation/2}" z="${wheel_radius}"
@@ -99,16 +98,9 @@
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
 
-    <xacro:insert_drive_wheel_rim
-        base_name="front_left_rim" 
-        parent_name="front_left_wheel" 
-        radius="${wheel_radius}"
-        thickness="${wheel_width}"
-        spoke_width="0.005"/>
 
 
-
-    <xacro:insert_drive_wheel 
+    <xacro:insert_mecanum_right_wheel 
         base_name="front_right_wheel" 
         parent_name="base_link" 
         x="${wheel_base_dist/2}" y="${-wheel_seperation/2}" z="${wheel_radius}"
@@ -116,20 +108,8 @@
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
     
-    <xacro:insert_drive_wheel_rim
-        base_name="front_right_rim" 
-        parent_name="front_right_wheel" 
-        radius="${wheel_radius}"
-        thickness="${wheel_width}"
-        spoke_width="0.005"/>
 
-
-
-
-
-
-
-    <xacro:insert_drive_wheel 
+    <xacro:insert_mecanum_left_wheel
         base_name="rear_left_wheel" 
         parent_name="base_link" 
         x="${-wheel_base_dist/2}" y="${wheel_seperation/2}" z="${wheel_radius}"
@@ -137,33 +117,23 @@
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
 
-    <xacro:insert_drive_wheel_rim
-        base_name="rear_left_rim" 
-        parent_name="rear_left_wheel" 
-        radius="${wheel_radius}"
-        thickness="${wheel_width}"
-        spoke_width="0.005"/>
 
-
-
-    <xacro:insert_drive_wheel 
+    <xacro:insert_mecanum_right_wheel
         base_name="rear_right_wheel" 
         parent_name="base_link" 
         x="${-wheel_base_dist/2}" y="${-wheel_seperation/2}" z="${wheel_radius}"
         mass="${wheel_mass}"
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
-    
-    <xacro:insert_drive_wheel_rim
-        base_name="rear_right_rim" 
-        parent_name="rear_right_wheel" 
-        radius="${wheel_radius}"
-        thickness="${wheel_width}"
-        spoke_width="0.005"/>
 
 
 
 
+    <xacro:insert_sonar
+        base_name="sonar" 
+        parent_name="chassis" 
+        x="0.12" y="0" z="${chassis_height/6}"
+        mass="0.005"/>
 
 
 
@@ -173,7 +143,7 @@
         parent_name="chassis" 
         x="0.05" y="0" z="${chassis_height+lidar_z_offset}"
         mass="0.1"/>
-    
+
 
 
     <joint name="imu_joint" type="fixed">
@@ -183,14 +153,6 @@
     </joint>
         
     <link name="imu"></link>
-
-
-
-    <xacro:insert_sonar
-        base_name="sonar" 
-        parent_name="chassis" 
-        x="0.11" y="0" z="${chassis_height/6}"
-        mass="0.005"/>
 
 
     <xacro:insert_camera

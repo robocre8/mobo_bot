@@ -41,8 +41,9 @@ def generate_launch_description():
       default_value='False',
       description='use camera if true')
     
-    #--------------------------------------------------------------
-    valid_base_types = ['2WHEEL', '2WHEEL_STD', '4WHEEL_STD']
+    #--------------------------------------------------------------------------
+
+    valid_base_types = ['2WD', '4WD', 'MEC', '22WD']
     base_type = os.environ.get("MOBOBOT_BASE_TYPE")
 
     if base_type is None:
@@ -53,16 +54,19 @@ def generate_launch_description():
         exit(1)
 
     print(f"Launching robot with {base_type} configuration")
-    #--------------------------------------------------------------
 
     robot_controller = None
 
     if base_type == valid_base_types[0]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller.yaml')
+        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_2WD.yaml')
     elif base_type == valid_base_types[1]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_2_std.yaml')
+        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_4WD.yaml')
     elif base_type == valid_base_types[2]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_4_std.yaml')
+        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_MEC.yaml')
+    elif base_type == valid_base_types[3]:
+        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_22WD.yaml')
+
+    #----------------------------------------------------------------------------
 
     # create needed nodes or launch files
     rsp_launch = IncludeLaunchDescription(
@@ -72,7 +76,7 @@ def generate_launch_description():
                           'run_gz_sim': 'False'}.items(),
         )
     
-    # see -> https://github.com/ros-controls/ros2_control_demos/blob/humble/example_2/bringup/launch/diffbot.launch.py
+    # see -> https://github.com/ros-controls/ros2_control_demos/blob/jazzy/example_2/bringup/launch/diffbot.launch.py
     # see -> https://control.ros.org/master/doc/ros2_control/controller_manager/doc/userdoc.html
     controller_manager = Node(
         package="controller_manager",
@@ -87,37 +91,71 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster"],
     )
 
-    diff_drive_controller_spawner_no_ekf = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "diff_drive_controller",
-            "--param-file",
-            robot_controller,
-            "--controller-ros-args",
-            """
-            -r /diff_drive_controller/cmd_vel:=/cmd_vel
-            -r /diff_drive_controller/odom:=/odom
-            """
-        ],
-        condition=UnlessCondition(use_ekf),
-    )
+    if base_type == 'MEC':
+        robot_base_controller_spawner_no_ekf = Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=[
+                "mecanum_drive_controller",
+                "--param-file",
+                robot_controller,
+                "--controller-ros-args",
+                """
+                -r /mecanum_drive_controller/cmd_vel:=/cmd_vel
+                -r /mecanum_drive_controller/odom:=/odom
+                """
+            ],
+            condition=UnlessCondition(use_ekf),
+        )
 
-    diff_drive_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "diff_drive_controller",
-            "--param-file",
-            robot_controller,
-            "--controller-ros-args",
-            """
-            -r /diff_drive_controller/cmd_vel:=/cmd_vel
-            -r /diff_drive_controller/odom:=/wheel/odometry
-            """
-        ],
-        condition=IfCondition(use_ekf),
-    )
+        robot_base_controller_spawner = Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=[
+                "mecanum_drive_controller",
+                "--param-file",
+                robot_controller,
+                "--controller-ros-args",
+                """
+                -r /mecanum_drive_controller/cmd_vel:=/cmd_vel
+                -r /mecanum_drive_controller/odom:=/wheel/odometry
+                """
+            ],
+            condition=IfCondition(use_ekf),
+        )
+
+    else:
+        robot_base_controller_spawner_no_ekf = Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=[
+                "diff_drive_controller",
+                "--param-file",
+                robot_controller,
+                "--controller-ros-args",
+                """
+                -r /diff_drive_controller/cmd_vel:=/cmd_vel
+                -r /diff_drive_controller/odom:=/odom
+                """
+            ],
+            condition=UnlessCondition(use_ekf),
+        )
+
+        robot_base_controller_spawner = Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=[
+                "diff_drive_controller",
+                "--param-file",
+                robot_controller,
+                "--controller-ros-args",
+                """
+                -r /diff_drive_controller/cmd_vel:=/cmd_vel
+                -r /diff_drive_controller/odom:=/wheel/odometry
+                """
+            ],
+            condition=IfCondition(use_ekf),
+        )
 
     eimu_node = Node(
         package='eimu_ros',
@@ -143,17 +181,17 @@ def generate_launch_description():
     ) 
 
     # Delay start of robot_controller after `joint_state_broadcaster`
-    start_diff_drive_controller_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+    start_robot_base_controller_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
-            on_exit=[diff_drive_controller_spawner],
+            on_exit=[robot_base_controller_spawner],
         )
     )
 
-    start_diff_drive_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+    start_robot_base_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
-            on_exit=[diff_drive_controller_spawner_no_ekf],
+            on_exit=[robot_base_controller_spawner_no_ekf],
         )
     )
 
@@ -189,16 +227,16 @@ def generate_launch_description():
         remappings=[("filtered_scan", "lidar/scan")]
     )
 
-    start_rp_lidar_c1_node_after_diff_drive_controller_spawner_no_ekf = RegisterEventHandler(
+    start_rp_lidar_c1_node_after_robot_base_controller_spawner_no_ekf = RegisterEventHandler(
         event_handler=OnProcessExit(
-            target_action=diff_drive_controller_spawner_no_ekf,
+            target_action=robot_base_controller_spawner_no_ekf,
             on_exit=[rp_lidar_c1_node],
         )
     )
 
-    start_rp_lidar_c1_node_after_diff_drive_controller_spawner = RegisterEventHandler(
+    start_rp_lidar_c1_node_after_robot_base_controller_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
-            target_action=diff_drive_controller_spawner,
+            target_action=robot_base_controller_spawner,
             on_exit=[rp_lidar_c1_node],
         )
     )
@@ -250,12 +288,12 @@ def generate_launch_description():
     ld.add_action(rsp_launch)
     ld.add_action(controller_manager)
     ld.add_action(joint_state_broadcaster_spawner)
-    ld.add_action(start_diff_drive_controller_spawner_after_joint_state_broadcaster_spawner)
-    ld.add_action(start_diff_drive_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner)
+    ld.add_action(start_robot_base_controller_spawner_after_joint_state_broadcaster_spawner)
+    ld.add_action(start_robot_base_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner)
     ld.add_action(eimu_node)
     ld.add_action(ekf_node)
-    ld.add_action(start_rp_lidar_c1_node_after_diff_drive_controller_spawner)
-    ld.add_action(start_rp_lidar_c1_node_after_diff_drive_controller_spawner_no_ekf)
+    ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner)
+    ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner_no_ekf)
     ld.add_action(lidar_angle_filter_node)
     ld.add_action(camera_node)
     ld.add_action(twist_mux_node)

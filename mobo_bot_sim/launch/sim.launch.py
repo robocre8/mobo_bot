@@ -27,7 +27,7 @@ def generate_launch_description():
 
   # Set the path to the world file
   # world_file_name = 'simple_world.sdf'
-  world_file_name = 'room_with_walls.sdf'
+  world_file_name = 'empty.sdf'
   world_file_path = os.path.join(sim_pkg_path, 'worlds', world_file_name)
  
   #--------------------------------------------------------------------------
@@ -105,20 +105,34 @@ def generate_launch_description():
       # shell=False,
   )
         
-  bridge_config_file_path = os.path.join(sim_pkg_path, 'config', 'gz_bridge_config.yaml')
-  # A <entity> placeholder is used in the bridge config file to be replaced by the entity name.
-  bridge_config = ReplaceString(
-      source_file=bridge_config_file_path,
-      replacements={'<entity>': robot_name},
-  )
+  gz_bridge_config_file_path = os.path.join(sim_pkg_path, 'config', 'gz_bridge_config.yaml')
 
-  bridge_node = Node(
+  gz_bridge_node = Node(
       package='ros_gz_bridge',
       executable='parameter_bridge',
       output='screen',
-      parameters=[{
-          'config_file': bridge_config
-      }],
+      parameters=[
+        # { 'config_file': bridge_config }
+        {'config_file': gz_bridge_config_file_path }
+      ],
+  )
+
+  image_compress_node = Node(
+      package='image_transport',
+      executable='republish',
+      name='raw_to_compressed_republisher',
+      output='screen',
+      parameters=[
+          {'jpeg_quality': 50} 
+      ],
+      remappings=[
+          ('in', '/camera_optical/image'),
+          ('out', '/camera_optical/image_raw'),
+          ('out/compressed', '/camera_optical/image_raw/compressed'),
+          ('out/compressedDepth', '/camera_optical/image_raw/compressedDepth'),
+          ('out/theora', '/camera_optical/image_raw/theora'),
+          ('out/zstd', '/camera_optical/image_raw/zstd')
+      ]
   )
   
   spawn_entity_in_ign = Node(
@@ -168,7 +182,8 @@ def generate_launch_description():
   ld.add_action(rsp_launch)
   ld.add_action(start_gz_sim)
   ld.add_action(start_gz_sim_headless)
-  ld.add_action(bridge_node)
+  ld.add_action(gz_bridge_node)
+  ld.add_action(image_compress_node)
   ld.add_action(spawn_entity_in_ign)
   ld.add_action(twist_mux_node)
 
