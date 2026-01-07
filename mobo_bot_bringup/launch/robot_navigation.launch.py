@@ -29,7 +29,7 @@ def generate_launch_description():
 
   declare_map_name_cmd = DeclareLaunchArgument(
     name='map_name',
-    default_value='simple_world_map',
+    default_value='robot_nav2_params_diff',
     description='name of the map file')
   
   map_path = PathJoinSubstitution([

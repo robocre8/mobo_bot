@@ -35,7 +35,7 @@ def generate_launch_description():
 
   declare_params_name_cmd = DeclareLaunchArgument(
     name='params_name',
-    default_value='nav2_bringup_params',
+    default_value='sim_nav2_params_diff',
     description='name of the navigation parameter file')
   
   params_file = PathJoinSubstitution([

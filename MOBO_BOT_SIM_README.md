@@ -105,7 +105,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 1.0 true
   ```
   >NOTE: feel free to use any other **teleop package** you want 
   
@@ -121,7 +121,7 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - Then drive the robot around with teleop and see the map being created. you'll need to run the teleop in a differnt terminal
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 1.0 true
   ```
   >NOTE: feel free to use any other **teleop package** you want 
 
@@ -139,13 +139,13 @@ The robot is able to map its evironment while running navigation. this is becaus
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup sim_mapping_with_navigation.launch.py
+  ros2 launch mobo_bot_bringup sim_mapping_with_navigation.launch.py # world_name:=room_with_walls params_name:=sim_nav2_params_omni
   ```
   >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
   >```shell
   >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.125 0.7 true
+  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 1.0 true
   >```
 
 - Now use the Nav2Goal button to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.
@@ -166,7 +166,7 @@ The robot is able to autonomously navigate using the map of the environment crea
 - Launch the MoboBot Naviagtion (with AMCL):
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls
+  ros2 launch mobo_bot_bringup sim_navigation.launch.py # world_name:=room_with_walls params_name:=sim_nav2_params_omni
   ```
   >**NOTE**: you can change the world_name you the world you are woking with and have created a map for.
 
