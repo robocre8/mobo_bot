@@ -15,18 +15,30 @@ def generate_launch_description():
   navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
 
   # Set the path to the nav params file
-  nav_params_file_name = 'sim_nav2_params_diff.yaml'
+  nav_params_file_name = 'slam_localization_params.yaml'
   nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
  
   #--------------------------------------------------------------------------
 
   # Launch configuration variables specific to simulation
+  use_sim_time = LaunchConfiguration('use_sim_time')
+  use_lifecycle_manager = LaunchConfiguration('use_lifecycle_manager')
   params_file = LaunchConfiguration('params_file')
   
   declare_params_file_cmd = DeclareLaunchArgument(
       name='params_file',
       default_value=nav_params_file,
       description='file path to the navigation paramater file needed for navigation')
+  
+  declare_use_sim_time_cmd = DeclareLaunchArgument(
+    name='use_sim_time',
+    default_value='True',
+    description='Use simulation (Gazebo) clock if true')
+  
+  declare_use_lifecycle_manager_cmd = DeclareLaunchArgument(
+    name='use_lifecycle_manager',
+    default_value='True',
+    description='use_lifecycle_manager')
 
   #-----------------------------------------------------------------------------
 
@@ -34,12 +46,18 @@ def generate_launch_description():
     'slam_toolbox',
   ]
 
-  slam_mapping_node = Node(
+  slam_localization_node = Node(
       package='slam_toolbox',
-      executable='async_slam_toolbox_node',
+      executable='localization_slam_toolbox_node',
       name='slam_toolbox',
       output='screen',
-      parameters=[params_file],
+      parameters=[
+        {
+          'use_lifecycle_manager': use_lifecycle_manager,
+          'use_sim_time': use_sim_time
+        },
+        params_file
+      ],
     )
   
   nav2_lifecycle_manager_node = Node(
@@ -56,9 +74,11 @@ def generate_launch_description():
  
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_params_file_cmd)
+  ld.add_action(declare_use_sim_time_cmd)
+  ld.add_action(declare_use_lifecycle_manager_cmd)
  
   # Add the nodes to the launch description
-  ld.add_action(slam_mapping_node)
+  ld.add_action(slam_localization_node)
   ld.add_action(nav2_lifecycle_manager_node)
 
   return ld

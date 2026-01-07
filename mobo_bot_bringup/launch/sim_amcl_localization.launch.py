@@ -44,7 +44,7 @@ def generate_launch_description():
 
   rviz_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(rviz_pkg_path,'launch','amcl.launch.py')]
+                [os.path.join(rviz_pkg_path,'launch','robot.launch.py')]
             )
   )
 

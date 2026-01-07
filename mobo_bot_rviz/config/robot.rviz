@@ -9,8 +9,11 @@ Panels:
         - /TF1/Frames1
         - /Odometry1/Shape1
         - /Odometry2/Shape1
+        - /PoseWithCovariance1/Covariance1
+        - /Map1
+        - /Map1/Topic1
       Splitter Ratio: 0.5
-    Tree Height: 369
+    Tree Height: 542
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -81,12 +84,17 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        castor_wheel:
+        chassis:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        chassis:
+        front_left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_right_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -95,27 +103,17 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_rim:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         lidar:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_rim:
+        rear_left_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wheel:
+        rear_right_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -146,23 +144,23 @@ Visualization Manager:
           Value: true
         camera_optical:
           Value: true
-        castor_wheel:
-          Value: true
         chassis:
           Value: false
+        front_left_wheel:
+          Value: true
+        front_right_wheel:
+          Value: true
         imu:
-          Value: true
-        left_rim:
-          Value: true
-        left_wheel:
           Value: true
         lidar:
           Value: true
+        map:
+          Value: true
         odom:
           Value: true
-        right_rim:
+        rear_left_wheel:
           Value: true
-        right_wheel:
+        rear_right_wheel:
           Value: true
         sonar:
           Value: true
@@ -172,10 +170,10 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
+        map:
+          {}
         odom:
           base_link:
-            castor_wheel:
-              {}
             chassis:
               camera:
                 camera_optical:
@@ -186,12 +184,14 @@ Visualization Manager:
                 {}
               sonar:
                 {}
-            left_wheel:
-              left_rim:
-                {}
-            right_wheel:
-              right_rim:
-                {}
+            front_left_wheel:
+              {}
+            front_right_wheel:
+              {}
+            rear_left_wheel:
+              {}
+            rear_right_wheel:
+              {}
       Update Interval: 0
       Value: true
     - Angle Tolerance: 0.009999999776482582
@@ -268,7 +268,7 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz_default_plugins/Image
-      Enabled: true
+      Enabled: false
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -280,7 +280,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /camera_optical/image_raw
-      Value: true
+      Value: false
     - Angle Tolerance: 0.0010000000474974513
       Class: rviz_default_plugins/Odometry
       Covariance:
@@ -319,6 +319,76 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /wheel/odometry
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: false
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /slam_toolbox/graph_visualization
+      Value: false
+    - Alpha: 0.5
+      Axes Length: 0.4000000059604645
+      Axes Radius: 0.05000000074505806
+      Class: rviz_default_plugins/PoseWithCovariance
+      Color: 255; 25; 0
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: PoseWithCovariance
+      Shaft Length: 0.4000000059604645
+      Shaft Radius: 0.05000000074505806
+      Shape: Axes
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /pose
+      Value: true
+    - Alpha: 0.699999988079071
+      Binary representation: false
+      Binary threshold: 100
+      Class: rviz_default_plugins/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map
+      Update Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /map_updates
+      Use Timestamp: false
       Value: true
   Enabled: true
   Global Options:
@@ -375,7 +445,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 166.2159423828125
+      Scale: 66.34284210205078
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
       X: 0.7935499548912048
@@ -389,7 +459,7 @@ Window Geometry:
   Hide Right Dock: true
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ae000002acfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f000001ff000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650100000244000000a70000001700ffffff000000010000010f000002acfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003f000002ac000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004b00000003efc0100000002fb0000000800540069006d00650100000000000004b00000026f00fffffffb0000000800540069006d00650100000000000004500000000000000000000002fc000002ac00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000022a000002acfc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f000002ac000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d0061006700650000000244000000a70000001700ffffff000000010000010f000002acfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003f000002ac000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004b00000003efc0100000002fb0000000800540069006d00650100000000000004b00000026f00fffffffb0000000800540069006d0065010000000000000450000000000000000000000280000002ac00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

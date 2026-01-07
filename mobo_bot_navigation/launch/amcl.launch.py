@@ -19,7 +19,7 @@ def generate_launch_description():
   map_yaml_path = os.path.join(navigation_pkg_path, 'maps', map_file_name)
 
   # Set the path to the nav params file
-  nav_params_file_name = 'nav2_bringup_params_test.yaml'
+  nav_params_file_name = 'sim_nav2_params_diff.yaml'
   nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
  
   #--------------------------------------------------------------------------

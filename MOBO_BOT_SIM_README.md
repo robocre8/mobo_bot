@@ -171,3 +171,15 @@ The robot is able to autonomously navigate using the map of the environment crea
   >**NOTE**: you can change the world_name you the world you are woking with and have created a map for.
 
 - Now use the Nav2Goal button to move the robot to any Goal pose on the map.
+
+
+```
+ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph "{'filename': '/path/to/your/map/map_name'}"
+
+ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph "{'filename': '/home/samuko-things/my_map/room_with_walls'}"
+requester: making request: slam_toolbox.srv.SerializePoseGraph_Request(filename='/home/samuko-things/my_map/room_with_walls')
+
+response:
+slam_toolbox.srv.SerializePoseGraph_Response(result=0)
+
+```
