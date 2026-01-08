@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1/Frames1
-        - /PoseWithCovariance1
         - /PoseWithCovariance1/Covariance1
         - /GlobalCostMap1/Topic1
         - /GlobalCostMap1/Update Topic1
@@ -85,17 +84,12 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        castor_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         chassis:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_left_wheel:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        front_right_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -104,17 +98,27 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_rim:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         lidar:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_left_wheel:
+        right_rim:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rear_right_wheel:
+        right_wheel:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -145,13 +149,15 @@ Visualization Manager:
           Value: true
         camera_optical:
           Value: true
+        castor_wheel:
+          Value: true
         chassis:
           Value: false
-        front_left_wheel:
-          Value: true
-        front_right_wheel:
-          Value: true
         imu:
+          Value: true
+        left_rim:
+          Value: true
+        left_wheel:
           Value: true
         lidar:
           Value: true
@@ -159,9 +165,9 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
-        rear_left_wheel:
+        right_rim:
           Value: true
-        rear_right_wheel:
+        right_wheel:
           Value: true
         sonar:
           Value: true
@@ -174,6 +180,8 @@ Visualization Manager:
         map:
           odom:
             base_link:
+              castor_wheel:
+                {}
               chassis:
                 camera:
                   camera_optical:
@@ -184,14 +192,12 @@ Visualization Manager:
                   {}
                 sonar:
                   {}
-              front_left_wheel:
-                {}
-              front_right_wheel:
-                {}
-              rear_left_wheel:
-                {}
-              rear_right_wheel:
-                {}
+              left_wheel:
+                left_rim:
+                  {}
+              right_wheel:
+                right_rim:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1

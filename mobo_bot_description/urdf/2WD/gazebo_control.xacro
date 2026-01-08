@@ -70,7 +70,7 @@
       <robot_base_frame>base_link</robot_base_frame>
       <publish_tf>true</publish_tf>
       <tf_topic>tf</tf_topic>
-      <odom_publish_frequency>50</odom_publish_frequency>
+      <odom_publish_frequency>40</odom_publish_frequency>
       <xyz_offset>0 0 0</xyz_offset>
       <rpy_offset>0 0 0</rpy_offset>
     </plugin>

@@ -63,7 +63,7 @@ def generate_launch_description():
 
   slam_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(navigation_pkg_path,'launch','mapping.launch.py')]
+                [os.path.join(navigation_pkg_path,'launch','slam.launch.py')]
             ), 
             launch_arguments={
               'params_file': params_file
@@ -77,9 +77,9 @@ def generate_launch_description():
     'controller_server',
     'bt_navigator',
     'behavior_server',
-    'smoother_server',
-    'waypoint_follower',
-    'velocity_smoother',
+    # 'smoother_server',
+    # 'waypoint_follower',
+    # 'velocity_smoother',
   ]
 
   remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
@@ -203,12 +203,12 @@ def generate_launch_description():
   ld.add_action(slam_launch)
   # ld.add_action(nav2_costmap_2d_node)
   ld.add_action(nav2_planner_server_node)
-  ld.add_action(nav2_smoother_server_node)
+  # ld.add_action(nav2_smoother_server_node)
   ld.add_action(nav2_controller_server_node)
   ld.add_action(nav2_bt_navigator_node)
   ld.add_action(nav2_behavior_server_node)
-  ld.add_action(nav2_waypoint_follower_node)
-  ld.add_action(nav2_velocity_smoother_node)
+  # ld.add_action(nav2_waypoint_follower_node)
+  # ld.add_action(nav2_velocity_smoother_node)
   ld.add_action(nav2_lifecycle_manager_node)
 
   return ld

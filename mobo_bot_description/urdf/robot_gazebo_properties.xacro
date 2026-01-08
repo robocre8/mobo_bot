@@ -98,7 +98,7 @@
 
 
   <gazebo reference="imu">
-    <sensor name="imu" type="imu">
+    <!-- <sensor name="imu" type="imu">
       <topic>imu/data</topic>
       <always_on>true</always_on>
       <update_rate>50</update_rate>
@@ -157,39 +157,35 @@
           </z>
         </linear_acceleration>
       </imu>
-    </sensor>
+    </sensor> -->
   </gazebo>
 
 
-
+  <!-- Logitech C270 Approximation -->
   <gazebo reference="camera">
     <visual>
       <xacro:gz_material_grey/>
     </visual>
-    <sensor name="camera_optical" type="camera">
-    <!-- <sensor name="camera_optical" type="depth"> -->
+    <!-- <sensor name="camera_optical" type="camera">
       <topic>camera_optical</topic>
       <gz_frame_id>camera_optical</gz_frame_id>
       <always_on>1</always_on>
       <update_rate>30</update_rate>
       <visualize>true</visualize>
       <camera>
-        <!-- Logitech C270 ≈ 55° horizontal FOV -->
         <horizontal_fov>0.96</horizontal_fov>
-
         <image>
-          <width>640</width> <!-- Logitech C270 ≈ 1280/2 -->
-          <height>360</height> <!-- Logitech C270 ≈ 720/2 -->
+          <width>640</width>
+          <height>360</height>
           <format>R8G8B8</format>
         </image>
-
         <clip>
           <near>0.2</near>
           <far>20.0</far>
         </clip>
       </camera>
       <enable_metrics>true</enable_metrics>
-    </sensor>
+    </sensor> -->
   </gazebo>
   
 </robot>

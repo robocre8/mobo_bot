@@ -27,7 +27,7 @@ def generate_launch_description():
 
   # Set the path to the world file
   # world_file_name = 'simple_world.sdf'
-  world_file_name = 'empty.sdf'
+  world_file_name = 'room_with_walls.sdf'
   world_file_path = os.path.join(sim_pkg_path, 'worlds', world_file_name)
  
   #--------------------------------------------------------------------------
@@ -183,7 +183,7 @@ def generate_launch_description():
   ld.add_action(start_gz_sim)
   ld.add_action(start_gz_sim_headless)
   ld.add_action(gz_bridge_node)
-  ld.add_action(image_compress_node)
+  # ld.add_action(image_compress_node)
   ld.add_action(spawn_entity_in_ign)
   ld.add_action(twist_mux_node)
 
