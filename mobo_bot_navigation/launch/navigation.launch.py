@@ -77,7 +77,7 @@ def generate_launch_description():
     'controller_server',
     'bt_navigator',
     'behavior_server',
-    # 'smoother_server',
+    'smoother_server',
     # 'waypoint_follower',
     # 'velocity_smoother',
   ]
@@ -203,7 +203,7 @@ def generate_launch_description():
   ld.add_action(slam_launch)
   # ld.add_action(nav2_costmap_2d_node)
   ld.add_action(nav2_planner_server_node)
-  # ld.add_action(nav2_smoother_server_node)
+  ld.add_action(nav2_smoother_server_node)
   ld.add_action(nav2_controller_server_node)
   ld.add_action(nav2_bt_navigator_node)
   ld.add_action(nav2_behavior_server_node)
