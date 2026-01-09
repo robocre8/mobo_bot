@@ -1,0 +1,44 @@
+<root BTCPP_format="4" main_tree_to_execute="NavigateToPoseTree">
+
+  <BehaviorTree ID="NavigateToPoseTree">
+
+    <Fallback name="NavigateToPoseFallback">
+
+      <!-- Main navigation pipeline -->
+      <Sequence name="Navigation">
+
+        <ComputePathToPose
+          goal="{goal}"
+          path="{path}"
+          planner_id="GridBased"
+          error_code_id="{compute_path_error_code}"/>
+
+        <!-- smoother_id="savitzky_golay_smoother" -->
+        <!-- smoother_id="simple_smoother" -->
+        <SmoothPath
+          unsmoothed_path="{path}"
+          smoothed_path="{path}"
+          smoother_id="simple_smoother"
+          error_code_id="{smoother_error_code}"/>
+
+        <!-- <FollowPath path="{path}" controller_id="{selected_controller}" error_code_id="{follow_path_error_code}" goal_checker_id="{selected_goal_checker}" progress_checker_id="{selected_progress_checker}" path_handler_id="{selected_path_handler}"/> -->
+
+        <FollowPath
+          path="{path}"
+          controller_id="FollowPath"
+          error_code_id="{follow_path_error_code}"/>
+
+      </Sequence>
+
+      <!-- Recovery behaviors -->
+      <Sequence name="Recovery">
+        <Spin server_name="spin" />
+        <BackUp server_name="backup" />
+        <ClearEntireCostmap service_name="global_costmap/clear_entirely_global_costmap" />
+      </Sequence>
+
+
+    </Fallback>
+
+  </BehaviorTree>
+</root>

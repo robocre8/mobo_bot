@@ -283,6 +283,7 @@ bt_navigator:
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     introspection_mode: "disabled"
+    
     navigators: ["navigate_to_pose", "navigate_through_poses"]
     navigate_to_pose:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"

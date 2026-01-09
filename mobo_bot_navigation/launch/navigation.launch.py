@@ -13,6 +13,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
   # Set the path to this package.
   navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
+  nav2_bt_navigator_pkg_path = get_package_share_directory('nav2_bt_navigator')
  
   # Set the path to the map file
   map_file_name = 'room_with_walls.yaml'
@@ -21,6 +22,12 @@ def generate_launch_description():
   # Set the path to the nav params file
   nav_params_file_name = 'sim_nav2_params_diff.yaml'
   nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
+
+  default_nav_to_pose_bt_xml = os.path.join(navigation_pkg_path, 'config', 'navigate_to_pose_w_smoothing.xml')
+  default_nav_through_pose_bt_xml = os.path.join(navigation_pkg_path, 'config', 'navigate_through_pose_w_smoothing.xml')
+
+  # default_nav_to_pose_bt_xml = os.path.join(nav2_bt_navigator_pkg_path, 'behavior_trees', 'navigate_to_pose_w_replanning_and_recovery.xml')
+  # default_nav_through_pose_bt_xml = os.path.join(nav2_bt_navigator_pkg_path, 'behavior_trees', 'navigate_through_poses_w_replanning_and_recovery.xml')
  
   #--------------------------------------------------------------------------
 
@@ -78,7 +85,7 @@ def generate_launch_description():
     'bt_navigator',
     'behavior_server',
     'smoother_server',
-    # 'waypoint_follower',
+    'waypoint_follower',
     # 'velocity_smoother',
   ]
 
@@ -138,7 +145,9 @@ def generate_launch_description():
     output='screen',
     parameters=[
       params_file,
-      {'use_sim_time': use_sim_time}
+      {'use_sim_time': use_sim_time},
+      {'default_nav_to_pose_bt_xml': default_nav_to_pose_bt_xml},
+      {'default_nav_through_pose_bt_xml': default_nav_through_pose_bt_xml}
     ],
     remappings=remappings,
   )
@@ -207,7 +216,7 @@ def generate_launch_description():
   ld.add_action(nav2_controller_server_node)
   ld.add_action(nav2_bt_navigator_node)
   ld.add_action(nav2_behavior_server_node)
-  # ld.add_action(nav2_waypoint_follower_node)
+  ld.add_action(nav2_waypoint_follower_node)
   # ld.add_action(nav2_velocity_smoother_node)
   ld.add_action(nav2_lifecycle_manager_node)
 
