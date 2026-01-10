@@ -18,13 +18,23 @@ def generate_launch_description():
   #--------------------------------------------------------------------------
 
   # Launch configuration variables specific to simulation
+  use_sim_time = LaunchConfiguration('use_sim_time')
   world_name = LaunchConfiguration('world_name')
-  params_name = LaunchConfiguration('params_name')
+  slam_params_name = LaunchConfiguration('slam_params_name')
+  nav_params_name = LaunchConfiguration('nav_params_name')
+  use_nav = LaunchConfiguration('use_nav')
+
+  declare_use_sim_time_cmd = DeclareLaunchArgument(
+    name='use_sim_time',
+    default_value='True',
+    description='whether to use simulation clock or not'
+  )
  
   declare_world_name_cmd = DeclareLaunchArgument(
     name='world_name',
     default_value='room_with_walls',
-    description='name of the world file')
+    description='name of the world file (without extension)'
+  )
   
   world_path = PathJoinSubstitution([
           sim_pkg_path,
@@ -33,16 +43,36 @@ def generate_launch_description():
       ]
   )
 
-  declare_params_name_cmd = DeclareLaunchArgument(
-    name='params_name',
-    default_value='sim_nav2_params_diff',
-    description='name of the slam toolbox parameter file')
+  declare_slam_params_name_cmd = DeclareLaunchArgument(
+    name='slam_params_name',
+    default_value='slam_toolbox_mapping_params',
+    description='name of the slam toolbox parameter file (without extension)'
+  )
   
-  params_file = PathJoinSubstitution([
+  slam_params_file = PathJoinSubstitution([
           navigation_pkg_path,
           "config",
-          PythonExpression(expression=["'", params_name, "'", " + '.yaml'"])
+          PythonExpression(expression=["'", slam_params_name, "'", " + '.yaml'"])
       ]
+  )
+
+  declare_nav_params_name_cmd = DeclareLaunchArgument(
+    name='nav_params_name',
+    default_value='nav2_params',
+    description='name of the nav2 parameter file (without extension)'
+  )
+  
+  nav_params_file = PathJoinSubstitution([
+          navigation_pkg_path,
+          "config",
+          PythonExpression(expression=["'", nav_params_name, "'", " + '.yaml'"])
+      ]
+  )
+
+  declare_use_nav_cmd = DeclareLaunchArgument(
+    name='use_nav',
+    default_value='False',
+    description='whether to use navigation while mapping'
   )
 
   #-----------------------------------------------------------------------------
@@ -59,7 +89,7 @@ def generate_launch_description():
 
   rviz_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(rviz_pkg_path,'launch','robot_mapping.launch.py')]
+                [os.path.join(rviz_pkg_path,'launch','mapping_and_navigation.launch.py')]
             )
   )
 
@@ -68,7 +98,10 @@ def generate_launch_description():
                 [os.path.join(navigation_pkg_path,'launch','mapping.launch.py')]
             ), 
             launch_arguments={
-              'params_file': params_file
+              'use_sim_time': use_sim_time,
+              'slam_params': slam_params_file,
+              'nav_params': nav_params_file,
+              'use_nav': use_nav
             }.items()
   )
 
@@ -78,8 +111,11 @@ def generate_launch_description():
   ld = LaunchDescription()
  
   # add the necessary declared launch arguments to the launch description
+  ld.add_action(declare_use_sim_time_cmd)
   ld.add_action(declare_world_name_cmd)
-  ld.add_action(declare_params_name_cmd)
+  ld.add_action(declare_slam_params_name_cmd)
+  ld.add_action(declare_nav_params_name_cmd)
+  ld.add_action(declare_use_nav_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)

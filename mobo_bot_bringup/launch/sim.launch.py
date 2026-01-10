@@ -22,7 +22,7 @@ def generate_launch_description():
   declare_world_name_cmd = DeclareLaunchArgument(
     name='world_name',
     default_value='room_with_walls',
-    description='name of the world file')
+    description='name of the world file (without extension)')
   
   world_path = PathJoinSubstitution([
           sim_pkg_path,
@@ -44,7 +44,7 @@ def generate_launch_description():
 
   rviz_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(rviz_pkg_path,'launch','amcl.launch.py')]
+              [os.path.join(rviz_pkg_path,'launch','robot.launch.py')]
             )
   )
 

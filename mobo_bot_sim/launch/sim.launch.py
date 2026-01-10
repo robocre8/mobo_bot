@@ -183,7 +183,7 @@ def generate_launch_description():
   ld.add_action(start_gz_sim)
   ld.add_action(start_gz_sim_headless)
   ld.add_action(gz_bridge_node)
-  # ld.add_action(image_compress_node)
+  ld.add_action(image_compress_node)
   ld.add_action(spawn_entity_in_ign)
   ld.add_action(twist_mux_node)
 

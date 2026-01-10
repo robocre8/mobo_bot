@@ -243,20 +243,20 @@ def generate_launch_description():
 
     #--------------------------------------------------------------------------
 
-    camera_node = Node(
-        package='opencv_ros_camera',
-        executable='camera_publisher',
-        name='camera_publisher',
-        output='screen',
-        parameters=[{'frame_id': "camera_optical",
-                      'port_no': 0,
-                      'frame_width': 640,
-                      'frame_height': 480,
-                      'compression_format': "jpeg", # you can also use "jpeg"
-                      'publish_frequency': 30.0}
-                    ],
-        condition=IfCondition(use_camera),
-    )
+    # camera_node = Node(
+    #     package='opencv_ros_camera',
+    #     executable='camera_publisher',
+    #     name='camera_publisher',
+    #     output='screen',
+    #     parameters=[{'frame_id': "camera_optical",
+    #                   'port_no': 0,
+    #                   'frame_width': 640,
+    #                   'frame_height': 360,
+    #                   'compression_format': "jpeg", # you can also use "jpeg"
+    #                   'publish_frequency': 30.0}
+    #                 ],
+    #     condition=IfCondition(use_camera),
+    # )
 
     #--------------------------------------------------------------------------
 
@@ -295,7 +295,7 @@ def generate_launch_description():
     ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner)
     ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner_no_ekf)
     ld.add_action(lidar_angle_filter_node)
-    ld.add_action(camera_node)
+    # ld.add_action(camera_node)
     ld.add_action(twist_mux_node)
 
     return ld      # return (i.e send) the launch description for excecution

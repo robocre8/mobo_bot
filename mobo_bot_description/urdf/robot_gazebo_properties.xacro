@@ -161,12 +161,12 @@
   </gazebo>
 
 
-  <!-- Logitech C270 Approximation -->
+  <!-- Logitech C270 Approximate Camera Properties -->
   <gazebo reference="camera">
     <visual>
       <xacro:gz_material_grey/>
     </visual>
-    <!-- <sensor name="camera_optical" type="camera">
+    <sensor name="camera_optical" type="camera">
       <topic>camera_optical</topic>
       <gz_frame_id>camera_optical</gz_frame_id>
       <always_on>1</always_on>
@@ -185,7 +185,7 @@
         </clip>
       </camera>
       <enable_metrics>true</enable_metrics>
-    </sensor> -->
+    </sensor>
   </gazebo>
   
 </robot>

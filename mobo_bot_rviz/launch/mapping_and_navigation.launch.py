@@ -12,7 +12,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     # delare any path variable
     rviz_pkg_path = get_package_share_directory('mobo_bot_rviz')
-    rviz_config_file = os.path.join(rviz_pkg_path,'config','navigation.rviz')
+    rviz_config_file = os.path.join(rviz_pkg_path,'config','mapping_and_navigation.rviz')
 
     # create needed nodes or launch files
     rviz_node = Node(

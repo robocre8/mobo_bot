@@ -1,69 +1,3 @@
-slam_toolbox:
-  ros__parameters:
-    # Plugin params
-    solver_plugin: solver_plugins::CeresSolver
-    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
-    ceres_preconditioner: SCHUR_JACOBI
-    ceres_trust_strategy: LEVENBERG_MARQUARDT
-    ceres_dogleg_type: TRADITIONAL_DOGLEG
-    ceres_loss_function: None
-    # ROS Parameters
-    odom_frame: odom
-    map_frame: map
-    base_frame: base_link
-    scan_topic: /lidar/scan
-    mode: mapping #localization
-    # if you'd like to immediately start continuing a map at a given pose
-    # or at the dock, but they are mutually exclusive, if pose is given
-    # will use pose
-    #map_file_name: test_steve
-    # map_start_pose: [0.0, 0.0, 0.0]
-    #map_start_at_dock: true
-    debug_logging: false
-    throttle_scans: 1
-    transform_publish_period: 0.05 #if 0 never publishes odometry
-    map_update_interval: 5.0
-    resolution: 0.05
-    max_laser_range: 10.0 #for rastering images
-    minimum_time_interval: 0.5
-    transform_timeout: 0.25
-    tf_buffer_duration: 30.
-    stack_size_to_use: 4000000 #// program needs a larger stack size to serialize large maps
-    enable_interactive_mode: true
-    # General Parameters
-    use_scan_matching: true
-    use_scan_barycenter: true
-    minimum_travel_distance: 0.1
-    minimum_travel_heading: 0.5
-    scan_buffer_size: 20
-    scan_buffer_maximum_scan_distance: 10.0
-    link_match_minimum_response_fine: 0.1  
-    link_scan_maximum_distance: 1.5
-    loop_search_maximum_distance: 3.0
-    do_loop_closing: true 
-    loop_match_minimum_chain_size: 10           
-    loop_match_maximum_variance_coarse: 3.0  
-    loop_match_minimum_response_coarse: 0.35    
-    loop_match_minimum_response_fine: 0.45
-    # Correlation Parameters - Correlation Parameters
-    correlation_search_space_dimension: 0.5
-    correlation_search_space_resolution: 0.01
-    correlation_search_space_smear_deviation: 0.1 
-    # Correlation Parameters - Loop Closure Parameters
-    loop_search_space_dimension: 8.0
-    loop_search_space_resolution: 0.05
-    loop_search_space_smear_deviation: 0.03
-    # Scan Matcher Parameters
-    distance_variance_penalty: 0.5      
-    angle_variance_penalty: 1.0    
-    fine_search_angle_offset: 0.00349     
-    coarse_search_angle_offset: 0.349   
-    coarse_angle_resolution: 0.0349        
-    minimum_angle_penalty: 0.9
-    minimum_distance_penalty: 0.5
-    use_response_expansion: true
-
-
 amcl:
   ros__parameters:
     # ROS2 Interface
@@ -208,6 +142,17 @@ local_costmap:
       always_send_full_costmap: true
 
 
+# planner_server:
+#   ros__parameters:
+#     expected_planner_frequency: 20.0
+#     planner_plugins: ["GridBased"]
+#     GridBased:
+#       plugin: "nav2_theta_star_planner::ThetaStarPlanner" # In Iron and older versions, "/" was used instead of "::"
+#       how_many_corners: 8
+#       w_euc_cost: 1.0
+#       w_traversal_cost: 2.0
+
+
 planner_server:
   ros__parameters:
     use_sim_time: true
@@ -223,16 +168,34 @@ planner_server:
 
 smoother_server:
   ros__parameters:
-    use_sim_time: true
     costmap_topic: global_costmap/costmap_raw
     footprint_topic: global_costmap/published_footprint
     robot_base_frame: base_link
-    transform_timeout: 0.1
+    transform_tolerance: 0.1
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
-      tolerance: 1.0e-10
-      do_refinement: True
+      tolerance: 1.0e-5          # realistic convergence threshold
+      max_its: 200               # maximum iterations per smoothing
+      refinement_num: 20         # number of refinement passes
+      enforce_path_inversion: True  # preserves directional changes
+      do_refinement: True        # enable iterative refinement
+
+# smoother_server:
+#   ros__parameters:
+#     costmap_topic: global_costmap/costmap_raw
+#     footprint_topic: global_costmap/published_footprint
+#     robot_base_frame: base_link
+#     transform_tolerance: 0.1
+#     smoother_plugins: ["savitzky_golay_smoother"]
+#     savitzky_golay_smoother:
+#       plugin: "nav2_smoother::SavitzkyGolaySmoother"
+#       window_size: 9
+#       poly_order: 3
+#       do_refinement: True
+#       refinement_num: 15
+#       enforce_path_inversion: False
+
 
 controller_server:
   ros__parameters:
@@ -252,8 +215,8 @@ controller_server:
     # Progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.5
-      movement_time_allowance: 10.0
+      required_movement_radius: 0.1
+      movement_time_allowance: 5.0
     # Goal checker parameters
     #precise_goal_checker:
     #  plugin: "nav2_controller::SimpleGoalChecker"
@@ -263,8 +226,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.1
-      yaw_goal_tolerance: 0.2
+      xy_goal_tolerance: 0.05
+      yaw_goal_tolerance: 0.1
       path_length_tolerance: 0.5
     PathHandler:
       plugin: "nav2_controller::FeasiblePathHandler"
@@ -390,7 +353,7 @@ bt_navigator:
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     introspection_mode: "disabled"
-    
+
     navigators: ["navigate_to_pose", "navigate_through_poses"]
     navigate_to_pose:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
@@ -410,6 +373,10 @@ bt_navigator:
     # plugin_lib_names is used to add custom BT plugins to the executor (vector of strings).
     # Built-in plugins are added automatically
     # plugin_lib_names: []
+
+    error_code_names:
+      - compute_path_error_code
+      - follow_path_error_code
 
     error_code_name_prefixes:
       - assisted_teleop
@@ -481,3 +448,81 @@ velocity_smoother:
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
+
+collision_monitor:
+  ros__parameters:
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    cmd_vel_in_topic: "cmd_vel_smoothed"
+    cmd_vel_out_topic: "cmd_vel"
+    state_topic: "collision_monitor_state"
+    transform_tolerance: 0.2
+    source_timeout: 1.0
+    base_shift_correction: True
+    stop_pub_timeout: 2.0
+    enable_stamped_cmd_vel: true
+    # Polygons represent zone around the robot for "stop", "slowdown" and "limit" action types,
+    # and robot footprint for "approach" action type.
+    polygons: ["FootprintApproach"]
+    FootprintApproach:
+      type: "polygon"
+      action_type: "approach"
+      footprint_topic: "/local_costmap/published_footprint"
+      time_before_collision: 1.2
+      simulation_time_step: 0.1
+      min_points: 6
+      visualize: False
+      enabled: True
+    observation_sources: ["scan"]
+    scan:
+      type: "scan"
+      topic: "lidar/scan"
+      min_height: 0.15
+      max_height: 2.0
+      enabled: True
+
+docking_server:
+  ros__parameters:
+    controller_frequency: 50.0
+    initial_perception_timeout: 5.0
+    wait_charge_timeout: 5.0
+    dock_approach_timeout: 30.0
+    undock_linear_tolerance: 0.05
+    undock_angular_tolerance: 0.1
+    max_retries: 3
+    base_frame: "base_link"
+    fixed_frame: "odom"
+    dock_backwards: false
+    dock_prestaging_tolerance: 0.5
+
+    # Types of docks
+    dock_plugins: ['simple_charging_dock']
+    simple_charging_dock:
+      plugin: 'opennav_docking::SimpleChargingDock'
+      docking_threshold: 0.05
+      staging_x_offset: -0.7
+      use_external_detection_pose: true
+      use_battery_status: false # true
+      use_stall_detection: false # true
+
+      external_detection_timeout: 1.0
+      external_detection_translation_x: -0.18
+      external_detection_translation_y: 0.0
+      external_detection_rotation_roll: -1.57
+      external_detection_rotation_pitch: -1.57
+      external_detection_rotation_yaw: 0.0
+      filter_coef: 0.1
+
+    # Dock instances
+    # The following example illustrates configuring dock instances.
+    # docks: ['home_dock']  # Input your docks here
+    # home_dock:
+    #   type: 'simple_charging_dock'
+    #   frame: map
+    #   pose: [0.0, 0.0, 0.0]
+
+    controller:
+      k_phi: 3.0
+      k_delta: 2.0
+      v_linear_min: 0.15
+      v_linear_max: 0.15

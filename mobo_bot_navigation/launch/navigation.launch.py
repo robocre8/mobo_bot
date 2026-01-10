@@ -8,193 +8,133 @@ from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 
 def generate_launch_description():
   # Set the path to this package.
-  navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
-  nav2_bt_navigator_pkg_path = get_package_share_directory('nav2_bt_navigator')
- 
-  # Set the path to the map file
-  map_file_name = 'room_with_walls.yaml'
-  map_yaml_path = os.path.join(navigation_pkg_path, 'maps', map_file_name)
+  mobo_bot_navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
+  nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
+
+  # Set the path to the slam params file
+  slam_params_file_name = 'slam_toolbox_localization_params.yaml'
+  slam_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', slam_params_file_name)
 
   # Set the path to the nav params file
-  nav_params_file_name = 'sim_nav2_params_diff.yaml'
-  nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
+  nav_params_file_name = 'nav2_params_diff.yaml'
+  nav_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', nav_params_file_name)
 
-  default_nav_to_pose_bt_xml = os.path.join(navigation_pkg_path, 'config', 'navigate_to_pose_w_smoothing.xml')
-  default_nav_through_pose_bt_xml = os.path.join(navigation_pkg_path, 'config', 'navigate_through_pose_w_smoothing.xml')
+  # Set the path to the map file used by AMCL
+  map_file_name = 'room_with_walls.yaml'
+  map_file = os.path.join(mobo_bot_navigation_pkg_path, 'maps', map_file_name)
 
-  # default_nav_to_pose_bt_xml = os.path.join(nav2_bt_navigator_pkg_path, 'behavior_trees', 'navigate_to_pose_w_replanning_and_recovery.xml')
-  # default_nav_through_pose_bt_xml = os.path.join(nav2_bt_navigator_pkg_path, 'behavior_trees', 'navigate_through_poses_w_replanning_and_recovery.xml')
+  # bt_nav_to_pose_xml = os.path.join(mobo_bot_navigation_pkg_path, 'config', 'bt', 'navigate_to_pose_w_smoothing.xml')
+  # bt_nav_through_poses_xml = os.path.join(mobo_bot_navigation_pkg_path, 'config', 'bt', 'navigate_through_pose_w_smoothing.xml')
+
+  # rewritten_nav_params_file = RewrittenYaml(
+  #   source_file=nav_params_file,
+  #   root_key='',
+  #   param_rewrites={
+  #       'bt_navigator.ros__parameters.default_nav_to_pose_bt_xml': bt_nav_to_pose_xml,
+  #       'bt_navigator.ros__parameters.default_nav_through_poses_bt_xml': bt_nav_through_poses_xml,
+  #   },
+  #   convert_types=True,
+  # )
  
   #--------------------------------------------------------------------------
 
   # Launch configuration variables specific to simulation
   use_sim_time = LaunchConfiguration('use_sim_time')
+  use_slam = LaunchConfiguration('use_slam')
+  slam_params = LaunchConfiguration('slam_params')
+  serialized_map_name = LaunchConfiguration('serialized_map_name')
+  serialized_map_location = LaunchConfiguration('serialized_map_location')
+  nav_params = LaunchConfiguration('nav_params')
   map = LaunchConfiguration('map')
-  params_file = LaunchConfiguration('params_file')
-  slam = LaunchConfiguration('slam')
-     
+
   declare_use_sim_time_cmd = DeclareLaunchArgument(
-    name='use_sim_time',
-    default_value='True',
-    description='Use simulation (Gazebo) clock if true')
+      name='use_sim_time', 
+      default_value='True',
+      description='Flag to enable use_sim_time'
+    )
+  
+  declare_use_slam_cmd = DeclareLaunchArgument(
+      name='use_slam', 
+      default_value='False',
+      description='Flag to enable use_sim_time'
+    )
+  
+  declare_slam_params_cmd = DeclareLaunchArgument(
+      name='slam_params',
+      default_value=slam_params_file,
+      description='file path to the parameter file'
+    )
+  
+  declare_serialized_map_name_cmd = DeclareLaunchArgument(
+      name='serialized_map_name',
+      default_value='room_with_walls',
+      description='name of the serialized_map'
+    )
+  
+  declare_serialized_map_location_cmd = DeclareLaunchArgument(
+      name='serialized_map_location',
+      default_value=os.path.join(mobo_bot_navigation_pkg_path, 'maps'),
+      description='location of the serialized_map'
+    )
+  
+  declare_nav_params_cmd = DeclareLaunchArgument(
+      name='nav_params',
+      default_value=nav_params_file,
+      # default_value=rewritten_nav_params_file,
+      description='file path to the parameter file'
+    )
   
   declare_map_cmd = DeclareLaunchArgument(
       name='map',
-      default_value=map_yaml_path,
-      description='file path to the map needed for navigation')
-  
-  declare_params_file_cmd = DeclareLaunchArgument(
-      name='params_file',
-      default_value=nav_params_file,
-      description='file path to the navigation paramater file needed for navigation')
-  
-  declare_slam_cmd = DeclareLaunchArgument(
-      name='slam',
-      default_value='False',
-      description='file path to the map needed for navigation')
+      default_value=map_file,
+      description='file path to the map needed for navigation'
+    )
 
   #-----------------------------------------------------------------------------
-  amcl_launch = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [os.path.join(navigation_pkg_path,'launch','amcl.launch.py')]
-            ), 
-            launch_arguments={
-              'params_file': params_file
-            }.items(),
-            condition=UnlessCondition(slam)
-  )
 
-  slam_launch = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                [os.path.join(navigation_pkg_path,'launch','slam.launch.py')]
-            ), 
-            launch_arguments={
-              'params_file': params_file
-            }.items(),
-            condition=IfCondition(slam)
-  )
+  localization_with_slam_launch_path = os.path.join(mobo_bot_navigation_pkg_path, 'launch', 'localization_with_slam.launch.py')
 
-  lifecycle_nodes = [
-    # 'costmap',
-    'planner_server',
-    'controller_server',
-    'bt_navigator',
-    'behavior_server',
-    'smoother_server',
-    'waypoint_follower',
-    # 'velocity_smoother',
-  ]
+  localization_with_slam_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(localization_with_slam_launch_path),
+        launch_arguments={
+                'use_sim_time': use_sim_time,
+                'slam_params': slam_params,
+                'serialized_map_location': serialized_map_location,
+                'serialized_map_name': serialized_map_name,
+        }.items(),
+        condition=IfCondition(use_slam)
+    )
+  
 
-  remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
-  # nav2_costmap_2d_node = Node(
-  #   package='nav2_costmap_2d',
-  #   executable='nav2_costmap_2d',
-  #   name='costmap',
-  #   output='screen',
-  #   parameters=[
-  #     params_file,
-  #     {'use_sim_time': use_sim_time}
-  #   ],
-  # )
+  localization_with_amcl_launch_path = os.path.join(mobo_bot_navigation_pkg_path, 'launch', 'localization_with_amcl.launch.py')
 
-  nav2_planner_server_node = Node(
-    package='nav2_planner',
-    executable='planner_server',
-    name='planner_server',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-    remappings=remappings,
-  )
+  localization_with_amcl_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(localization_with_amcl_launch_path),
+        launch_arguments={
+                'use_sim_time': use_sim_time,
+                'nav_params': nav_params,
+                'map': map,
+        }.items(),
+        condition=UnlessCondition(use_slam)
+    )
 
-  nav2_smoother_server_node = Node(
-    package='nav2_smoother',
-    executable='smoother_server',
-    name='smoother_server',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-    remappings=remappings,
-  )
 
-  nav2_controller_server_node = Node(
-    package='nav2_controller',
-    executable='controller_server',
-    name='controller_server',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-    remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
-  )
 
-  nav2_bt_navigator_node = Node(
-    package='nav2_bt_navigator',
-    executable='bt_navigator',
-    name='bt_navigator',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time},
-      {'default_nav_to_pose_bt_xml': default_nav_to_pose_bt_xml},
-      {'default_nav_through_pose_bt_xml': default_nav_through_pose_bt_xml}
-    ],
-    remappings=remappings,
-  )
+  navigation_launch_path = os.path.join(nav2_bringup_pkg_path, 'launch', 'navigation_launch.py')
 
-  nav2_behavior_server_node = Node(
-    package='nav2_behaviors',
-    executable='behavior_server',
-    name='behavior_server',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-    remappings=remappings + [('cmd_vel', 'cmd_vel_nav')],
-  )
-
-  nav2_waypoint_follower_node = Node(
-    package='nav2_waypoint_follower',
-    executable='waypoint_follower',
-    name='waypoint_follower',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-    remappings=remappings,
-  )
-
-  nav2_velocity_smoother_node = Node(
-    package='nav2_velocity_smoother',
-    executable='velocity_smoother',
-    name='velocity_smoother',
-    output='screen',
-    parameters=[
-      params_file,
-      {'use_sim_time': use_sim_time}
-    ],
-    remappings=remappings
-    + [('cmd_vel', 'cmd_vel_nav')],
-  )
-
-  nav2_lifecycle_manager_node = Node(
-    package='nav2_lifecycle_manager',
-    executable='lifecycle_manager',
-    output='screen',
-    parameters=[{"autostart": True, "bond_timeout": 0.0}, {'node_names': lifecycle_nodes}],
-  )
+  navigation_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(navigation_launch_path),
+        launch_arguments={
+                'use_sim_time': use_sim_time,
+                'params_file': nav_params,
+        }.items()
+    )
 
   #--------------------------------------------------------------------------------
 
@@ -203,21 +143,16 @@ def generate_launch_description():
  
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_use_sim_time_cmd)
+  ld.add_action(declare_use_slam_cmd)
+  ld.add_action(declare_slam_params_cmd)
+  ld.add_action(declare_serialized_map_name_cmd)
+  ld.add_action(declare_serialized_map_location_cmd)
+  ld.add_action(declare_nav_params_cmd)
   ld.add_action(declare_map_cmd)
-  ld.add_action(declare_params_file_cmd)
-  ld.add_action(declare_slam_cmd)
  
   # Add the nodes to the launch description
-  ld.add_action(amcl_launch)
-  ld.add_action(slam_launch)
-  # ld.add_action(nav2_costmap_2d_node)
-  ld.add_action(nav2_planner_server_node)
-  ld.add_action(nav2_smoother_server_node)
-  ld.add_action(nav2_controller_server_node)
-  ld.add_action(nav2_bt_navigator_node)
-  ld.add_action(nav2_behavior_server_node)
-  ld.add_action(nav2_waypoint_follower_node)
-  # ld.add_action(nav2_velocity_smoother_node)
-  ld.add_action(nav2_lifecycle_manager_node)
+  ld.add_action(localization_with_slam_launch)
+  ld.add_action(localization_with_amcl_launch)
+  ld.add_action(navigation_launch)
 
   return ld
