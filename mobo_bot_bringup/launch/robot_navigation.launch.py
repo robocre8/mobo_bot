@@ -34,7 +34,7 @@ def generate_launch_description():
 
   declare_map_name_cmd = DeclareLaunchArgument(
     name='map_name',
-    default_value='robot_nav2_params_diff',
+    default_value='',
     description='name of the map file')
   
   map_path = PathJoinSubstitution([
@@ -79,7 +79,7 @@ def generate_launch_description():
 
   declare_serialized_map_name_cmd = DeclareLaunchArgument(
       name='serialized_map_name',
-      default_value='room_with_walls',
+      default_value='',
       description='name of the serialized_map (without extension)'
     )
   

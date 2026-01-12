@@ -38,7 +38,7 @@
 - cd into the src folder of your mobo_bot_ws and download the **MoboBot** packages
   ```shell
   cd ~/mobo_bot_ws/src
-  git clone -b jazzy https://github.com/robocre8/mobo_bot.git
+  git clone https://github.com/robocre8/mobo_bot.git
   ```
   
 - If you are not interested in running or testing the MoboBot hardware (i.e the actual robot), run the following command below. this will add the COLCON_IGNORE file to it.
@@ -104,10 +104,13 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   ```
 - In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 1.0 true
+  source ~/mobo_bot_ws/install/setup.bash- you'll be using the **mobo_bot_rviz** package on your dev-PC to visualize the robot.
+  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.2 0.5 true
   ```
-  >NOTE: feel free to use any other **teleop package** you want 
+  >NOTE: you would need to click into the rviz or simulation for the 
+  > arrow_key_teleop drive to start woking. because it uses pynput
+  >
+  >NOTE: also feel free to use any other **teleop package** you want 
   
 #
 
@@ -116,20 +119,26 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - to just build map of the world with slam run:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup sim_mapping.launch.py
+  ros2 launch mobo_bot_bringup sim_mapping.launch.py world_name:=room_with_walls
   ```
-- Then drive the robot around with teleop and see the map being created. you'll need to run the teleop in a differnt terminal
-  ```shell
-  source ~/mobo_bot_ws/install/setup.bash
-  ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 1.0 true
-  ```
-  >NOTE: feel free to use any other **teleop package** you want 
+  > other worlds -> turtlebot_arena , room_with_walls_star, empty_room
 
-- save the map once you are done mapping. (map file would be saved in the `maps` folder inside the `mobo_bot_navigation` pakage folder)
-  >NOTE: Whenever you build a new map you can save it using the command below: 
-  >**pls ensure the <map_name> is exactly the same as the name of the world being used**
+- Then drive the robot around with teleop (as done previously) and see the map being created. continue driving till you are done mapping.
+
+- run the command below to save the `occupancy grid` map to be used later with AMCL for localization 
+</br>(map file would be saved in the `maps` folder inside the `mobo_bot_navigation` pakage folder)
+ 
+  >**pls ensure the map_name is exactly the same as the name of the world being used as stated above**
   >```shell
-  >   ros2 run nav2_map_server map_saver_cli -f ~/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/<map_name>  # Saves the current map to the mobo_bot map folder
+  >   ros2 run nav2_map_server map_saver_cli -f ~/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/<world_name> 
+  >```
+
+- run the command below to save the `serialized posegraph` map to be used later with SLAM for localization 
+</br>(map file would be saved in the `maps` folder inside the `mobo_bot_navigation` pakage folder)
+ 
+  >**pls ensure the map_name is exactly the same as the name of the world being used as stated above**
+  >```shell
+  >   ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph "{'filename': '~/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/<world_name>'}" 
   >```
 
 #
@@ -139,47 +148,36 @@ The robot is able to map its evironment while running navigation. this is becaus
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup sim_mapping_with_navigation.launch.py # world_name:=room_with_walls params_name:=sim_nav2_params_omni
+  ros2 launch mobo_bot_bringup sim_mapping.launch.py world:=room_with_walls use_nav:=true # params_name:=nav2_params_omni
   ```
   >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
-  >```shell
-  >   source ~/mobo_bot_ws/install/setup.bash
-  >   ros2 run arrow_key_teleop_drive arrow_key_teleop_drive 0.3 1.0 true
-  >```
 
 - Now use the Nav2Goal button to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.
 
-- save the map once you are done mapping. (map file would be saved in the `maps` folder inside the `mobo_bot_navigation` pakage folder)
-  >NOTE: Whenever you build a new map you can save it using the command below: 
-  >**pls ensure the <map_name> is exactly the same as the name of the world being used e.g  `room_with_walls`**
-  >```shell
-  >   ros2 run nav2_map_server map_saver_cli -f ~/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/<map_name>  # Saves the current map to the mobo_bot map folder
-  >```
+- save the map (as done prevoiusly) once you are done mapping
 
 #
 
-### Run the MoboBot Navigation (With an already created Map) - AMCL
-The robot is able to autonomously navigate using the map of the environment created in the previous step. The Adaptive Monte Carlo Localization (AMCL) algorithm from Nav2 is use to localize the robot (i.e know the where the robot is located) in the already created Map being used. With this information of the robot location, the robot is able to autonomously navigate to different goal pose on the map.
->NOTE: the AMCL is configured to use the initial position of the robot at the start of the simulation
+### Run the MoboBot Navigation (With an already created Map) - AMCL or SLAM localization
+The robot is able to autonomously navigate using the map of the environment created in the previous step. The Adaptive Monte Carlo Localization (AMCL) algorithm from Nav2 (or SLAM from slam_toolbox) is used to localize the robot (i.e know the where the robot is located) in the already created Map being used. With this information, the robot is able to autonomously navigate to different goal pose on the map.
+>NOTE: the AMCL and SLAM are configured to use the initial position of the robot at the start of the simulation
 
 - Launch the MoboBot Naviagtion (with AMCL):
   ```shell
   source ~/mobo_bot_ws/install/setup.bash
-  ros2 launch mobo_bot_bringup sim_navigation.launch.py # world_name:=room_with_walls params_name:=sim_nav2_params_omni
+  ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls # params_name:=sim_nav2_params
   ```
-  >**NOTE**: you can change the world_name you the world you are woking with and have created a map for.
+
+- Launch the MoboBot Naviagtion (with SLAM):
+  ```shell
+  source ~/mobo_bot_ws/install/setup.bash
+  ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls use_slam:=true # params_name:=sim_nav2_params
+  ```
+
+  >**NOTE**: you can change the world_name to the world you are woking with and have created a map for.
 
 - Now use the Nav2Goal button to move the robot to any Goal pose on the map.
 
-
-```
-ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph "{'filename': '/path/to/your/map/map_name'}"
-
-ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph "{'filename': '/home/samuko-things/my_map/room_with_walls'}"
-requester: making request: slam_toolbox.srv.SerializePoseGraph_Request(filename='/home/samuko-things/my_map/room_with_walls')
-
-response:
-slam_toolbox.srv.SerializePoseGraph_Response(result=0)
 
 ```
