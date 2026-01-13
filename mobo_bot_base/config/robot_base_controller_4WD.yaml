@@ -1,0 +1,44 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz
+    use_sim_time: false
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ["front_left_wheel_joint", "rear_left_wheel_joint"]
+    right_wheel_names: ["front_right_wheel_joint", "rear_right_wheel_joint"]
+
+    wheel_separation: 0.236
+    wheel_radius: 0.034 # diameter 0.068m
+
+    # wheels_per_side: Number of wheels on each side of the robot. 
+    # This is important to take the wheels slip into account when multiple wheels on each side are present.
+    # If there are more wheels than control signals for each side, you should enter number for control signals.
+    # For example, Husky has two wheels on each side, but they use one control signal per side,
+    # in this case '1' is the correct value of the parameter.
+    wheels_per_side: 1
+
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_link
+    pose_covariance_diagonal : [1e-5, 1e-5, 1e-5, 1e-5, 1e-5, 1e-5]
+    twist_covariance_diagonal: [1e-5, 1e-5, 1e-5, 1e-5, 1e-5, 1e-5]
+
+    open_loop: false
+    enable_odom_tf: true
+
+    cmd_vel_timeout: 0.5 #500ms (NOTE: please ensure it is less than the "cmd_vel_timeout_ms" epmc config value"
+    #publish_limited_velocity: true
+    use_stamped_vel: true
+    #velocity_rolling_window_size: 10

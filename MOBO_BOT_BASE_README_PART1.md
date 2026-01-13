@@ -1,5 +1,13 @@
 ## Working with the Physical MoboBot (PART 1) | Seting up the on-board Raspberry Pi
 
+### Clone and Build The MoboBot packages on your dev-PC connected to the Raspberry PI on the MoboBot robot
+
+- pls follow the [mobo_bot_sim tutorial](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_SIM_README.md) for dev-PC
+- you'll be using the **mobo_bot_rviz** package on your dev-PC to visualize the robot.
+- you'll be using the **arrow_key_teleop** package on your dev-PC to drive the robot.
+
+#
+
 ### Prerequisite Dependencies
 - ensure your Dev-PC and the Raspberry Pi (both running ubuntu 24.04) can now communicate Via ssh
 - you should have setup ros jazzy (prefarrably base and not desktop) on the raspberry pi
@@ -152,13 +160,6 @@
   ls /dev/epmc_rear
   ls /dev/rplidar_c1
   ```
-
-#
-
-### Clone and Build The MoboBot packages on your dev-PC connected (via ssh) to the Raspberry PI on the MoboBot robot
-
-- pls follow the [mobo_bot_sim tutorial](https://github.com/robocre8/mobo_bot/blob/jazzy/MOBO_BOT_SIM_README.md) for dev-PC
-- you'll be using the **mobo_bot_rviz** package on your dev-PC to visualize the robot.
 
 #
 

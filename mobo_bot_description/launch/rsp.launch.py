@@ -42,8 +42,9 @@ def generate_launch_description():
         description='Use sim time if true'
     )
 
-    #--------------------------------------------------------------
-    valid_base_types = ['2WHEEL', '2WHEEL_STD', '4WHEEL_STD']
+    #--------------------------------------------------------------------------
+
+    valid_base_types = ['2WD', '4WD', 'MEC', '22WD']
     base_type = os.environ.get("MOBOBOT_BASE_TYPE")
 
     if base_type is None:
@@ -52,9 +53,8 @@ def generate_launch_description():
     elif base_type not in valid_base_types:
         print(f"[ERROR]: Invalid MOBOBOT_BASE_TYPE='{base_type}'. Expected one of {valid_base_types}")
         exit(1)
-
-    print(f"Launching robot with {base_type} configuration")
-    #--------------------------------------------------------------
+        
+    #----------------------------------------------------------------------------
 
     # Create a robot_state_publisher node
     # doc = xacro.parse(open(xacro_file))

@@ -17,7 +17,10 @@ def generate_launch_description():
   #--------------------------------------------------------------------------
 
   # Launch configuration variables specific to simulation
-  params_name = LaunchConfiguration('params_name')
+  use_sim_time = LaunchConfiguration('use_sim_time')
+  slam_params_name = LaunchConfiguration('slam_params_name')
+  nav_params_name = LaunchConfiguration('nav_params_name')
+  use_nav = LaunchConfiguration('use_nav')
   use_ekf = LaunchConfiguration('use_ekf')
 
   declare_use_ekf_cmd = DeclareLaunchArgument(
@@ -26,16 +29,42 @@ def generate_launch_description():
       description='fuse odometry and imu data if true'
   )
 
-  declare_params_name_cmd = DeclareLaunchArgument(
-    name='params_name',
-    default_value='nav2_bringup_params',
-    description='name of the slam toolbox parameter file')
+  declare_use_sim_time_cmd = DeclareLaunchArgument(
+    name='use_sim_time',
+    default_value='False',
+    description='whether to use simulation clock or not'
+  )
+
+  declare_slam_params_name_cmd = DeclareLaunchArgument(
+    name='slam_params_name',
+    default_value='slam_toolbox_mapping_params',
+    description='name of the slam toolbox parameter file (without extension)'
+  )
   
-  params_file = PathJoinSubstitution([
+  slam_params_file = PathJoinSubstitution([
           navigation_pkg_path,
           "config",
-          PythonExpression(expression=["'", params_name, "'", " + '.yaml'"])
+          PythonExpression(expression=["'", slam_params_name, "'", " + '.yaml'"])
       ]
+  )
+
+  declare_nav_params_name_cmd = DeclareLaunchArgument(
+    name='nav_params_name',
+    default_value='nav2_params',
+    description='name of the nav2 parameter file (without extension)'
+  )
+  
+  nav_params_file = PathJoinSubstitution([
+          navigation_pkg_path,
+          "config",
+          PythonExpression(expression=["'", nav_params_name, "'", " + '.yaml'"])
+      ]
+  )
+
+  declare_use_nav_cmd = DeclareLaunchArgument(
+    name='use_nav',
+    default_value='False',
+    description='whether to use navigation while mapping'
   )
  
   #-----------------------------------------------------------------------------
@@ -57,7 +86,10 @@ def generate_launch_description():
                 [os.path.join(navigation_pkg_path,'launch','mapping.launch.py')]
             ), 
             launch_arguments={
-              'params_file': params_file
+              'use_sim_time': use_sim_time,
+              'slam_params': slam_params_file,
+              'nav_params': nav_params_file,
+              'use_nav': use_nav
             }.items()
   )
 
@@ -67,8 +99,11 @@ def generate_launch_description():
   ld = LaunchDescription()
  
   # add the necessary declared launch arguments to the launch description
-  ld.add_action(declare_params_name_cmd)
   ld.add_action(declare_use_ekf_cmd)
+  ld.add_action(declare_use_sim_time_cmd)
+  ld.add_action(declare_slam_params_name_cmd)
+  ld.add_action(declare_nav_params_name_cmd)
+  ld.add_action(declare_use_nav_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(robot_launch)
