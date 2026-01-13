@@ -242,21 +242,41 @@ def generate_launch_description():
     )
 
     #--------------------------------------------------------------------------
+    
+    cam_frame_id = "camera_optical"
 
-    # camera_node = Node(
-    #     package='opencv_ros_camera',
-    #     executable='camera_publisher',
-    #     name='camera_publisher',
-    #     output='screen',
-    #     parameters=[{'frame_id': "camera_optical",
-    #                   'port_no': 0,
-    #                   'frame_width': 640,
-    #                   'frame_height': 360,
-    #                   'compression_format': "jpeg", # you can also use "jpeg"
-    #                   'publish_frequency': 30.0}
-    #                 ],
-    #     condition=IfCondition(use_camera),
-    # )
+    opencv_ros_camera_node = Node(
+        package='opencv_ros_camera',
+        executable='camera_publisher',
+        name='camera_publisher',
+        output='screen',
+        parameters=[{'frame_id': f'{cam_frame_id}',
+                      'port_no': 0,
+                      'frame_width': 640,
+                      'frame_height': 360,
+                      'publish_frequency': 30.0}
+                    ],
+        condition=IfCondition(use_camera)
+    )
+
+    image_compress_node = Node(
+        package='image_transport',
+        executable='republish',
+        name='camera_raw_to_compressed_republisher',
+        output='screen',
+        parameters=[
+            {'jpeg_quality': 50} 
+        ],
+        remappings=[
+            ('in', f'/{cam_frame_id}/image'),
+            ('out', f'/{cam_frame_id}/image_raw'),
+            ('out/compressed', f'/{cam_frame_id}/image_raw/compressed'),
+            ('out/compressedDepth', f'/{cam_frame_id}/image_raw/compressedDepth'),
+            ('out/theora', f'/{cam_frame_id}/image_raw/theora'),
+            ('out/zstd', f'/{cam_frame_id}/image_raw/zstd')
+        ],
+        condition=IfCondition(use_camera)
+    )
 
     #--------------------------------------------------------------------------
 
@@ -295,7 +315,8 @@ def generate_launch_description():
     ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner)
     ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner_no_ekf)
     ld.add_action(lidar_angle_filter_node)
-    # ld.add_action(camera_node)
+    ld.add_action(opencv_ros_camera_node)
+    ld.add_action(image_compress_node)
     ld.add_action(twist_mux_node)
 
     return ld      # return (i.e send) the launch description for excecution
