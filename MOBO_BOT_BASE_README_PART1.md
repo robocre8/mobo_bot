@@ -13,8 +13,15 @@
 - you should have setup ros jazzy (prefarrably base and not desktop) on the raspberry pi
 - install cyclone DDS (if you have not) on the Raspberry Pi 4b machine
   ```shell
+  sudo apt update && sudo apt upgrade -y
+  ```
+  ```shell
   sudo apt install ros-jazzy-rmw-cyclonedds-cpp
+  ```
+  ```shell
   export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+  ```
+  ```shell
   echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
   ```
   
