@@ -21,7 +21,7 @@ def generate_launch_description():
   slam_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', slam_params_file_name)
 
   # Set the path to the nav params file
-  nav_params_file_name = 'nav2_params_diff.yaml'
+  nav_params_file_name = 'nav2_params.yaml'
   nav_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', nav_params_file_name)
  
   #--------------------------------------------------------------------------
