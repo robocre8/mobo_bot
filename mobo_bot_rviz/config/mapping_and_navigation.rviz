@@ -10,6 +10,7 @@ Panels:
         - /amcl_PoseWithCovariance1/Covariance1
         - /GlobalCostMap1/Topic1
         - /GlobalCostMap1/Update Topic1
+        - /Path1
       Splitter Ratio: 0.7411764860153198
     Tree Height: 787
   - Class: rviz_common/Selection
@@ -347,7 +348,8 @@ Visualization Manager:
       Enabled: true
       Name: slam_MarkerArray
       Namespaces:
-        {}
+        slam_toolbox: true
+        slam_toolbox_edges: true
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -417,7 +419,7 @@ Visualization Manager:
     - Alpha: 1
       Buffer Length: 1
       Class: rviz_default_plugins/Path
-      Color: 28; 113; 216
+      Color: 38; 162; 105
       Enabled: true
       Head Diameter: 0.30000001192092896
       Head Length: 0.20000000298023224
@@ -446,7 +448,7 @@ Visualization Manager:
       Buffer Length: 1
       Class: rviz_default_plugins/Path
       Color: 237; 51; 59
-      Enabled: true
+      Enabled: false
       Head Diameter: 0.30000001192092896
       Head Length: 0.20000000298023224
       Length: 0.30000001192092896
@@ -469,7 +471,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /plan_smoothed
-      Value: true
+      Value: false
     - Class: rviz_default_plugins/Image
       Enabled: false
       Max Value: 1
