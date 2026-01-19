@@ -129,7 +129,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 ##### On The Raspberry Pi
 - open a new terminal and start the mobobot robot mapping with navigation bringup
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py :=use_nav # use_ekf:=true params_name:=nav2_params_omni
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py use_nav:=true # use_ekf:=true params_name:=nav2_params_omni
   ```
 
 ##### On The Dev PC
