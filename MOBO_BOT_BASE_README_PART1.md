@@ -67,7 +67,7 @@
   sudo apt install ./epmc-serial-dev_1.0.0_24.04_arm64.deb
   ```
   ```shell
-  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/epmc_hardware_interface.git
+  cd ~/mobo_bot_ws/src/hardware && git clone -b jazzy https://github.com/robocre8/epmc_hardware_interface.git
   ```
 
 #### EIMU Module
@@ -79,7 +79,7 @@
   sudo apt install ./eimu-serial-dev_1.0.0_24.04_arm64.deb
   ```
   ```shell
-  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/eimu_ros.git
+  cd ~/mobo_bot_ws/src/hardware && git clone -b jazzy https://github.com/robocre8/eimu_ros.git
   ```
 
 #### RPLIDAR C1
