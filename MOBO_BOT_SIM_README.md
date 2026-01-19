@@ -124,7 +124,8 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot is drivin aroung via telop to create the map
 - to just build map of the world with slam run:
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py world_name:=room_with_walls
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
+   world_name:=room_with_walls
   ```
   > other worlds -> turtlebot_arena , room_with_walls_star, empty_room
 
@@ -152,7 +153,8 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 The robot is able to map its evironment while running navigation. this is because the SLAM algorithm is able to localize the robot while creating the map of the environment. With this information of the robot location in the map being created, the robot is able to autonomously navigate to known poses on the map. 
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py world:=room_with_walls use_nav:=true # params_name:=nav2_params_omni
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
+  world:=room_with_walls use_nav:=true # params_name:=nav2_params_omni
   ```
   >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
@@ -169,12 +171,16 @@ The robot is able to autonomously navigate using the map of the environment crea
 
 - Launch the MoboBot Naviagtion (with AMCL):
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls # params_name:=nav2_params_omni world_name:=<world_name> serialized_map_name:=<world_name>
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
+  world_name:=room_with_walls \
+  # params_name:=nav2_params_omni
   ```
 
 - Launch the MoboBot Naviagtion (with SLAM):
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py world_name:=room_with_walls use_slam:=true # params_name:=nav2_params_omni world_name:=<world_name> serialized_map_name:=<world_name>
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
+  world_name:=room_with_walls use_slam:=true \
+  # serialized_map_name:=<world_name> params_name:=nav2_params_omni
   ```
 
   >**NOTE**: you can change the world_name to the world you are woking with and have created a map for.

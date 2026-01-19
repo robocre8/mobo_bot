@@ -11,11 +11,6 @@
 ### Prerequisite Dependencies
 - ensure your Dev-PC and the Raspberry Pi (both running ubuntu 24.04) can now communicate Via ssh
 - you should have setup ros jazzy (prefarrably base and not desktop) on the raspberry pi
-- install the `libserial-dev` package on the Raspberry Pi 4b machine
-  ```shell
-  sudo apt-get update
-  sudo apt install libserial-dev
-  ```
 - install cyclone DDS (if you have not) on the Raspberry Pi 4b machine
   ```shell
   sudo apt install ros-jazzy-rmw-cyclonedds-cpp
@@ -29,16 +24,12 @@
 
 - create your mobo_bot_ws in the home dir.
   ```shell
-  mkdir -p ~/mobo_bot_ws/src
-  cd ~/mobo_bot_ws
-  colcon build
-  source ~/mobo_bot_ws/install/setup.bash
+  mkdir -p ~/mobo_bot_ws/src && cd ~/mobo_bot_ws && colcon build && source ~/mobo_bot_ws/install/setup.bash
   ```
 
 - cd into the src folder of your mobo_bot_ws and download the mobo_bot packages
   ```shell
-  cd ~/mobo_bot_ws/src
-  git clone -b jazzy https://github.com/robocre8/mobo_bot.git
+  cd ~/mobo_bot_ws/src && git clone -b jazzy https://github.com/robocre8/mobo_bot.git
   ```
 
 - cd into the mobo_bot/mobo_bot_sim folder and add a `COLCON_IGNORE` file to the mobo_bot_sim package to prevent runnig simulation on the Raspberry Pi. 
@@ -57,42 +48,46 @@
 
 - create a folder called **hardware**
   ```shell
-  cd ~/mobo_bot_ws/src
-  mkdir hardware
+  cd ~/mobo_bot_ws/src && mkdir hardware
   ```
 
 #### EPMC Motor Driver
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin package
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin its serial comm library .deb package
   ```shell
-  cd ~/mobo_bot_ws/src/hardware
-  git clone https://github.com/robocre8/epmc_hardware_interface.git
+  wget https://github.com/robocre8/epmc_serial_cpp/releases/download/v1.0.0/epmc-serial-dev_1.0.0_24.04_arm64.deb
+  ```
+  ```shell
+  sudo apt install ./epmc-serial-dev_1.0.0_24.04_arm64.deb
+  ```
+  ```shell
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/epmc_hardware_interface.git
   ```
 
 #### EIMU Module
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_ros` ros2 package
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_ros` ros2 package with its serial comm library .deb package
   ```shell
-  cd ~/mobo_bot_ws/src/hardware
-  git clone https://github.com/robocre8/eimu_ros.git
+  wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.0.0/eimu-serial-dev_1.0.0_24.04_arm64.deb
+  ```
+  ```shell
+  sudo apt install ./eimu-serial-dev_1.0.0_24.04_arm64.deb
+  ```
+  ```shell
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/eimu_ros.git
   ```
 
 #### RPLIDAR C1
 - go to the `src/hardware` folder of your mobo_bot_ws and download sllidar ros2 for RPLIDAR C1
   ```shell
-  cd ~/mobo_bot_ws/src/hardware
-  git clone https://github.com/Slamtec/sllidar_ros2.git
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/Slamtec/sllidar_ros2.git
   ```
 
 #### CAMERA (with OpenCV)
-- install opencv on the Raspberry Pi 4b machine
+- install opencv on the Raspberry Pi 4b machine and download the opencv_ros_camera package for working with the USB camera
   ```shell
   sudo apt install libopencv-dev python3-opencv
-  pip3 install opencv-python
   ```
-
-- go to the `src/hardware` folder of your mobo_bot_ws and download the opencv_ros_camera package, from *robocre8*, for working with the USB camera
   ```shell
-  cd ~/mobo_bot_ws/src/hardware
-  git clone https://github.com/robocre8/opencv_ros_camera.git
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/opencv_ros_camera.git
   ```
 
 #
@@ -101,14 +96,12 @@
 
 - cd into the root directory of your mobo_bot_ws and run rosdep to install all necessary ros package dependencies
   ```shell
-  cd ~/mobo_bot_ws/
-  rosdep install --from-paths src --ignore-src -r -y
+  cd ~/mobo_bot_ws/ && rosdep install --from-paths src --ignore-src -r -y
   ```
 
 - build your mobo_bot_ws
   ```shell
-  cd ~/mobo_bot_ws/
-  colcon build --parallel-workers 2 --symlink-install
+  cd ~/mobo_bot_ws/ && colcon build --parallel-workers 2 --symlink-install
   ```
 
 - don't forget to source your mobo_bot_ws in any new terminal
@@ -131,13 +124,13 @@
   udevadm info --attribute-walk /dev/ttyACM0 | grep ATTRS{serial}
   ```
 
-- copy the edited hardware udev rule file into the udev rule folder with the following command:
+- copy the edited hardware udev rule file into the udev rule folder with the following command (depending on the wheel base you are using):
   ```shell
-  sudo cp ~/mobo_bot_ws/src/mobo_bot/scripts/75-mobobot-hardware.rules /etc/udev/rules.d/
+  sudo cp ~/mobo_bot_ws/src/mobo_bot/udev_sample_script/75-mobobot-hardware.rules /etc/udev/rules.d/
   ```
   or
   ```shell
-  sudo cp ~/mobo_bot_ws/src/mobo_bot/scripts/75-mobobot-hardware-4wheel.rules /etc/udev/rules.d/
+  sudo cp ~/mobo_bot_ws/src/mobo_bot/udev_sample_script/75-mobobot-hardware-4wheel.rules /etc/udev/rules.d/
   ```
 
 - get udev to recognize the newly addeed `75-mobobot-hardware.rules` or the `75-mobobot-hardware-4wheel.rules` rule
@@ -148,6 +141,7 @@
   ```
 
 - you can do a quick test to see if hardwares (epmc motor controller, eimu imu module, and rplidar c1) are recognized. run each line below:
+</br> (for 2 wheel)
   ```shell
   ls /dev/eimu
   ls /dev/epmc
