@@ -244,7 +244,7 @@ def generate_launch_description():
     #--------------------------------------------------------------------------
 
     camera_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join('opencv_ros_camera','launch','camera_image_transport.launch.py')]), 
+        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('opencv_ros_camera'),'launch','camera_image_transport.launch.py')]), 
         launch_arguments={'cam_frame_id': 'camera_optical',
                           'port_no': '0',
                           'image_width': '640',
