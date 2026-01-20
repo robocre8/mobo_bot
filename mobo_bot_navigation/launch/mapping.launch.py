@@ -69,13 +69,14 @@ def generate_launch_description():
         }.items()
     )
   
-  navigation_launch_path = os.path.join(nav2_bringup_pkg_path, 'launch', 'navigation_launch.py')
+  navigation_launch_path = os.path.join(mobo_bot_navigation_pkg_path, 'launch', 'navigation.launch.py')
 
   navigation_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(navigation_launch_path),
         launch_arguments={
                 'use_sim_time': use_sim_time,
-                'params_file': nav_params,
+                'nav_params': nav_params,
+                'use_localization': 'False',
         }.items(),
         condition=IfCondition(use_nav)
     )

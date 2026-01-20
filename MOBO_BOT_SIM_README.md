@@ -154,7 +154,7 @@ The robot is able to map its evironment while running navigation. this is becaus
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
-  world:=room_with_walls use_nav:=true # params_name:=nav2_params_omni
+  world:=room_with_walls use_nav:=True # params_name:=nav2_params_omni
   ```
   >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
@@ -179,7 +179,7 @@ The robot is able to autonomously navigate using the map of the environment crea
 - Launch the MoboBot Naviagtion (with SLAM):
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
-  world_name:=room_with_walls use_slam:=true \
+  world_name:=room_with_walls use_slam:=True \
   # serialized_map_name:=<world_name> params_name:=nav2_params_omni
   ```
 
