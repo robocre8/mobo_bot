@@ -195,7 +195,7 @@ controller_server:
       max_lookahead_dist: 0.5
       lookahead_time: 1.5
       rotate_to_heading_angular_vel: 0.7
-      transform_tolerance: 0.1
+      transform_tolerance: 1.0
       use_velocity_scaled_lookahead_dist: false
       min_approach_linear_velocity: 0.1
       approach_velocity_scaling_dist: 0.6
