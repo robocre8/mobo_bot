@@ -105,7 +105,7 @@ def generate_launch_description():
               'use_sim_time': use_sim_time,
               'use_ekf': use_ekf,
               'use_lidar': 'True',
-              'use_camera': 'True',
+              'use_camera': 'False',
             }.items(),
   )
 
