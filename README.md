@@ -1,6 +1,5 @@
 ## MoboBot
-![mobo_bot_pic](./docs/mobo-bot-pic-default.png)
-![mobo_bot_pic](./docs/mobo_bot_new_pic1.png)
+![mobo_bot_pic](./docs/mobo-bot-img.jpg)
 
 **MoboBot** is a compact yet powerful open-source robot designed to help students, makers, and engineers explore mobile robotics with ROS2—both in real-world applications and simulation.
 </br>
