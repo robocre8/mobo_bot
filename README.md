@@ -16,7 +16,7 @@ This will ensure the longevity and future of open-source robotics in Nigeria and
 </br>✅ supports multiple drive bases types:
 </br> - 2 Wheel Diff Drive chassis
 </br> - 4 Wheel Diff Drive chassis
-</br> - Mecanum Drive (Coming Soon)
+</br> - Mecanum Drive
 </br>✅ Powered by Raspberry Pi 4B for onboard processing
 </br>✅ RPLidar C1 for SLAM, AMCL and Navigation (pre-configured with Nav2)
 </br>✅ It uses the **EPMC module** and **EIMU Module** for its base control and sensor fusion (EKF).
