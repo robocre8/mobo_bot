@@ -216,23 +216,14 @@ bt_navigator:
     robot_base_frame: base_link
     odom_topic: /odom
     bt_loop_duration: 100
-    filter_duration: 0.3
     default_server_timeout: 20
     wait_for_service_timeout: 1000
-    introspection_mode: "disabled"
- 
+    action_server_result_timeout: 900.0
     navigators: ["navigate_to_pose", "navigate_through_poses"]
     navigate_to_pose:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
-      enable_groot_monitoring: false
-      groot_server_port: 1667
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
-      enable_groot_monitoring: false
-      groot_server_port: 1669
-    bt_search_directories:
-      - $(find-pkg-share nav2_bt_navigator)/behavior_trees
-
     # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
     # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
     # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
@@ -245,22 +236,6 @@ bt_navigator:
     error_code_names:
       - compute_path_error_code
       - follow_path_error_code
-
-    error_code_name_prefixes:
-      - assisted_teleop
-      - backup
-      - compute_path
-      - dock_robot
-      - drive_on_heading
-      - follow_object
-      - follow_path
-      - nav_thru_poses
-      - nav_to_pose
-      - route
-      - spin
-      - smoother
-      - undock_robot
-      - wait
 
 
 behavior_server:

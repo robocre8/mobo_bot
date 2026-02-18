@@ -59,27 +59,15 @@
   ```
 
 #### EPMC Motor Driver
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin its serial comm library .deb package
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin pkg
   ```shell
-  wget https://github.com/robocre8/epmc_serial_cpp/releases/download/v1.0.0/epmc-serial-dev_1.0.0_24.04_arm64.deb
-  ```
-  ```shell
-  sudo apt install ./epmc-serial-dev_1.0.0_24.04_arm64.deb
-  ```
-  ```shell
-  cd ~/mobo_bot_ws/src/hardware && git clone -b jazzy https://github.com/robocre8/epmc_hardware_interface.git
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/epmc_hardware_interface.git
   ```
 
 #### EIMU Module
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_ros` ros2 package with its serial comm library .deb package
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_ros` ros2 pkg
   ```shell
-  wget https://github.com/robocre8/eimu_serial_cpp/releases/download/v1.0.0/eimu-serial-dev_1.0.0_24.04_arm64.deb
-  ```
-  ```shell
-  sudo apt install ./eimu-serial-dev_1.0.0_24.04_arm64.deb
-  ```
-  ```shell
-  cd ~/mobo_bot_ws/src/hardware && git clone -b jazzy https://github.com/robocre8/eimu_ros.git
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/eimu_ros.git
   ```
 
 #### RPLIDAR C1
@@ -122,7 +110,7 @@
 #
 
 ### Start/Run the udev rule scripts for the hardware communication
-- edit the udev file in the `udev_sample_script` folder:
+- *FOR TWO WHEEL DRIVE* edit the `75-mobobot-hardware-2wheel.rules` file in the `udev_sample_script` folder:
   > [!NOTE]
   > what you are mostly concerned about is the `ATTRS{serial}=="34:B7:DA:F7:B2:6C"`.
   > all you need to do is to check and change the epmc and eimu serial attribute
@@ -131,16 +119,29 @@
   udevadm info --attribute-walk /dev/ttyACM0 | grep ATTRS{serial}
   ```
 
+- *FOR FOUR WHEEL OR MEC DRIVE USING THE EPMC 4 MOTOR SUPPORT* you would be using the `75-mobobot-hardware-4wheel.rules` file in the `udev_sample_script` folder:
+  > [!NOTE]
+  > you don't need to edit anything.
+
+
+- delete any existing mobobot udev (if any)
+  ```shell
+  sudo rm -rf /etc/udev/rules.d/75-mobobot-hardware-2wheel.rules
+  ```
+  ```shell
+  sudo rm -rf /etc/udev/rules.d/75-mobobot-hardware-4wheel.rules
+  ```
+
 - copy the edited hardware udev rule file into the udev rule folder with the following command (depending on the wheel base you are using):
   ```shell
-  sudo cp ~/mobo_bot_ws/src/mobo_bot/udev_sample_script/75-mobobot-hardware.rules /etc/udev/rules.d/
+  sudo cp ~/mobo_bot_ws/src/mobo_bot/udev_sample_script/75-mobobot-hardware-2wheel.rules /etc/udev/rules.d/
   ```
   or
   ```shell
   sudo cp ~/mobo_bot_ws/src/mobo_bot/udev_sample_script/75-mobobot-hardware-4wheel.rules /etc/udev/rules.d/
   ```
 
-- get udev to recognize the newly addeed `75-mobobot-hardware.rules` or the `75-mobobot-hardware-4wheel.rules` rule
+- get udev to recognize the newly addeed rule
   > [!NOTE]
   > You only need to run this commands once. You do not need to run it again after a new restart.
   ```shell
@@ -148,18 +149,14 @@
   ```
 
 - you can do a quick test to see if hardwares (epmc motor controller, eimu imu module, and rplidar c1) are recognized. run each line below:
-</br> (for 2 wheel)
   ```shell
-  ls /dev/eimu
   ls /dev/epmc
+  ```
+  ```shell
   ls /dev/rplidar_c1
   ```
-  or (for 4 wheel)
   ```shell
   ls /dev/eimu
-  ls /dev/epmc_front
-  ls /dev/epmc_rear
-  ls /dev/rplidar_c1
   ```
 
 #
