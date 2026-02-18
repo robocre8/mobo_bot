@@ -242,6 +242,12 @@ def generate_launch_description():
     )
 
     #--------------------------------------------------------------------------
+    
+    camera_info_file = os.path.join(
+        base_pkg_path,
+        'config',
+        'camera_info.yaml'
+    )
 
     camera_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('opencv_ros_camera'),'launch','camera_image_transport.launch.py')]), 
@@ -250,7 +256,8 @@ def generate_launch_description():
                           'image_width': '640',
                           'image_height': '360',
                           'publish_frequency': '30.0',
-                          'jpeg_quality': '50'}.items(),
+                          'jpeg_quality': '50',
+                          'camera_info_file': camera_info_file}.items(),
         condition=IfCondition(use_camera)
         )
 
