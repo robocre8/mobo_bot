@@ -67,14 +67,16 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_base robot.launch.py \
   # use_lidar:=true \
-  # use_camera:=true \
-  # use_ekf:=true
+  # use_ekf:=true \
+  # use_camera:=true
+  
   ```
   OR
 - start the mobobot robot bringup for full robot launch
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot.launch.py \
-  # use_ekf:=true
+  # use_ekf:=true \
+  # use_camera:=true
   ```
 
 ##### On The Dev PC
@@ -101,7 +103,8 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 - open a new terminal and start the mobobot robot mapping bringup
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py \ 
-  # use_ekf:=true
+  # use_ekf:=true \
+  # use_camera:=true
   ```
 
 ##### On The Dev PC
@@ -139,6 +142,7 @@ this shows the transformation between the differnt robot parts. it uses the **ro
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py \
   use_nav:=true \
   # use_ekf:=true \
+  # use_camera:=true \
   # nav_params_name:=nav2_params_omni
   ```
 
@@ -166,6 +170,7 @@ The robot is able to autonomously navigate using the map of the environment crea
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_navigation.launch.py \
    map_name:=<enter the map_name> \
    # use_ekf:=true \
+   # use_camera:=true \
    # nav_params_name:=nav2_params_omni
   ```
 
@@ -174,7 +179,8 @@ The robot is able to autonomously navigate using the map of the environment crea
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_navigation.launch.py use_slam:=true \
    map_name:=<enter map_name>  \
    serialized_map_name:=<enter map_name> \
-   # use_ekf:=true 
+   # use_ekf:=true \
+   # use_camera:=true \
    # nav_params_name:=nav2_params_omni
   ```
 

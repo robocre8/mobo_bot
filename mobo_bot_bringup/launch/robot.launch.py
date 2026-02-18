@@ -14,11 +14,18 @@ def generate_launch_description():
   base_pkg_path = get_package_share_directory('mobo_bot_base')
  
   use_ekf = LaunchConfiguration('use_ekf')
+  use_camera = LaunchConfiguration('use_camera')
 
   declare_use_ekf_cmd = DeclareLaunchArgument(
       name='use_ekf',
       default_value='False',
       description='fuse odometry and imu data if true'
+  )
+
+  declare_use_camera_cmd = DeclareLaunchArgument(
+      name='use_camera',
+      default_value='False',
+      description='use/launch camera if true'
   )
 
   #-----------------------------------------------------------------------------
@@ -29,9 +36,9 @@ def generate_launch_description():
             ),
             launch_arguments={
               'use_sim_time': 'False',
-              'use_ekf': use_ekf,
               'use_lidar': 'True',
-              'use_camera': 'True',
+              'use_ekf': use_ekf,
+              'use_camera': use_camera,
             }.items(),
   )
 
@@ -42,6 +49,7 @@ def generate_launch_description():
 
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_use_ekf_cmd)
+  ld.add_action(declare_use_camera_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(robot_launch)
