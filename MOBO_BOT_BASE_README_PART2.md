@@ -47,13 +47,15 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 ##### On The Raspberry Pi
 - open a new terminal and start the mobobot robot base bringup
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_description rsp.launch.py use_joint_state_pub:=true
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_description rsp.launch.py \
+  use_joint_state_pub:=true
   ```
 
 ##### On The Dev PC
 - on your dev-PC, open a new terminal and launch the **tf_view** to view the transform
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup tf_view.launch.py use_hardware:=true
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup tf_view.launch.py \
+  use_hardware:=true
   ```
 
 #
@@ -63,12 +65,18 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 ##### On The Raspberry Pi
 - start the mobobot robot base package for partail launch
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_base robot.launch.py # use_lidar:=true use_camera:=true
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_base robot.launch.py \
+  # use_lidar:=true \
+  # use_ekf:=true \
+  # use_camera:=true
+  
   ```
   OR
 - start the mobobot robot bringup for full robot launch
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot.launch.py # use_ekf:=true
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot.launch.py \
+  # use_ekf:=true \
+  # use_camera:=true
   ```
 
 ##### On The Dev PC
@@ -94,7 +102,9 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 ##### On The Raspberry Pi
 - open a new terminal and start the mobobot robot mapping bringup
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py # use_ekf:=true
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py \ 
+  # use_ekf:=true \
+  # use_camera:=true
   ```
 
 ##### On The Dev PC
@@ -129,7 +139,11 @@ this shows the transformation between the differnt robot parts. it uses the **ro
 ##### On The Raspberry Pi
 - open a new terminal and start the mobobot robot mapping with navigation bringup
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py use_nav:=true # use_ekf:=true params_name:=nav2_params_omni
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_mapping.launch.py \
+  use_nav:=true \
+  # use_ekf:=true \
+  # use_camera:=true \
+  # nav_params_name:=nav2_params_omni
   ```
 
 ##### On The Dev PC
@@ -154,16 +168,20 @@ The robot is able to autonomously navigate using the map of the environment crea
 - start the mobobot robot navigation bringup (with AMCL Localization)
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_navigation.launch.py \
-   map_name:=<enter the name of the map> \
-   # use_ekf:=true params_name:=nav2_params_omni
+   map_name:=<enter the map_name> \
+   # use_ekf:=true \
+   # use_camera:=true \
+   # nav_params_name:=nav2_params_omni
   ```
 
 - start the mobobot robot navigation bringup (with SLAM Localization)
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup robot_navigation.launch.py use_slam:=true \
-   map_name:=<enter the name of the map>  \
-   serialized_map_name:=<enter the name of the map> \
-   # use_ekf:=true params_name:=nav2_params
+   map_name:=<enter map_name>  \
+   serialized_map_name:=<enter map_name> \
+   # use_ekf:=true \
+   # use_camera:=true \
+   # nav_params_name:=nav2_params_omni
   ```
 
 ##### On The Dev PC

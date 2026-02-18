@@ -7,7 +7,11 @@
 - Install and set up Cyclone DDS on your PC (if you don't have it installed yet).
   ```shell
   sudo apt install ros-jazzy-rmw-cyclonedds-cpp
+  ```
+  ```shell
   export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+  ```
+  ```shell
   echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
   ```
   
@@ -99,7 +103,8 @@
 this shows the transformation between the differnt robot parts. it uses the **robot_state_publisher** the transforms, **RVIZ** to view the actual robot, and the **rqt_tf_tree** to view the transform graph.
 - on your dev-PC, open a new terminal and launch the **tf_view** to view the transform
   ```shell
-  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup tf_view.launch.py use_hardware:=false
+  source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup tf_view.launch.py \
+  use_hardware:=false
   ```
 
 #
@@ -154,7 +159,9 @@ The robot is able to map its evironment while running navigation. this is becaus
 - start the MoboBot launch to run the mapping alongside navigation:
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
-  world:=room_with_walls use_nav:=true # params_name:=nav2_params_omni
+  world:=room_with_walls \
+  use_nav:=True \
+  # nav_params_name:=nav2_params_omni
   ```
   >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
   >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
@@ -173,14 +180,16 @@ The robot is able to autonomously navigate using the map of the environment crea
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
   world_name:=room_with_walls \
-  # params_name:=nav2_params_omni
+  # nav_params_name:=nav2_params_omni
   ```
 
 - Launch the MoboBot Naviagtion (with SLAM):
   ```shell
   source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
-  world_name:=room_with_walls use_slam:=true \
-  # serialized_map_name:=<world_name> params_name:=nav2_params_omni
+  world_name:=room_with_walls \
+  use_slam:=True \
+  serialized_map_name:=room_with_walls \
+  # nav_params_name:=nav2_params_omni
   ```
 
   >**NOTE**: you can change the world_name to the world you are woking with and have created a map for.
