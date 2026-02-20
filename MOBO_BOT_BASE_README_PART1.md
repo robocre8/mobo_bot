@@ -59,30 +59,36 @@
   ```
 
 #### EPMC Motor Driver
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `epmc_hardware_interface` ros2 plugin pkg
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the [epmc_hardware_interface](https://github.com/robocre8/epmc_hardware_interface) ros2 plugin pkg
   ```shell
   cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/epmc_hardware_interface.git
   ```
 
 #### EIMU Module
-- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the `eimu_ros` ros2 pkg
+- go to the `src/hardware` folder of your mobo_bot_ws and download and setup the [eimu_ros](https://github.com/robocre8/eimu_ros) ros2 pkg
   ```shell
   cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/eimu_ros.git
   ```
 
 #### RPLIDAR C1
-- go to the `src/hardware` folder of your mobo_bot_ws and download sllidar ros2 for RPLIDAR C1
+- go to the `src/hardware` folder of your mobo_bot_ws and download [sllidar ros2](https://github.com/Slamtec/sllidar_ros2) for RPLIDAR C1
   ```shell
   cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/Slamtec/sllidar_ros2.git
   ```
 
 #### CAMERA (with OpenCV)
-- install opencv on the Raspberry Pi 4b machine and download the opencv_ros_camera package for working with the USB camera
+- install opencv on the Raspberry Pi 4b machine and download the [opencv_ros_camera](https://github.com/robocre8/opencv_ros_camera) package for working with the USB camera
   ```shell
   sudo apt install libopencv-dev python3-opencv
   ```
   ```shell
   cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/opencv_ros_camera.git
+  ```
+
+#### AA MECCANUM DRIVE CONTROLLER (for "MEC" Wheel Base)
+- go to the `src/hardware` folder of your mobo_bot_ws and download the [aa_mecanum_drive_controller](https://github.com/robocre8/aa_mecanum_drive_controller) for the mecanum wheel base
+  ```shell
+  cd ~/mobo_bot_ws/src/hardware && git clone https://github.com/robocre8/aa_mecanum_drive_controller.git
   ```
 
 #
