@@ -6,9 +6,11 @@
     <ros2_control name="${name}_front" type="system">
       <hardware>
         <plugin>epmc_hardware_interface/EPMC_HardwareInterface</plugin>
+        <param name="supported_num_of_motors">2</param>
         <param name="serial_port">/dev/epmc_front</param>
         <param name="serial_baud_rate">115200</param>
         <param name="serial_timeout_ms">18</param>
+        <param name="cmd_vel_timeout_ms">2000</param>
         <param name="motor0_wheel_name">front_left_wheel_joint</param>
         <param name="motor1_wheel_name">front_right_wheel_joint</param>
         <param name="cmd_vel_timeout_ms">5000</param>
@@ -36,12 +38,13 @@
     <ros2_control name="${name}_rear" type="system">
       <hardware>
         <plugin>epmc_hardware_interface/EPMC_HardwareInterface</plugin>
+        <param name="supported_num_of_motors">2</param>
         <param name="serial_port">/dev/epmc_rear</param>
         <param name="serial_baud_rate">115200</param>
         <param name="serial_timeout_ms">18</param>
+        <param name="cmd_vel_timeout_ms">2000</param>
         <param name="motor0_wheel_name">rear_left_wheel_joint</param>
         <param name="motor1_wheel_name">rear_right_wheel_joint</param>
-        <param name="cmd_vel_timeout_ms">5000</param>
       </hardware>
 
       <joint name="rear_left_wheel_joint">
