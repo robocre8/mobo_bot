@@ -16,8 +16,11 @@ diff_drive_controller:
     left_wheel_names: ["left_wheel_joint"]
     right_wheel_names: ["right_wheel_joint"]
 
-    wheel_separation: 0.207
-    wheel_radius: 0.033 # diameter 0.068m
+    # wheel_separation: 0.207
+    # wheel_radius: 0.033 # diameter 0.068m
+
+    wheel_separation: 0.195
+    wheel_radius: 0.03 # diameter 0.06m
 
     # wheels_per_side: Number of wheels on each side of the robot. 
     # This is important to take the wheels slip into account when multiple wheels on each side are present.
