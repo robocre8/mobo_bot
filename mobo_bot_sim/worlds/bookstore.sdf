@@ -1,0 +1,270 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.8">
+  <world name="gazebo_world">
+    <physics name='1ms' type='ignored'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    
+    <plugin filename="libgz-sim-contact-system.so" name="gz::sim::systems::Contact">
+    </plugin>
+    <scene>
+      <ambient>1.0 1.0 1.0</ambient>
+      <background>0.8 0.8 0.8</background>
+    </scene>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.94 0.90 0.81 1</ambient>
+            <diffuse>0.94 0.90 0.81 1</diffuse>
+            <specular>1 1 1 0</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+             
+       <model name="BookshelfA_01_001">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfA_01</uri>
+        </include>
+        <pose frame="">1.405153 -1.449740 0.03755 0.003490 -0.000003 0.000696</pose>
+	</model>
+
+	<model name="BookshelfA_01_002">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfA_01</uri>
+        </include>
+        <pose frame="">1.405153 -4.761649 0.003411 0 0 0</pose>
+	</model>
+
+	<model name="BookshelfA_01_003">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfA_01</uri>
+        </include>
+        <pose frame="">-2.554493 -1.487456 0.006337 0.001313 -0.001987 0.031824</pose>
+	</model>
+
+	<model name="BookshelfA_01_004">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfA_01</uri>
+        </include>
+        <pose frame="">-2.608578 -4.761649 0.003411 0 0 0</pose>
+	</model>
+
+   	<model name="BookshelfC_01_001">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfC_01</uri>
+        </include>
+        <pose frame="">2.911133 -1.310229 0.008469 0.003452 -0.000003 0.000620</pose>
+	</model>
+
+	<model name="BookshelfC_01_002">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfC_01</uri>
+        </include>
+        <pose frame="">2.915449 -4.761712 -0.003455 0.003452 0 0.000014</pose>
+	</model>
+
+	<model name="BookshelfC_01_003">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfC_01</uri>
+        </include>
+        <pose frame="">-4.517110 -1.310229 0.045908 0 0 0</pose>
+	</model>
+
+	<model name="BookshelfC_01_004">
+        <include>
+            <uri>aws_robomaker_retail_BookshelfC_01</uri>
+        </include>
+        <pose frame="">-4.614360 -4.761649 0.045908 0 0 0</pose>
+	</model>
+
+
+
+	<model name="ColumnB_01_002">
+        <include>
+            <uri>aws_robomaker_retail_ColumnB_01</uri>
+        </include>
+        <pose frame="">-4.076233 -6.860710 0.017511 0.001895 -0.000628 -0.003755</pose>
+	</model>
+
+
+
+
+	
+	<model name="InfoDesk_01_001">
+        <include>
+         <uri>aws_robomaker_retail_InfoDesk_01</uri>
+        </include>
+        <pose frame="">0.5 4.8 0.011585 -0.006739 0.005110 -0.025146</pose>
+	</model>
+
+
+
+
+	<model name="DeskB_01_001">
+        <include>
+         <uri>aws_robomaker_retail_DeskB_01</uri>
+        </include>
+        <pose frame="">5.622942 -2.475419 -0.181282 0 -0 0</pose>
+	</model>
+
+	<model name="DeskB_01_002">
+        <include>
+         <uri>aws_robomaker_retail_DeskB_01</uri>
+        </include>
+        <pose frame="">-6.25 2.580536 -0.181282 0 -0 0</pose>
+	</model>
+
+	<model name="DeskA_01_001">
+        <include>
+         <uri>aws_robomaker_retail_DeskA_01</uri>
+        </include>
+        <pose frame="">-3.0 3.200118 0.014921 0.000124 -0.000010 0.000376</pose>
+	</model>
+
+	<model name="DeskA_01_002">
+        <include>
+         <uri>aws_robomaker_retail_DeskA_01</uri>
+        </include>
+        <pose frame="">-3.0 0.836099 0.00876 -0.000772 -0.001938 0.000017</pose>
+	</model>
+
+	<model name="DeskA_01_003">
+        <include>
+         <uri>aws_robomaker_retail_DeskA_01</uri>
+        </include>
+        <pose frame="">-6.254654 -3.979197 -0.004603 0.001948 0.001361 -1.569567</pose>
+	</model>
+
+	<model name="DeskA_01_004">
+        <include>
+         <uri>aws_robomaker_retail_DeskA_01</uri>
+        </include>
+        <pose frame="">-0.701688 -4.049294 0.014866 0.000000 -0.000000 -1.566097</pose>
+	</model>
+
+	<model name="DeskA_01_005">
+        <include>
+         <uri>aws_robomaker_retail_DeskA_01</uri>
+        </include>
+        <pose frame="">2.298197 0.861754 0.014883 -0.000002 0.003451 0.000024</pose>
+	</model>
+
+
+
+
+
+	<model name="DoorB_01_001">
+        <include>
+        <uri>aws_robomaker_retail_DoorB_01</uri>
+        </include>
+        <pose frame="">-2.492457 7.219370 -0.035203 0 -0 0</pose>
+	</model>
+
+
+
+
+
+	<model name="RetailShopFloor_01_001">
+        <include>
+            <uri>aws_robomaker_retail_RetailShopFloor_01</uri>
+        </include>
+        <pose frame="">-0.002687 0 -0.276618 -0 0 0</pose>
+	</model>
+
+
+       <model name="RetailShopWall_01_001">
+        <include>
+            <uri>aws_robomaker_retail_RetailShopWall_01</uri>
+        </include>
+        <pose frame="">0 0 -0.281282 0 -0 0</pose>
+	</model>
+
+
+
+  <model name='straight_wall'>
+    <pose >-7.8 0 0 0 0 0</pose>
+    <link name='Wall_1'>
+      <collision name='Wall_1_Collision'>
+        <geometry>
+          <box>
+            <size>0.3 14.0 1.0</size>
+          </box>
+        </geometry>
+        <pose >0 0 0.5 0 -0 0</pose>
+        <max_contacts>10</max_contacts>
+        <surface>
+          <bounce/>
+          <friction>
+            <ode/>
+          </friction>
+          <contact>
+            <ode/>
+          </contact>
+        </surface>
+      </collision>
+      <visual name='Wall_1_Visual'>
+        <pose >0 0 0.5 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.3 14.0 1.0</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.25 0.25 0.25 1.0</ambient>
+          <diffuse>0.25 0.25 0.25 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1.0</specular>
+          <emissive>0.0 0.0 0.0 1.0</emissive>
+        </material>
+        <meta>
+          <layer>0</layer>
+        </meta>
+      </visual>
+    </link>
+  </model>
+
+
+  </world>
+</sdf>

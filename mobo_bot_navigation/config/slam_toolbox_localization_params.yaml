@@ -17,7 +17,7 @@ slam_toolbox:
     # if you'd like to start localizing on bringup in a map and pose
     map_file_name: <map_file_location>/<map_file_name>
     # map_file_name: /home/samuko-things/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/room_with_walls
-    map_start_pose: [0.0, 0.0, 0.0]
+    map_start_pose: [0.0, 1.0, 0.0]
 
     debug_logging: false
     throttle_scans: 1

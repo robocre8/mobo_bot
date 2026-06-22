@@ -99,9 +99,10 @@ global_costmap:
           obstacle_min_range: 0.0
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.4
+        cost_scaling_factor: 4.0
+        inflation_radius: 0.3
       always_send_full_costmap: True
+      lethal_cost_threshold: 200
 
 
 local_costmap:
@@ -133,12 +134,13 @@ local_costmap:
           obstacle_min_range: 0.0
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.4
+        cost_scaling_factor: 4.0
+        inflation_radius: 0.3
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: true
-      always_send_full_costmap: true
+      # always_send_full_costmap: true
+      # lethal_cost_threshold: 200
 
 
 # planner_server:
@@ -153,16 +155,25 @@ local_costmap:
 #       use_astar: true
 #       allow_unknown: true
 
+# planner_server:
+#   ros__parameters:
+#     use_sim_time: true
+#     expected_planner_frequency: 20.0
+#     planner_plugins: ["GridBased"]
+#     GridBased:
+#       plugin: "nav2_theta_star_planner::ThetaStarPlanner" # In Iron and older versions, "/" was used instead of "::"
+#       how_many_corners: 8
+#       w_euc_cost: 1.0
+#       w_traversal_cost: 2.0
+
 planner_server:
   ros__parameters:
     use_sim_time: true
     expected_planner_frequency: 20.0
     planner_plugins: ["GridBased"]
     GridBased:
-      plugin: "nav2_theta_star_planner::ThetaStarPlanner" # In Iron and older versions, "/" was used instead of "::"
-      how_many_corners: 8
-      w_euc_cost: 1.0
-      w_traversal_cost: 2.0
+      plugin: "theta_star_smooth_planner_plugin::ThetaStarSmoothPlanner"
+      cost_limit: 1.0
 
 
 smoother_server:
@@ -196,12 +207,12 @@ controller_server:
       movement_time_allowance: 10.0
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.05
-      yaw_goal_tolerance: 0.1
+      xy_goal_tolerance: 0.1
+      yaw_goal_tolerance: 0.2
       stateful: True
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.15
+      desired_linear_vel: 0.2
       lookahead_dist: 0.3
       min_lookahead_dist: 0.1
       max_lookahead_dist: 0.5

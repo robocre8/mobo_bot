@@ -23,11 +23,13 @@ def generate_launch_description():
   sim_pkg_path = get_package_share_directory('mobo_bot_sim') 
 
   # initial robot pose
-  x_pos = 0.0; y_pos = 0.0; z_pos = 1.0; yaw = 0.0
+  x_pos = 0.0; y_pos = 1.0; z_pos = 1.0; yaw = 0.0
 
   # Set the path to the world file
-  # world_file_name = 'simple_world.sdf'
-  world_file_name = 'room_with_walls.sdf'
+#   world_file_name = 'house.sdf'
+#   world_file_name = 'bookstore.sdf'
+  world_file_name = 'hospital.sdf'
+#   world_file_name = 'room_with_walls.sdf'
   world_file_path = os.path.join(sim_pkg_path, 'worlds', world_file_name)
  
   #--------------------------------------------------------------------------
