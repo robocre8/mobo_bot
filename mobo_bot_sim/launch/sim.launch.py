@@ -28,8 +28,8 @@ def generate_launch_description():
   # Set the path to the world file
 #   world_file_name = 'house.sdf'
 #   world_file_name = 'bookstore.sdf'
-  world_file_name = 'hospital.sdf'
-#   world_file_name = 'room_with_walls.sdf'
+  # world_file_name = 'hospital.sdf'
+  world_file_name = 'room_with_walls.sdf'
   world_file_path = os.path.join(sim_pkg_path, 'worlds', world_file_name)
  
   #--------------------------------------------------------------------------
