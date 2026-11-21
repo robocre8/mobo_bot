@@ -44,15 +44,15 @@ def generate_launch_description():
 
     #--------------------------------------------------------------------------
 
-    valid_base_types = ['2WD', '4WD', 'MEC', '22WD']
+    valid_base_types = ['2WD', 'MEC']
     base_type = os.environ.get("MOBOBOT_BASE_TYPE")
 
     if base_type is None:
-        print("[ERROR]: MOBOBOT_BASE_TYPE environment variable not found")
-        exit(1)
+        print("[WARNING]: MOBOBOT_BASE_TYPE environment variable not found\nDefaulting to 2WD")
+        base_type = '2WD'
     elif base_type not in valid_base_types:
-        print(f"[ERROR]: Invalid MOBOBOT_BASE_TYPE='{base_type}'. Expected one of {valid_base_types}")
-        exit(1)
+        print(f"[WARNING]: Invalid MOBOBOT_BASE_TYPE='{base_type}'. Expected one of {valid_base_types}\nDefaulting to 2WD")
+        base_type = '2WD'
         
     #----------------------------------------------------------------------------
 

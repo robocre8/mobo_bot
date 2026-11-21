@@ -3,7 +3,7 @@
 
 <package format="3">
 
-  <name>mobo_bot_base</name>
+  <name>mobo_bot_hardware</name>
   <version>1.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="samuel.c.agba@gmail.com">Samuel Obiagba</maintainer>

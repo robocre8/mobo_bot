@@ -11,7 +11,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Pyth
 
 def generate_launch_description():
   # Set the path to this package.
-  base_pkg_path = get_package_share_directory('mobo_bot_base')
+  hardware_pkg_path = get_package_share_directory('mobo_bot_hardware')
   navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
 
   #--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ def generate_launch_description():
   
   map_path = PathJoinSubstitution([
           navigation_pkg_path,
-          "maps",
+          "maps", "hardware",
           PythonExpression(expression=["'", map_name, "'", " + '.yaml'"])
       ]
   )  
@@ -85,7 +85,7 @@ def generate_launch_description():
   
   declare_serialized_map_location_cmd = DeclareLaunchArgument(
       name='serialized_map_location',
-      default_value=os.path.join(navigation_pkg_path, 'maps'),
+      default_value=os.path.join(navigation_pkg_path, 'maps', 'hardware'),
       description='location of the serialized_map'
     )
 
@@ -99,7 +99,7 @@ def generate_launch_description():
 
   robot_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(base_pkg_path,'launch','robot.launch.py')]
+                [os.path.join(hardware_pkg_path,'launch','robot.launch.py')]
             ),
             launch_arguments={
               'use_sim_time': use_sim_time,

@@ -14,10 +14,10 @@ from launch.conditions import IfCondition, UnlessCondition
 def generate_launch_description():
     # delare any path variable
     description_pkg_path = get_package_share_directory('mobo_bot_description')
-    base_pkg_path = get_package_share_directory('mobo_bot_base')
+    hardware_pkg_path = get_package_share_directory('mobo_bot_hardware')
 
-    eimu_config_file = os.path.join(base_pkg_path,'config','eimu_params.yaml')
-    ekf_config_path = os.path.join(base_pkg_path,'config','ekf.yaml')
+    eimu_config_file = os.path.join(hardware_pkg_path,'config','eimu_params.yaml')
+    ekf_config_path = os.path.join(hardware_pkg_path,'config','ekf.yaml')
 
     #--------------------------------------------------------------------------
 
@@ -43,28 +43,10 @@ def generate_launch_description():
     
     #--------------------------------------------------------------------------
 
-    valid_base_types = ['2WD', '4WD', 'MEC', '22WD']
-    base_type = os.environ.get("MOBOBOT_BASE_TYPE")
-
-    if base_type is None:
-        print("[ERROR]: MOBOBOT_BASE_TYPE environment variable not found")
-        exit(1)
-    elif base_type not in valid_base_types:
-        print(f"[ERROR]: Invalid MOBOBOT_BASE_TYPE='{base_type}'. Expected one of {valid_base_types}")
-        exit(1)
-
-    print(f"Launching robot with {base_type} configuration")
-
-    robot_controller = None
-
-    if base_type == valid_base_types[0]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_2WD.yaml')
-    elif base_type == valid_base_types[1]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_4WD.yaml')
-    elif base_type == valid_base_types[2]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_MEC.yaml')
-    elif base_type == valid_base_types[3]:
-        robot_controller = os.path.join(base_pkg_path,'config','robot_base_controller_22WD.yaml')
+    valid_base_types = ['2WD', 'MEC']
+    base_type = valid_base_types[0]
+    
+    robot_controller = os.path.join(hardware_pkg_path,'config','robot_base_controller_2WD.yaml')
 
     #----------------------------------------------------------------------------
 
@@ -91,71 +73,38 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster"],
     )
 
-    if base_type == 'MEC':
-        robot_base_controller_spawner_no_ekf = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=[
-                "mecanum_drive_controller",
-                "--param-file",
-                robot_controller,
-                "--controller-ros-args",
-                """
-                -r /mecanum_drive_controller/cmd_vel:=/cmd_vel
-                -r /mecanum_drive_controller/odom:=/odom
-                """
-            ],
-            condition=UnlessCondition(use_ekf),
-        )
+    
+    robot_base_controller_spawner_no_ekf = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "diff_drive_controller",
+            "--param-file",
+            robot_controller,
+            "--controller-ros-args",
+            """
+            -r /diff_drive_controller/cmd_vel:=/cmd_vel
+            -r /diff_drive_controller/odom:=/odom
+            """
+        ],
+        condition=UnlessCondition(use_ekf),
+    )
 
-        robot_base_controller_spawner = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=[
-                "mecanum_drive_controller",
-                "--param-file",
-                robot_controller,
-                "--controller-ros-args",
-                """
-                -r /mecanum_drive_controller/cmd_vel:=/cmd_vel
-                -r /mecanum_drive_controller/odom:=/wheel/odometry
-                """
-            ],
-            condition=IfCondition(use_ekf),
-        )
-
-    else:
-        robot_base_controller_spawner_no_ekf = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=[
-                "diff_drive_controller",
-                "--param-file",
-                robot_controller,
-                "--controller-ros-args",
-                """
-                -r /diff_drive_controller/cmd_vel:=/cmd_vel
-                -r /diff_drive_controller/odom:=/odom
-                """
-            ],
-            condition=UnlessCondition(use_ekf),
-        )
-
-        robot_base_controller_spawner = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=[
-                "diff_drive_controller",
-                "--param-file",
-                robot_controller,
-                "--controller-ros-args",
-                """
-                -r /diff_drive_controller/cmd_vel:=/cmd_vel
-                -r /diff_drive_controller/odom:=/wheel/odometry
-                """
-            ],
-            condition=IfCondition(use_ekf),
-        )
+    robot_base_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "diff_drive_controller",
+            "--param-file",
+            robot_controller,
+            "--controller-ros-args",
+            """
+            -r /diff_drive_controller/cmd_vel:=/cmd_vel
+            -r /diff_drive_controller/odom:=/wheel/odometry
+            """
+        ],
+        condition=IfCondition(use_ekf),
+    )
 
     eimu_node = Node(
         package='eimu_ros',
@@ -244,7 +193,7 @@ def generate_launch_description():
     #--------------------------------------------------------------------------
     
     camera_info_file = os.path.join(
-        base_pkg_path,
+        hardware_pkg_path,
         'config',
         'camera_info.yaml'
     )
@@ -265,7 +214,7 @@ def generate_launch_description():
 
 
     twist_mux_file_name = 'twist_mux.yaml'
-    twist_mux_config_path = os.path.join(base_pkg_path, 'config', twist_mux_file_name)
+    twist_mux_config_path = os.path.join(hardware_pkg_path, 'config', twist_mux_file_name)
     twist_mux_node = Node(
         package='twist_mux',
         executable='twist_mux',

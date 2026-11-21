@@ -77,17 +77,6 @@
         </xacro:unless>
     </xacro:if>
 
-    <xacro:if value="${MOBOBOT_BASE_TYPE == '4WD'}">
-        <xacro:include filename="$(find mobo_bot_description)/urdf/4WD/robot.xacro" />
-
-        <xacro:if value="$(arg run_gz_sim)">
-            <xacro:include filename="$(find mobo_bot_description)/urdf/4WD/gazebo_control.xacro" />
-        </xacro:if>
-        <xacro:unless value="$(arg run_gz_sim)">
-            <xacro:include filename="$(find mobo_bot_description)/urdf/4WD/ros2_control.xacro" />
-        </xacro:unless>
-    </xacro:if>
-
     <xacro:if value="${MOBOBOT_BASE_TYPE == 'MEC'}">
         <xacro:include filename="$(find mobo_bot_description)/urdf/MEC/robot.xacro" />
 
@@ -97,18 +86,6 @@
         <xacro:unless value="$(arg run_gz_sim)">
             <xacro:include filename="$(find mobo_bot_description)/urdf/MEC/ros2_control.xacro" />
         </xacro:unless>
-    </xacro:if>
-
-    <xacro:if value="${MOBOBOT_BASE_TYPE == '22WD'}">
-        <xacro:include filename="$(find mobo_bot_description)/urdf/22WD/robot.xacro" />
-
-        <xacro:if value="$(arg run_gz_sim)">
-            <xacro:include filename="$(find mobo_bot_description)/urdf/22WD/gazebo_control.xacro" />
-        </xacro:if>
-        <xacro:unless value="$(arg run_gz_sim)">
-            <xacro:include filename="$(find mobo_bot_description)/urdf/22WD/ros2_control.xacro" />
-        </xacro:unless>
-    </xacro:if>
-    
+    </xacro:if>    
     
 </robot>

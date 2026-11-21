@@ -26,17 +26,17 @@
     
 
 
-    <link name="base_link">  
+    <link name="base_footprint">  
     </link>
 
 
-    <joint name="chassis_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="chassis"/>
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
         <origin xyz="0 0 ${wheel_radius+wheel_height_offset}"/>
     </joint>
 
-    <link name="chassis">
+    <link name="base_link">
         <xacro:insert_box_with_fillet x="0" y="0" z="0" 
             size_x="${chassis_length}" size_y="${chassis_width}" size_z="${slab_height}" 
             fillet_radius="0.025"/>
@@ -93,7 +93,7 @@
     <xacro:insert_mecanum_left_wheel 
         base_name="front_left_wheel" 
         parent_name="base_link" 
-        x="${wheel_base_dist/2}" y="${wheel_seperation/2}" z="${wheel_radius}"
+        x="${wheel_base_dist/2}" y="${wheel_seperation/2}" z="${-wheel_height_offset}"
         mass="${wheel_mass}"
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
@@ -103,7 +103,7 @@
     <xacro:insert_mecanum_right_wheel 
         base_name="front_right_wheel" 
         parent_name="base_link" 
-        x="${wheel_base_dist/2}" y="${-wheel_seperation/2}" z="${wheel_radius}"
+        x="${wheel_base_dist/2}" y="${-wheel_seperation/2}" z="${-wheel_height_offset}"
         mass="${wheel_mass}"
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
@@ -112,7 +112,7 @@
     <xacro:insert_mecanum_left_wheel
         base_name="rear_left_wheel" 
         parent_name="base_link" 
-        x="${-wheel_base_dist/2}" y="${wheel_seperation/2}" z="${wheel_radius}"
+        x="${-wheel_base_dist/2}" y="${wheel_seperation/2}" z="${-wheel_height_offset}"
         mass="${wheel_mass}"
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
@@ -121,7 +121,7 @@
     <xacro:insert_mecanum_right_wheel
         base_name="rear_right_wheel" 
         parent_name="base_link" 
-        x="${-wheel_base_dist/2}" y="${-wheel_seperation/2}" z="${wheel_radius}"
+        x="${-wheel_base_dist/2}" y="${-wheel_seperation/2}" z="${-wheel_height_offset}"
         mass="${wheel_mass}"
         radius="${wheel_radius}"
         thickness="${wheel_width}"/>
@@ -131,7 +131,7 @@
 
     <xacro:insert_sonar
         base_name="sonar" 
-        parent_name="chassis" 
+        parent_name="base_link" 
         x="0.12" y="0" z="${chassis_height/6}"
         mass="0.005"/>
 
@@ -140,14 +140,14 @@
     <xacro:property name="lidar_z_offset" value="0.04"/>
     <xacro:insert_lidar 
         base_name="lidar" 
-        parent_name="chassis" 
+        parent_name="base_link" 
         x="0.05" y="0" z="${chassis_height+lidar_z_offset}"
         mass="0.1"/>
 
 
 
     <joint name="imu_joint" type="fixed">
-        <parent link="chassis"/>
+        <parent link="base_link"/>
         <child link="imu"/>
         <origin xyz="0 0 ${slab_height}"/>
     </joint>
@@ -157,7 +157,7 @@
 
     <xacro:insert_camera
         base_name="camera" 
-        parent_name="chassis" 
+        parent_name="base_link" 
         x="0.13" y="0" z="${chassis_height+0.015}"
         mass="0.005" tilt_angle="0.00"/>     
     

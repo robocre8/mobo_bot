@@ -35,7 +35,7 @@ diff_drive_controller:
 
     publish_rate: 50.0
     odom_frame_id: odom
-    base_frame_id: base_link
+    base_frame_id: base_footprint
     pose_covariance_diagonal : [1e-5, 1e-5, 1e-5, 1e-5, 1e-5, 1e-5]
     twist_covariance_diagonal: [1e-5, 1e-5, 1e-5, 1e-5, 1e-5, 1e-5]
 

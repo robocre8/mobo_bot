@@ -11,7 +11,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Pyth
 
 def generate_launch_description():
   # Set the path to this package.
-  base_pkg_path = get_package_share_directory('mobo_bot_base')
+  hardware_pkg_path = get_package_share_directory('mobo_bot_hardware')
   navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
 
   #--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ def generate_launch_description():
 
   robot_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                [os.path.join(base_pkg_path,'launch','robot.launch.py')]
+                [os.path.join(hardware_pkg_path,'launch','robot.launch.py')]
             ),
             launch_arguments={
               'use_sim_time': 'False',
