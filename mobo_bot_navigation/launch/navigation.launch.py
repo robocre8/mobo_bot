@@ -13,33 +13,20 @@ from nav2_common.launch import RewrittenYaml, ReplaceString
 
 def generate_launch_description():
   # Set the path to this package.
-  mobo_bot_navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
-  nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
+  navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
+  # nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
 
   # Set the path to the slam params file
   slam_params_file_name = 'slam_toolbox_localization_params.yaml'
-  slam_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', slam_params_file_name)
+  slam_params_file = os.path.join(navigation_pkg_path, 'config', slam_params_file_name)
 
   # Set the path to the nav params file
-  nav_params_file_name = 'nav2_params_diff.yaml'
-  nav_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', nav_params_file_name)
+  nav_params_file_name = 'nav2_params.yaml'
+  nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
 
   # Set the path to the map file used by AMCL
   map_file_name = 'room_with_walls.yaml'
-  map_file = os.path.join(mobo_bot_navigation_pkg_path, 'maps', map_file_name)
-
-  # bt_nav_to_pose_xml = os.path.join(mobo_bot_navigation_pkg_path, 'config', 'bt', 'navigate_to_pose_w_smoothing.xml')
-  # bt_nav_through_poses_xml = os.path.join(mobo_bot_navigation_pkg_path, 'config', 'bt', 'navigate_through_pose_w_smoothing.xml')
-
-  # rewritten_nav_params_file = RewrittenYaml(
-  #   source_file=nav_params_file,
-  #   root_key='',
-  #   param_rewrites={
-  #       'bt_navigator.ros__parameters.default_nav_to_pose_bt_xml': bt_nav_to_pose_xml,
-  #       'bt_navigator.ros__parameters.default_nav_through_poses_bt_xml': bt_nav_through_poses_xml,
-  #   },
-  #   convert_types=True,
-  # )
+  map_file = os.path.join(navigation_pkg_path, 'maps', 'sim', map_file_name)
  
   #--------------------------------------------------------------------------
 
@@ -85,14 +72,13 @@ def generate_launch_description():
   
   declare_serialized_map_location_cmd = DeclareLaunchArgument(
       name='serialized_map_location',
-      default_value=os.path.join(mobo_bot_navigation_pkg_path, 'maps'),
+      default_value=os.path.join(navigation_pkg_path, 'maps'),
       description='location of the serialized_map'
     )
   
   declare_nav_params_cmd = DeclareLaunchArgument(
       name='nav_params',
       default_value=nav_params_file,
-      # default_value=rewritten_nav_params_file,
       description='file path to the parameter file'
     )
   
@@ -104,7 +90,7 @@ def generate_launch_description():
 
   #-----------------------------------------------------------------------------
 
-  localization_with_slam_launch_path = os.path.join(mobo_bot_navigation_pkg_path, 'launch', 'localization_with_slam.launch.py')
+  localization_with_slam_launch_path = os.path.join(navigation_pkg_path, 'launch', 'localization_with_slam.launch.py')
 
   localization_with_slam_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(localization_with_slam_launch_path),
@@ -123,7 +109,7 @@ def generate_launch_description():
   
 
 
-  localization_with_amcl_launch_path = os.path.join(mobo_bot_navigation_pkg_path, 'launch', 'localization_with_amcl.launch.py')
+  localization_with_amcl_launch_path = os.path.join(navigation_pkg_path, 'launch', 'localization_with_amcl.launch.py')
 
   localization_with_amcl_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(localization_with_amcl_launch_path),

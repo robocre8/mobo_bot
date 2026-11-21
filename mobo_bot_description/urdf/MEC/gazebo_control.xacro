@@ -73,7 +73,7 @@
           <ode>
             <mu>1.0</mu>
             <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_link">1 -1 0</fdir1>
+            <fdir1 gz:expressed_in="base_footprint">1 -1 0</fdir1>
           </ode>
         </friction>
       </surface>
@@ -90,7 +90,7 @@
           <ode>
             <mu>1.0</mu>
             <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_link">1 1 0</fdir1>
+            <fdir1 gz:expressed_in="base_footprint">1 1 0</fdir1>
           </ode>
         </friction>
       </surface>
@@ -107,7 +107,7 @@
           <ode>
             <mu>1.0</mu>
             <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_link">1 1 0</fdir1>
+            <fdir1 gz:expressed_in="base_footprint">1 1 0</fdir1>
           </ode>
         </friction>
       </surface>
@@ -124,7 +124,7 @@
           <ode>
             <mu>1.0</mu>
             <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_link">1 -1 0</fdir1>
+            <fdir1 gz:expressed_in="base_footprint">1 -1 0</fdir1>
           </ode>
         </friction>
       </surface>
@@ -155,7 +155,7 @@
     <plugin name="gz::sim::systems::OdometryPublisher" filename="gz-sim-odometry-publisher-system">
       <odom_topic>odom</odom_topic>
       <odom_frame>odom</odom_frame>
-      <robot_base_frame>base_link</robot_base_frame>
+      <robot_base_frame>base_footprint</robot_base_frame>
       <publish_tf>true</publish_tf>
       <tf_topic>tf</tf_topic>
       <odom_publish_frequency>50</odom_publish_frequency>

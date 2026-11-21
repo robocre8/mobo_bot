@@ -47,7 +47,7 @@ def generate_launch_description():
 
   map_path = PathJoinSubstitution([
           navigation_pkg_path,
-          "maps",
+          "maps", "sim",
           PythonExpression(expression=["'", world_name, "'", " + '.yaml'"])
       ]
   )
@@ -86,7 +86,7 @@ def generate_launch_description():
   
   declare_serialized_map_location_cmd = DeclareLaunchArgument(
       name='serialized_map_location',
-      default_value=os.path.join(navigation_pkg_path, 'maps'),
+      default_value=os.path.join(navigation_pkg_path, 'maps', 'sim'),
       description='location of the serialized_map'
     )
 

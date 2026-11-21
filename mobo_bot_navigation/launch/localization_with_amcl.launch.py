@@ -16,12 +16,12 @@ def generate_launch_description():
   # nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
 
   # Set the path to the nav params file
-  nav_params_file_name = 'nav2_params_diff.yaml'
+  nav_params_file_name = 'nav2_params.yaml'
   nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
 
   # Set the path to the map file
   map_file_name = 'room_with_walls.yaml'
-  map_file = os.path.join(navigation_pkg_path, 'maps', map_file_name)
+  map_file = os.path.join(navigation_pkg_path, 'maps', 'sim', map_file_name)
  
   #--------------------------------------------------------------------------
 

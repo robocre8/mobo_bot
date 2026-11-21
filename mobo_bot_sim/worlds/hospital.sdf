@@ -1,0 +1,154 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.8">
+  <world name="gazebo_world">
+    <physics name='1ms' type='ignored'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    
+    <plugin filename="libgz-sim-contact-system.so" name="gz::sim::systems::Contact">
+    </plugin>
+    <scene>
+      <ambient>1.0 1.0 1.0</ambient>
+      <background>0.8 0.8 0.8</background>
+    </scene>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.94 0.90 0.81 1</ambient>
+            <diffuse>0.94 0.90 0.81 1</diffuse>
+            <specular>1 1 1 0</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    
+    <model name="aws_robomaker_hospital_floor_01_floor_1">
+      <include>
+        <uri>aws_robomaker_hospital_floor_01_floor</uri>
+        <static>true</static>
+        <pose>-0.001425 -0.014447 0 0 -0 0</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_hospital_floor_01_walls_1">
+      <include>
+        <uri>aws_robomaker_hospital_floor_01_walls</uri>
+        <static>true</static>
+        <pose>-0.013823 -0.013783 0 0 -0 0</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_hospital_nursesstation_01_1">
+      <include>
+        <uri>aws_robomaker_hospital_nursesstation_01</uri>
+        <static>true</static>
+        <pose>0 1.5 0 0 -0 0</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_hospital_elevator_01_portal_1">
+      <include>
+        <uri>aws_robomaker_hospital_elevator_01_portal</uri>
+        <static>true</static>
+        <pose>-1.50654 19.4813 0.19 0 -0 0</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_hospital_elevator_01_portal_2">
+      <include>
+        <uri>aws_robomaker_hospital_elevator_01_portal</uri>
+        <static>true</static>
+        <pose>1.51134 19.487 0.19 0 -0 0</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_hospital_elevator_01_door_1">
+      <include>
+        <uri>aws_robomaker_hospital_elevator_01_door</uri>
+        <static>true</static>
+        <pose>-1.51 19.35 0.19 0 -0 0</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_hospital_elevator_01_door_2">
+      <include>
+        <uri>aws_robomaker_hospital_elevator_01_door</uri>
+        <static>true</static>
+        <pose>1.52843 19.3627 0.19 0 -0 0</pose>
+      </include>
+    </model>
+
+
+
+    <model name="aws_robomaker_residential_Sofa_01_1">
+      <include>
+        <uri>aws_robomaker_residential_Sofa_01</uri>
+        <static>true</static>
+        <pose>-11.077 -30.5544 -1e-05 2.6e-05 -3e-06 1.56984</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_residential_SofaB_01_1">
+      <include>
+        <uri>aws_robomaker_residential_SofaB_01</uri>
+        <static>true</static>
+        <pose>-10.8238 -28.6662 -5e-06 -1.3e-05 -2e-06 -1.56116</pose>
+      </include>
+    </model>
+    <model name="aws_robomaker_residential_SofaB_01_2">
+      <include>
+        <uri>aws_robomaker_residential_SofaB_01</uri>
+        <static>true</static>
+        <pose>-9.73697 -28.6538 -3e-06 1.3e-05 -4e-06 -1.56077</pose>
+      </include>
+    </model>
+
+
+
+
+    <!-- <model name="aws_robomaker_hospital_ramp_01_1">
+      <include>
+        <uri>aws_robomaker_hospital_ramp_01</uri>
+        <static>true</static>
+        <pose>-1.70996 16.3685 0 0 -0 0</pose>
+      </include>
+    </model> -->
+    
+
+  </world>
+</sdf>

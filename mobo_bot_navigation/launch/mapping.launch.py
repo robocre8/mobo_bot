@@ -12,17 +12,17 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
   # Set the path to this package.
-  mobo_bot_navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
+  navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
   slam_toolbox_pkg_path = get_package_share_directory('slam_toolbox')
-  nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
+  # nav2_bringup_pkg_path = get_package_share_directory('nav2_bringup')
 
   # Set the path to the nav params file
   slam_params_file_name = 'slam_toolbox_mapping_params.yaml'
-  slam_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', slam_params_file_name)
+  slam_params_file = os.path.join(navigation_pkg_path, 'config', slam_params_file_name)
 
   # Set the path to the nav params file
   nav_params_file_name = 'nav2_params.yaml'
-  nav_params_file = os.path.join(mobo_bot_navigation_pkg_path, 'config', nav_params_file_name)
+  nav_params_file = os.path.join(navigation_pkg_path, 'config', nav_params_file_name)
  
   #--------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ def generate_launch_description():
         }.items()
     )
   
-  navigation_launch_path = os.path.join(mobo_bot_navigation_pkg_path, 'launch', 'navigation.launch.py')
+  navigation_launch_path = os.path.join(navigation_pkg_path, 'launch', 'navigation.launch.py')
 
   navigation_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(navigation_launch_path),
