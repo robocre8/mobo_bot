@@ -18,6 +18,8 @@ def generate_launch_description():
 
   # Launch configuration variables specific to simulation
   world_name = LaunchConfiguration('world_name')
+  headless = LaunchConfiguration('headless')
+  use_rviz = LaunchConfiguration('use_rviz')
  
   declare_world_name_cmd = DeclareLaunchArgument(
     name='world_name',
@@ -31,6 +33,16 @@ def generate_launch_description():
       ]
   )
 
+  declare_headless_cmd = DeclareLaunchArgument(
+    name='headless',
+    default_value='False',
+    description='run gazebo GUI (False) or not (True)')
+
+  declare_use_rviz_cmd = DeclareLaunchArgument(
+    name='use_rviz',
+    default_value='True',
+    description='whether to run rviz (True) or not (False)')
+
   #-----------------------------------------------------------------------------
   sim_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -39,13 +51,15 @@ def generate_launch_description():
             launch_arguments={
               'use_sim_time': 'True',
               'world_path': world_path,
+              'headless': headless,
             }.items(),
   )
 
   rviz_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
               [os.path.join(rviz_pkg_path,'launch','robot.launch.py')]
-            )
+            ),
+            condition=IfCondition(use_rviz)
   )
 
   #--------------------------------------------------------------------------------
@@ -55,6 +69,8 @@ def generate_launch_description():
  
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_world_name_cmd)
+  ld.add_action(declare_headless_cmd)
+  ld.add_action(declare_use_rviz_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)

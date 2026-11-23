@@ -97,7 +97,10 @@ use_hardware:=false
 ### Run the MoboBot simulation
 - On your dev-PC, open a new terminal and start the mobo_bot simulation 
 ```shell
-source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim.launch.py
+source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim.launch.py \
+world_name:=room_with_walls \
+headless:=False \
+use_rviz:=True
 ```
 - In a different terminal, run the arrow_key_telop to drive the robot around using the arrow keys on your keyboard
 
@@ -122,7 +125,8 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - to just build map of the world with slam run:
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
-world_name:=room_with_walls
+world_name:=room_with_walls \
+headless:=False
 ```
   > other worlds -> turtlebot_arena , room_with_walls_star, empty_room, bookstore, house, hospital
 
@@ -151,6 +155,7 @@ The robot is able to map its evironment while running navigation. this is becaus
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
 world:=room_with_walls \
+headless:=False \
 use_nav:=True \
 # nav_params_name:=nav2_params_mecanum
 ```
@@ -171,6 +176,7 @@ The robot is able to autonomously navigate using the map of the environment crea
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
 world_name:=room_with_walls \
+headless:=False \
 # nav_params_name:=nav2_params_mecanum
 ```
 
@@ -178,6 +184,7 @@ world_name:=room_with_walls \
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
 world_name:=room_with_walls \
+headless:=False \
 use_slam:=True \
 serialized_map_name:=room_with_walls \
 # nav_params_name:=nav2_params_mecanum

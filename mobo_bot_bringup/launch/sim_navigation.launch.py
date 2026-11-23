@@ -25,6 +25,7 @@ def generate_launch_description():
   serialized_map_name = LaunchConfiguration('serialized_map_name')
   serialized_map_location = LaunchConfiguration('serialized_map_location')
   use_slam = LaunchConfiguration('use_slam')
+  headless = LaunchConfiguration('headless')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
     name='use_sim_time',
@@ -96,6 +97,12 @@ def generate_launch_description():
     description='whether to use navigation while mapping'
   )
 
+  declare_headless_cmd = DeclareLaunchArgument(
+    name='headless',
+    default_value='False',
+    description='run gazebo GUI (False) or not (True)'
+  )
+
   #-----------------------------------------------------------------------------
   sim_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -104,6 +111,7 @@ def generate_launch_description():
             launch_arguments={
               'use_sim_time': 'True',
               'world_path': world_path,
+              'headless': headless,
             }.items(),
   )
 
@@ -141,6 +149,7 @@ def generate_launch_description():
   ld.add_action(declare_use_slam_cmd)
   ld.add_action(declare_serialized_map_name_cmd)
   ld.add_action(declare_serialized_map_location_cmd)
+  ld.add_action(declare_headless_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)
