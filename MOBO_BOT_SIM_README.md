@@ -23,6 +23,12 @@ mkdir -p ~/mobo_bot_ws/src && cd ~/mobo_bot_ws && colcon build
 source ~/mobo_bot_ws/install/setup.bash
 ```
 
+- Clone the **nav2_lazy_theta_planner** package on your MoboBot ROS Workspace. this is package that would be used for the MoboBot Path Planning. A lightweight Lazy Theta-P planner for ROS 2 Nav2 by [samuko-things](https://github.com/samuko-things).
+```shell
+cd ~/mobo_bot_ws/src && git clone -b jazzy https://github.com/samuko-things/nav2_lazy_theta_planner.git
+```
+Learn more about the [**nav2_lazy_theta_planner**](https://github.com/samuko-things/nav2_lazy_theta_planner)
+
 - Clone the **arrow_key_telop_drive** package on your MoboBot ROS Workspace. This is the package that would be used for driving the MoboBot using the arrow keys of your keyboard. developed by [samuko-things](https://github.com/samuko-things)
 ```shell
 sudo apt install python3-pip -y && sudo apt install python3-pynput -y
@@ -31,12 +37,6 @@ sudo apt install python3-pip -y && sudo apt install python3-pynput -y
 cd ~/mobo_bot_ws/src && git clone https://github.com/samuko-things/arrow_key_teleop_drive.git
 ```
 Learn more about the [**arrow_key_teleop_drive**](https://github.com/samuko-things/arrow_key_teleop_drive)
-
-- Clone the **nav2_lazy_theta_planner** package on your MoboBot ROS Workspace. this is package that would be used for the MoboBot Path Planning. A lightweight Lazy Theta-P planner for ROS 2 Nav2 by [samuko-things](https://github.com/samuko-things).
-```shell
-cd ~/mobo_bot_ws/src && git clone https://github.com/samuko-things/nav2_lazy_theta_planner.git
-```
-Learn more about the [**nav2_lazy_theta_planner**](https://github.com/samuko-things/nav2_lazy_theta_planner)
 
 - Build your workspace
 ```shell
