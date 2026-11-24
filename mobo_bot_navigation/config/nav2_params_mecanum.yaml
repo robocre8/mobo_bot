@@ -141,17 +141,31 @@ local_costmap:
       always_send_full_costmap: true
 
 
+# planner_server:
+#   ros__parameters:
+#     use_sim_time: true
+#     expected_planner_frequency: 20.0
+#     planner_plugins: ["GridBased"]
+#     costmap_update_timeout: 1.0
+#     GridBased:
+#       plugin: "nav2_navfn_planner::NavfnPlanner"
+#       tolerance: 0.5
+#       use_astar: true
+#       allow_unknown: true
+
+
+
 planner_server:
   ros__parameters:
     use_sim_time: true
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 10.0
     planner_plugins: ["GridBased"]
-    costmap_update_timeout: 1.0
     GridBased:
-      plugin: "nav2_navfn_planner::NavfnPlanner"
-      tolerance: 0.5
-      use_astar: true
-      allow_unknown: true
+      plugin: "nav2_lazy_theta_planner::LazyThetaPlanner"
+      los_shortcut_cost_limit: 5    # Strict limit for line-of-sight shortcuts through the inflation layer (value ranges from 1-100)
+      cost_travel_multiplier: 3.0   # Weight for penalizing traversal through inflation (try values between 1.0 to 3.0)
+      smooth_path: 1                # 1 - apply smoothening | 0 - don't apply smoothening 
+
 
 
 smoother_server:
