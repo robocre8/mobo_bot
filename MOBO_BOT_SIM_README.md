@@ -1,6 +1,6 @@
-## MoboBot Gazebo Simulation | Dev PC
+## MoboBot Gazebo Simulation | Dev PC - With EasyNav
 
-![mobo_bot_sim](./docs/mobo_bot2_sim_test.gif)
+![mobo_bot_sim](./docs/mobo-bot-easynav-test.gif)
 
 ### Some Prerequisites
 
@@ -23,11 +23,11 @@ mkdir -p ~/mobo_bot_ws/src && cd ~/mobo_bot_ws && colcon build
 source ~/mobo_bot_ws/install/setup.bash
 ```
 
-- Clone the **nav2_lazy_theta_planner** package on your MoboBot ROS Workspace. this is package that would be used for the MoboBot Path Planning. A lightweight Lazy Theta-P planner for ROS 2 Nav2 by [samuko-things](https://github.com/samuko-things).
+- Clone the **easynav_lazy_theta_planner** package on your MoboBot ROS Workspace. this is package that would be used for the MoboBot Path Planning. A lightweight Lazy Theta-P planner for ROS 2 EasyNav by [samuko-things](https://github.com/samuko-things).
 ```shell
-cd ~/mobo_bot_ws/src && git clone -b jazzy https://github.com/samuko-things/nav2_lazy_theta_planner.git
+cd ~/mobo_bot_ws/src && git clone -b jazzy https://github.com/samuko-things/easynav_lazy_theta_planner.git
 ```
-Learn more about the [**nav2_lazy_theta_planner**](https://github.com/samuko-things/nav2_lazy_theta_planner)
+Learn more about the [**easynav_lazy_theta_planner**](https://github.com/samuko-things/easynav_lazy_theta_planner)
 
 - Clone the **arrow_key_telop_drive** package on your MoboBot ROS Workspace. This is the package that would be used for driving the MoboBot using the arrow keys of your keyboard. developed by [samuko-things](https://github.com/samuko-things)
 ```shell
@@ -43,10 +43,10 @@ Learn more about the [**arrow_key_teleop_drive**](https://github.com/samuko-thin
 cd ~/mobo_bot_ws && colcon build --symlink-install
 ```
 
-### Clone and Build the MoboBot Packages  
+### Clone and Build the MoboBot (easynav branch) Packages  
 - cd into the src folder of your mobo_bot_ws and download the **MoboBot** packages
 ```shell
-cd ~/mobo_bot_ws/src && git clone -b jazzy https://github.com/robocre8/mobo_bot.git
+cd ~/mobo_bot_ws/src && git clone -b jazzy-easynav https://github.com/robocre8/mobo_bot.git
 ```
   
 - If you are not interested in running or testing the **MoboBot hardware** (i.e the actual robot), run the following command below. this will add the COLCON_IGNORE file to it.
@@ -73,19 +73,10 @@ cd ~/mobo_bot_ws && colcon build --symlink-install
 ```shell
 export MOBOBOT_BASE_TYPE=2WD #use 2 wheel drive chassis
 ```
-OR
-```shell
-export MOBOBOT_BASE_TYPE=MEC #use mecanum drive chassis
-```
-
 - add to your `.bashrc` file for auto sourcing 
 
 ```shell
 echo "export MOBOBOT_BASE_TYPE=2WD" >> ~/.bashrc
-```
-OR
-```shell
-echo "export MOBOBOT_BASE_TYPE=MEC" >> ~/.bashrc
 ```
 
 #
@@ -134,7 +125,7 @@ source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapp
 world_name:=room_with_walls \
 headless:=False
 ```
-  > other worlds -> turtlebot_arena , room_with_walls_star, empty_room, bookstore, house, hospital
+  > other worlds -> turtlebot_arena , room_with_walls_star, empty_room, bookstore
 
 - Then drive the robot around with teleop (as done previously) and see the map being created. continue driving till you are done mapping.
 
@@ -145,55 +136,17 @@ headless:=False
 ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "{name: {data: '/home/$USER/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/sim/<world_name>'}}"
 ```
 
-- run the command below to save the `serialized posegraph` map to be used later with SLAM for localization 
-</br>(map file would be saved in the `maps/sim` folder inside the `mobo_bot_navigation` pakage folder)
- 
-  >**pls ensure the map_name is exactly the same as the name of the world being used as stated above**
-```shell
-ros2 service call /slam_toolbox/serialize_map slam_toolbox/srv/SerializePoseGraph "{filename: '/home/$USER/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/sim/<world_name>'}"
-```
-
 #
 
-### Run the MoboBot Mapping (Navigate with Nav2 while Mapping) - SLAM
-The robot is able to map its evironment while running navigation. this is because the SLAM algorithm is able to localize the robot while creating the map of the environment. With this information of the robot location in the map being created, the robot is able to autonomously navigate to known poses on the map. 
-- start the MoboBot launch to run the mapping alongside navigation:
-```shell
-source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
-world:=room_with_walls \
-headless:=False \
-use_nav:=True \
-# nav_params_name:=nav2_params_mecanum
-```
-  >**NOTE**: if you do not see any map generated initially, run the telep node to drive the robot to initially start the map generation 
-  >then stop the teleop node as soon as you see the map being created and continue with 2D navigation
-
-- Now use the Nav2Goal button to move the robot from point to point on the known area of the currently created map and see how the robot both navigates and simultaneously create the map.
-
-- save the map (as done prevoiusly) once you are done mapping
-
-#
-
-### Run the MoboBot Navigation (With an already created Map) - AMCL or SLAM localization
-The robot is able to autonomously navigate using the map of the environment created in the previous step. The Adaptive Monte Carlo Localization (AMCL) algorithm from Nav2 (or SLAM from slam_toolbox) is used to localize the robot (i.e know the where the robot is located) in the already created Map being used. With this information, the robot is able to autonomously navigate to different goal pose on the map.
->NOTE: the AMCL and SLAM are configured to use the initial position of the robot at the start of the simulation
+### Run the MoboBot Navigation (With an already created Map) - AMCL localization
+The robot is able to autonomously navigate using the map of the environment created in the previous step. The Adaptive Monte Carlo Localization (AMCL) algorithm from EasyNav is used to localize the robot (i.e know the where the robot is located) in the already created Map being used. With this information, the robot is able to autonomously navigate to different goal pose on the map.
+>NOTE: the AMCL is configured to use the initial position of the robot at the start of the simulation
 
 - Launch the MoboBot Naviagtion (with AMCL):
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
 world_name:=room_with_walls \
-headless:=False \
-# nav_params_name:=nav2_params_mecanum
-```
-
-- Launch the MoboBot Naviagtion (with SLAM):
-```shell
-source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
-world_name:=room_with_walls \
-headless:=False \
-use_slam:=True \
-serialized_map_name:=room_with_walls \
-# nav_params_name:=nav2_params_mecanum
+headless:=False
 ```
 
   >**NOTE**: you can change the world_name to the world you are woking with and have created a map for.

@@ -20,11 +20,6 @@ def generate_launch_description():
   # Launch configuration variables specific to simulation
   use_sim_time = LaunchConfiguration('use_sim_time')
   world_name = LaunchConfiguration('world_name')
-  slam_params_name = LaunchConfiguration('slam_params_name')
-  nav_params_name = LaunchConfiguration('nav_params_name')
-  serialized_map_name = LaunchConfiguration('serialized_map_name')
-  serialized_map_location = LaunchConfiguration('serialized_map_location')
-  use_slam = LaunchConfiguration('use_slam')
   headless = LaunchConfiguration('headless')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -44,57 +39,6 @@ def generate_launch_description():
           "worlds",
           PythonExpression(expression=["'", world_name, "'", " + '.sdf'"])
       ]
-  )
-
-  map_path = PathJoinSubstitution([
-          navigation_pkg_path,
-          "maps", "sim",
-          PythonExpression(expression=["'", world_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_nav_params_name_cmd = DeclareLaunchArgument(
-    name='nav_params_name',
-    default_value='nav2_params',
-    description='name of the nav2 parameter file (without extension)'
-  )
-  
-  nav_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", nav_params_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_slam_params_name_cmd = DeclareLaunchArgument(
-    name='slam_params_name',
-    default_value='slam_toolbox_localization_params',
-    description='name of the slam toolbox parameter file (without extension)'
-  )
-
-  slam_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", slam_params_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_serialized_map_name_cmd = DeclareLaunchArgument(
-      name='serialized_map_name',
-      default_value='room_with_walls',
-      description='name of the serialized_map (without extension)'
-    )
-  
-  declare_serialized_map_location_cmd = DeclareLaunchArgument(
-      name='serialized_map_location',
-      default_value=os.path.join(navigation_pkg_path, 'maps', 'sim'),
-      description='location of the serialized_map'
-    )
-
-  declare_use_slam_cmd = DeclareLaunchArgument(
-    name='use_slam',
-    default_value='False',
-    description='whether to use navigation while mapping'
   )
 
   declare_headless_cmd = DeclareLaunchArgument(
@@ -127,12 +71,6 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': use_sim_time,
-              'use_slam': use_slam,
-              'nav_params': nav_params_file,
-              'map': map_path,
-              'slam_params': slam_params_file,
-              'serialized_map_name': serialized_map_name,
-              'serialized_map_location': serialized_map_location,
             }.items()
   )
 
@@ -144,11 +82,6 @@ def generate_launch_description():
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_use_sim_time_cmd)
   ld.add_action(declare_world_name_cmd)
-  ld.add_action(declare_nav_params_name_cmd)
-  ld.add_action(declare_slam_params_name_cmd)
-  ld.add_action(declare_use_slam_cmd)
-  ld.add_action(declare_serialized_map_name_cmd)
-  ld.add_action(declare_serialized_map_location_cmd)
   ld.add_action(declare_headless_cmd)
  
   # Add the nodes to the launch description

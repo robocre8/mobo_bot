@@ -20,9 +20,6 @@ def generate_launch_description():
   # Launch configuration variables specific to simulation
   use_sim_time = LaunchConfiguration('use_sim_time')
   world_name = LaunchConfiguration('world_name')
-  slam_params_name = LaunchConfiguration('slam_params_name')
-  nav_params_name = LaunchConfiguration('nav_params_name')
-  use_nav = LaunchConfiguration('use_nav')
   headless = LaunchConfiguration('headless')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -42,38 +39,6 @@ def generate_launch_description():
           "worlds",
           PythonExpression(expression=["'", world_name, "'", " + '.sdf'"])
       ]
-  )
-
-  declare_slam_params_name_cmd = DeclareLaunchArgument(
-    name='slam_params_name',
-    default_value='slam_toolbox_mapping_params',
-    description='name of the slam toolbox parameter file (without extension)'
-  )
-  
-  slam_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", slam_params_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_nav_params_name_cmd = DeclareLaunchArgument(
-    name='nav_params_name',
-    default_value='nav2_params',
-    description='name of the nav2 parameter file (without extension)'
-  )
-  
-  nav_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", nav_params_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_use_nav_cmd = DeclareLaunchArgument(
-    name='use_nav',
-    default_value='False',
-    description='whether to use navigation while mapping'
   )
 
   declare_headless_cmd = DeclareLaunchArgument(
@@ -107,9 +72,6 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': use_sim_time,
-              'slam_params': slam_params_file,
-              'nav_params': nav_params_file,
-              'use_nav': use_nav
             }.items()
   )
 
@@ -121,9 +83,6 @@ def generate_launch_description():
   # add the necessary declared launch arguments to the launch description
   ld.add_action(declare_use_sim_time_cmd)
   ld.add_action(declare_world_name_cmd)
-  ld.add_action(declare_slam_params_name_cmd)
-  ld.add_action(declare_nav_params_name_cmd)
-  ld.add_action(declare_use_nav_cmd)
   ld.add_action(declare_headless_cmd)
  
   # Add the nodes to the launch description

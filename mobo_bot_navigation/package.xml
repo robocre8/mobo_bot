@@ -10,9 +10,16 @@
   <license>TODO: License declaration</license>
 
   <depend>rclcpp</depend>
+  <depend>nav_msgs</depend>
   <depend>slam_toolbox</depend>
-  <depend>navigation2</depend>
-  <depend>nav2_bringup</depend>
+  <depend>easynav</depend>
+  <depend>easynav_simple_maps_manager</depend>
+  <depend>easynav_simple_localizer</depend>
+  <depend>easynav_simple_planner</depend>
+  <depend>easynav_costmap_maps_manager</depend>
+  <depend>easynav_costmap_localizer</depend>
+  <depend>easynav_costmap_planner</depend>
+  <depend>easynav_regulated_pp_controller</depend>
   
   <buildtool_depend>ament_cmake</buildtool_depend>
 

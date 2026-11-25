@@ -48,9 +48,9 @@ It is an open-source differential drive ROS2 educational robot (similar to the p
 
 #
 
-### Get Started The MoboBot Simulation
+### Get Started The MoboBot Simulation (EasyNav)
 
-![mobo_bot_sim](./docs/mobo_bot2_sim_test.gif)
+![mobo_bot_sim](./docs/mobo-bot-easynav-test.gif)
 
 </br>
 

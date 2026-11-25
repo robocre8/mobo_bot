@@ -1,0 +1,55 @@
+controller_node:
+  ros__parameters:
+    use_sim_time: true
+    controller_types: [dummy]
+    dummy:
+      rt_freq: 30.0 
+      plugin: easynav_controller/DummyController
+      cycle_time_nort: 0.01
+      cycle_time_rt: 0.001
+
+localizer_node:
+  ros__parameters:
+    use_sim_time: true
+    localizer_types: [dummy]
+    dummy:
+      rt_freq: 50.0
+      freq: 5.0
+      reseed_freq: 0.1
+      plugin: easynav_localizer/DummyLocalizer
+      cycle_time_nort: 0.01
+      cycle_time_rt: 0.001
+
+maps_manager_node:
+  ros__parameters:
+    use_sim_time: true
+    map_types: [simple]
+    simple:
+      freq: 10.0 
+      plugin: easynav_costmap_maps_manager/CostmapMapsManager
+
+planner_node:
+  ros__parameters:
+    use_sim_time: true
+    planner_types: [dummy]
+    dummy:
+      freq: 1.0
+      plugin: easynav_planner/DummyPlanner
+      cycle_time_nort: 0.2
+      cycle_time_rt: 0.001
+
+sensors_node:
+  ros__parameters:
+    use_sim_time: true
+    forget_time: 0.5
+    sensors: [laser1]
+    perception_default_frame: odom
+    laser1:
+      topic: lidar/scan
+      type: sensor_msgs/msg/LaserScan
+
+system_node:
+  ros__parameters:
+    use_sim_time: true
+    position_tolerance: 0.1
+    angle_tolerance: 0.05
