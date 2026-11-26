@@ -29,6 +29,11 @@ cd ~/mobo_bot_ws/src && git clone -b jazzy https://github.com/samuko-things/easy
 ```
 Learn more about the [**easynav_lazy_theta_planner**](https://github.com/samuko-things/easynav_lazy_theta_planner)
 
+- Clone the **twist_stamper** package by Josh newans (Ardiculated Robotics) in your MoboBot ROS Workspace. for converting unstamped velocity commands to stamped
+```shell
+cd ~/mobo_bot_ws/src && git clone https://github.com/samuko-things/twist_stamper.git
+```
+
 - Clone the **arrow_key_telop_drive** package on your MoboBot ROS Workspace. This is the package that would be used for driving the MoboBot using the arrow keys of your keyboard. developed by [samuko-things](https://github.com/samuko-things)
 ```shell
 sudo apt install python3-pip -y && sudo apt install python3-pynput -y
