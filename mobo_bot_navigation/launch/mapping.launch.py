@@ -13,6 +13,7 @@ from launch_ros.event_handlers import OnStateTransition
 from launch_ros.events.lifecycle import ChangeState
 from lifecycle_msgs.msg import Transition
 from launch_ros.descriptions import ParameterFile
+from nav2_common.launch import RewrittenYaml, ReplaceString
 
 from launch_ros.actions import Node
 
@@ -27,6 +28,8 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     slamtoolbox_params_file = LaunchConfiguration('slamtoolbox_params_file')
     easynav_costmap_params_file = LaunchConfiguration('easynav_costmap_params_file')
+    easynav_simple_params_file = LaunchConfiguration('easynav_simple_params_file')
+    use_costmap = LaunchConfiguration('use_costmap')
 
 
     declare_autostart_cmd = DeclareLaunchArgument(
@@ -49,11 +52,22 @@ def generate_launch_description():
                                    'config', 'slam_toolbox_mapping_params.yaml'),
         description='Full path to the ROS2 parameters file to use for the slam_toolbox node')
 
+    declare_easynav_simple_params_file_cmd = DeclareLaunchArgument(
+        'easynav_simple_params_file',
+        default_value=os.path.join(
+            robot_nav_pkg_path, 'config', 'easynav_simple_mapping_params.yaml'),
+        description='Full path to the ROS2 parameters file for easynav simple')
+
     declare_easynav_costmap_params_file_cmd = DeclareLaunchArgument(
-            'easynav_costmap_params_file',
-            default_value=os.path.join(
-                robot_nav_pkg_path, 'config', 'easynav_costmap_mapping_params.yaml'),
-            description='Full path to the ROS2 parameters file for easynav',)
+        'easynav_costmap_params_file',
+        default_value=os.path.join(
+            robot_nav_pkg_path, 'config', 'easynav_costmap_mapping_params.yaml'),
+        description='Full path to the ROS2 parameters file for easynav costmap')
+
+    declare_use_costmap_cmd = DeclareLaunchArgument(
+        'use_costmap',
+        default_value="True",
+        description='whether to use easynav simple or costmap')
     
 
      # Perform substitution `$find-pkg-share`
@@ -102,11 +116,68 @@ def generate_launch_description():
     )
 
 
+
+
+
+
+    rewritten_easynav_simple_params_file = RewrittenYaml(
+        source_file=easynav_simple_params_file,
+        root_key='',
+        param_rewrites={
+            'controller_node.ros__parameters.use_sim_time': use_sim_time,
+            'localizer_node.ros__parameters.use_sim_time': use_sim_time,
+            'maps_manager_node.ros__parameters.use_sim_time': use_sim_time,
+            'planner_node.ros__parameters.use_sim_time': use_sim_time,
+            'sensor_node.ros__parameters.use_sim_time': use_sim_time,
+            'system_node.ros__parameters.use_sim_time': use_sim_time,
+        },
+        convert_types=True,
+    )
+
+
+    rewritten_easynav_costmap_params_file = RewrittenYaml(
+        source_file=easynav_costmap_params_file,
+        root_key='',
+        param_rewrites={
+            'controller_node.ros__parameters.use_sim_time': use_sim_time,
+            'localizer_node.ros__parameters.use_sim_time': use_sim_time,
+            'maps_manager_node.ros__parameters.use_sim_time': use_sim_time,
+            'planner_node.ros__parameters.use_sim_time': use_sim_time,
+            'sensor_node.ros__parameters.use_sim_time': use_sim_time,
+            'system_node.ros__parameters.use_sim_time': use_sim_time,
+        },
+        convert_types=True,
+    )
+
+
+
+
+
+    easynav_system_simple = Node(
+        package='easynav_system',
+        executable='system_main',
+        parameters=[
+            rewritten_easynav_simple_params_file
+        ],
+        output='screen',
+        remappings=[
+            ('/maps_manager_node/simple/incoming_map', '/map'),
+        ],
+        condition=UnlessCondition(use_costmap)
+    )
+
+
     easynav_system_costmap = Node(
         package='easynav_system',
         executable='system_main',
-        parameters=[easynav_costmap_params_file],
+        parameters=[
+            rewritten_easynav_costmap_params_file
+        ],
         output='screen',
+        # remappings=[
+        #     ('/maps_manager_node/costmap/incoming_map', '/map'),
+        # ],
+        condition=IfCondition(use_costmap)
     )
     
 
@@ -117,10 +188,13 @@ def generate_launch_description():
     ld.add_action(declare_use_sim_time_argument)
     ld.add_action(declare_slamtoolbox_params_file_cmd)
     ld.add_action(declare_easynav_costmap_params_file_cmd)
+    ld.add_action(declare_easynav_simple_params_file_cmd)
+    ld.add_action(declare_use_costmap_cmd)
 
     ld.add_action(start_async_slam_toolbox_node)
     ld.add_action(configure_event)
     ld.add_action(activate_event)
+    ld.add_action(easynav_system_simple)
     ld.add_action(easynav_system_costmap)
 
     return ld

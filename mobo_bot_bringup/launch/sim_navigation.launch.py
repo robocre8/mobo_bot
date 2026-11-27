@@ -21,6 +21,7 @@ def generate_launch_description():
   use_sim_time = LaunchConfiguration('use_sim_time')
   world_name = LaunchConfiguration('world_name')
   headless = LaunchConfiguration('headless')
+  use_costmap = LaunchConfiguration('use_costmap')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
     name='use_sim_time',
@@ -33,7 +34,19 @@ def generate_launch_description():
     default_value='room_with_walls',
     description='name of the world file (without extension)'
   )
-  
+
+  declare_headless_cmd = DeclareLaunchArgument(
+    name='headless',
+    default_value='True',
+    description='run gazebo GUI (False) or not (True)'
+  )
+
+  declare_use_costmap_cmd = DeclareLaunchArgument(
+    name='use_costmap',
+    default_value='False',
+    description='whether to use Easy Nav costmap or not'
+  )
+
   world_path = PathJoinSubstitution([
           sim_pkg_path,
           "worlds",
@@ -41,10 +54,16 @@ def generate_launch_description():
       ]
   )
 
-  declare_headless_cmd = DeclareLaunchArgument(
-    name='headless',
-    default_value='False',
-    description='run gazebo GUI (False) or not (True)'
+  simple_map_path = PathJoinSubstitution([
+          "maps", "sim",
+          PythonExpression(expression=["'", world_name, "'", " + '.map'"])
+      ]
+  )
+
+  costmap_map_path = PathJoinSubstitution([
+          "maps", "sim",
+          PythonExpression(expression=["'", world_name, "'", " + '.yaml'"])
+      ]
   )
 
   #-----------------------------------------------------------------------------
@@ -71,6 +90,9 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': use_sim_time,
+              'use_costmap': use_costmap,
+              'simple_map_path': simple_map_path,
+              'costmap_map_path': costmap_map_path
             }.items()
   )
 
@@ -83,6 +105,7 @@ def generate_launch_description():
   ld.add_action(declare_use_sim_time_cmd)
   ld.add_action(declare_world_name_cmd)
   ld.add_action(declare_headless_cmd)
+  ld.add_action(declare_use_costmap_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)

@@ -1,0 +1,95 @@
+controller_node:
+  ros__parameters:
+    use_sim_time: true
+    robot_limits:
+      max_linear_vel: 0.4
+      min_linear_vel: -0.1
+      max_angular_vel: 1.0
+      max_linear_acc: 1.0
+      max_linear_decel: 1.0
+      max_angular_acc: 2.0
+      max_angular_decel: 2.0
+    controller_types: [rpp]
+    rpp:
+      rt_freq: 30.0
+      plugin: easynav_regulated_pp_controller/RegulatedPurePursuitController
+      safety_margin: 0.05
+      use_dynamic_window: false
+      allow_reversing: false
+      lookahead_dist: 0.5
+      min_lookahead_dist: 0.2
+      max_lookahead_dist: 0.8
+      lookahead_time: 1.0
+      use_velocity_scaled_lookahead_dist: true
+      use_rotate_to_heading: true
+      rotate_to_heading_angular_vel: 1.0
+      rotate_to_heading_min_angle: 0.785
+      use_regulated_linear_velocity_scaling: true
+      regulated_linear_scaling_min_radius: 0.9
+      regulated_linear_scaling_min_speed: 0.15
+      use_fixed_curvature_lookahead: false
+      curvature_lookahead_dist: 1.0
+      interpolate_curvature_after_goal: false
+      use_obstacle_regulated_linear_velocity_scaling: false
+      obstacle_scaling_dist: 0.4
+      obstacle_scaling_gain: 0.8
+      min_approach_linear_velocity: 0.05
+      approach_velocity_scaling_dist: 0.6
+      xy_goal_tolerance: 0.1
+      yaw_goal_tolerance: 0.105
+
+localizer_node:
+  ros__parameters:
+    use_sim_time: true
+    localizer_types: [simple]
+    simple:
+      rt_freq: 50.0
+      freq: 5.0
+      reseed_freq: 1.0
+      plugin: easynav_simple_localizer/AMCLLocalizer
+      num_particles: 100
+      noise_translation: 0.05
+      noise_rotation: 0.1
+      noise_translation_to_rotation: 0.1
+      initial_pose:
+        x: 0.0
+        y: 0.0
+        yaw: 0.0
+        std_dev_xy: 0.1
+        std_dev_yaw: 0.01
+
+maps_manager_node:
+  ros__parameters:
+    use_sim_time: true
+    map_types: [simple]
+    simple:
+      freq: 10.0
+      plugin: easynav_simple_maps_manager/SimpleMapsManager
+      package: mobo_bot_navigation
+      # map_path_file: maps/sim/room_with_walls.map
+
+planner_node:
+  ros__parameters:
+    use_sim_time: true
+    planner_types: [simple]
+    simple:
+      freq: 0.5
+      # plugin: easynav_simple_planner/SimplePlanner
+      plugin: easynav_lazy_theta_simple_planner/LazyThetaSimplePlanner
+      robot_radius: 0.15
+
+sensors_node:
+  ros__parameters:
+    use_sim_time: true
+    forget_time: 0.5
+    sensors: [laser]
+    perception_default_frame: odom
+    laser:
+      topic: lidar/scan
+      type: sensor_msgs/msg/LaserScan
+
+system_node:
+  ros__parameters:
+    use_sim_time: true
+    position_tolerance: 0.3
+    angle_tolerance: 0.15

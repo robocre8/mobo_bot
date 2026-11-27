@@ -13,21 +13,14 @@ def generate_launch_description():
   # Set the path to this package.
   hardware_pkg_path = get_package_share_directory('mobo_bot_hardware')
   navigation_pkg_path = get_package_share_directory('mobo_bot_navigation')
-
+ 
   #--------------------------------------------------------------------------
 
   # Launch configuration variables specific to simulation
   use_sim_time = LaunchConfiguration('use_sim_time')
-  slam_params_name = LaunchConfiguration('slam_params_name')
-  nav_params_name = LaunchConfiguration('nav_params_name')
-  use_nav = LaunchConfiguration('use_nav')
-  use_ekf = LaunchConfiguration('use_ekf')
-
-  declare_use_ekf_cmd = DeclareLaunchArgument(
-      name='use_ekf',
-      default_value='False',
-      description='fuse odometry and imu data if true'
-  )
+  use_costmap = LaunchConfiguration('use_costmap')
+  use_lidar = LaunchConfiguration('use_lidar')
+  use_camera = LaunchConfiguration('use_camera')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
     name='use_sim_time',
@@ -35,49 +28,34 @@ def generate_launch_description():
     description='whether to use simulation clock or not'
   )
 
-  declare_slam_params_name_cmd = DeclareLaunchArgument(
-    name='slam_params_name',
-    default_value='slam_toolbox_mapping_params',
-    description='name of the slam toolbox parameter file (without extension)'
-  )
-  
-  slam_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", slam_params_name, "'", " + '.yaml'"])
-      ]
+  declare_use_lidar_cmd = DeclareLaunchArgument(
+    name='use_lidar',
+    default_value='True',
+    description='launch lidar node if true'
   )
 
-  declare_nav_params_name_cmd = DeclareLaunchArgument(
-    name='nav_params_name',
-    default_value='nav2_params',
-    description='name of the nav2 parameter file (without extension)'
-  )
-  
-  nav_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", nav_params_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_use_nav_cmd = DeclareLaunchArgument(
-    name='use_nav',
+  declare_use_camera_cmd = DeclareLaunchArgument(
+    name='use_camera',
     default_value='False',
-    description='whether to use navigation while mapping'
+    description='launch camera node if true'
   )
- 
-  #-----------------------------------------------------------------------------
 
+  declare_use_costmap_cmd = DeclareLaunchArgument(
+    name='use_costmap',
+    default_value='False',
+    description='whether to use easynav costmap or simple map'
+  )
+
+  #-----------------------------------------------------------------------------
+  
   robot_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [os.path.join(hardware_pkg_path,'launch','robot.launch.py')]
             ),
             launch_arguments={
-              'use_sim_time': 'False',
-              'use_ekf': use_ekf,
-              'use_lidar': 'True',
-              'use_camera': 'False',
+              'use_sim_time': use_sim_time,
+              'use_lidar': use_lidar,
+              'use_camera': use_camera,
             }.items(),
   )
 
@@ -87,9 +65,7 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': use_sim_time,
-              'slam_params': slam_params_file,
-              'nav_params': nav_params_file,
-              'use_nav': use_nav
+              'use_costmap': use_costmap
             }.items()
   )
 
@@ -99,11 +75,10 @@ def generate_launch_description():
   ld = LaunchDescription()
  
   # add the necessary declared launch arguments to the launch description
-  ld.add_action(declare_use_ekf_cmd)
   ld.add_action(declare_use_sim_time_cmd)
-  ld.add_action(declare_slam_params_name_cmd)
-  ld.add_action(declare_nav_params_name_cmd)
-  ld.add_action(declare_use_nav_cmd)
+  ld.add_action(declare_use_costmap_cmd)
+  ld.add_action(declare_use_lidar_cmd)
+  ld.add_action(declare_use_camera_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(robot_launch)

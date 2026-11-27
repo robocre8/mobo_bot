@@ -127,16 +127,25 @@ Mapping is done with the SLAM Algorithm from the slam_toolbox package. The robot
 - to just build map of the world with slam run:
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_mapping.launch.py \
-world_name:=room_with_walls \
-headless:=False
+world_name:=room_with_walls
 ```
-  > other worlds -> turtlebot_arena , room_with_walls_star, empty_room, bookstore
+  > other worlds -> turtlebot_arena, bookstore, house, room_with_walls_star, empty_room
 
 - Then drive the robot around with teleop (as done previously) and see the map being created. continue driving till you are done mapping.
 
-- run the command below to save the `occupancy grid` map to be used later with AMCL for localization (map file would be saved in the `maps/sim` folder inside the `mobo_bot_navigation` pakage folder)
- 
-  >**pls ensure the map_name is exactly the same as the name of the world being used as stated above**
+#
+
+#### Save EasyNav SimpleMap or CostMap
+
+- save simple map with easynav
+```shell
+ros2 service call /maps_manager_node/simple/savemap std_srvs/srv/Trigger
+```
+```shell
+mv /tmp/default.map /home/$USER/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/sim/<world_name>.map
+```
+
+- save costmap map in easynav with slamtoolbox
 ```shell
 ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "{name: {data: '/home/$USER/mobo_bot_ws/src/mobo_bot/mobo_bot_navigation/maps/sim/<world_name>'}}"
 ```
@@ -145,13 +154,14 @@ ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap "{name: {data:
 
 ### Run the MoboBot Navigation (With an already created Map) - AMCL localization
 The robot is able to autonomously navigate using the map of the environment created in the previous step. The Adaptive Monte Carlo Localization (AMCL) algorithm from EasyNav is used to localize the robot (i.e know the where the robot is located) in the already created Map being used. With this information, the robot is able to autonomously navigate to different goal pose on the map.
->NOTE: the AMCL is configured to use the initial position of the robot at the start of the simulation
+>NOTE: the AMCL is configured to use the robot's initial position (x = 0.0, y = 0.0, yaw = 0.0) at the start of the simulation
 
 - Launch the MoboBot Naviagtion (with AMCL):
 ```shell
 source ~/mobo_bot_ws/install/setup.bash && ros2 launch mobo_bot_bringup sim_navigation.launch.py \
 world_name:=room_with_walls \
-headless:=False
+headless:=True \
+use_costmap:=False
 ```
 
   >**NOTE**: you can change the world_name to the world you are woking with and have created a map for.

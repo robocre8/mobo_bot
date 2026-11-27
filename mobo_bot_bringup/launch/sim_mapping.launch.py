@@ -21,6 +21,7 @@ def generate_launch_description():
   use_sim_time = LaunchConfiguration('use_sim_time')
   world_name = LaunchConfiguration('world_name')
   headless = LaunchConfiguration('headless')
+  use_costmap = LaunchConfiguration('use_costmap')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
     name='use_sim_time',
@@ -43,8 +44,14 @@ def generate_launch_description():
 
   declare_headless_cmd = DeclareLaunchArgument(
     name='headless',
-    default_value='False',
+    default_value='True',
     description='run gazebo GUI (False) or not (True)'
+  )
+
+  declare_use_costmap_cmd = DeclareLaunchArgument(
+    name='use_costmap',
+    default_value='False',
+    description='whether to use easynav costmap or simple map'
   )
 
   #-----------------------------------------------------------------------------
@@ -72,6 +79,7 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': use_sim_time,
+              'use_costmap': use_costmap
             }.items()
   )
 
@@ -84,6 +92,7 @@ def generate_launch_description():
   ld.add_action(declare_use_sim_time_cmd)
   ld.add_action(declare_world_name_cmd)
   ld.add_action(declare_headless_cmd)
+  ld.add_action(declare_use_costmap_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(sim_launch)

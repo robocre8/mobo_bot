@@ -11,6 +11,7 @@
 
   <depend>rclcpp</depend>
   <depend>nav_msgs</depend>
+  <depend>nav2_common</depend>
   <depend>slam_toolbox</depend>
   <depend>easynav</depend>
   <depend>easynav_simple_maps_manager</depend>

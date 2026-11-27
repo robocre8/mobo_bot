@@ -16,20 +16,18 @@ def generate_launch_description():
     description_pkg_path = get_package_share_directory('mobo_bot_description')
     hardware_pkg_path = get_package_share_directory('mobo_bot_hardware')
 
-    eimu_config_file = os.path.join(hardware_pkg_path,'config','eimu_params.yaml')
-    ekf_config_path = os.path.join(hardware_pkg_path,'config','ekf.yaml')
-
     #--------------------------------------------------------------------------
 
     # Launch configuration variables specific to robot (i.e mobo_bot)
-    use_ekf = LaunchConfiguration('use_ekf')
+    use_sim_time = LaunchConfiguration('use_sim_time')
     use_lidar = LaunchConfiguration('use_lidar')
     use_camera = LaunchConfiguration('use_camera')
-    
-    declare_use_ekf_cmd = DeclareLaunchArgument(
-      name='use_ekf',
-      default_value='False',
-      description='fuse odometry and imu data if true')
+
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        name='use_sim_time',
+        default_value='False',
+        description='whether to use simulation clock or not'
+    )
     
     declare_lidar_cmd = DeclareLaunchArgument(
       name='use_lidar',
@@ -53,7 +51,7 @@ def generate_launch_description():
     # create needed nodes or launch files
     rsp_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(description_pkg_path,'launch','rsp.launch.py')]), 
-        launch_arguments={'use_sim_time': 'False',
+        launch_arguments={'use_sim_time': use_sim_time,
                           'base_type': base_type,
                           'run_gz_sim': 'False'}.items(),
         )
@@ -72,9 +70,8 @@ def generate_launch_description():
         executable="spawner",
         arguments=["joint_state_broadcaster"],
     )
-
-    
-    robot_base_controller_spawner_no_ekf = Node(
+   
+    robot_base_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=[
@@ -86,61 +83,14 @@ def generate_launch_description():
             -r /diff_drive_controller/cmd_vel:=/cmd_vel
             -r /diff_drive_controller/odom:=/odom
             """
-        ],
-        condition=UnlessCondition(use_ekf),
+        ]
     )
-
-    robot_base_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "diff_drive_controller",
-            "--param-file",
-            robot_controller,
-            "--controller-ros-args",
-            """
-            -r /diff_drive_controller/cmd_vel:=/cmd_vel
-            -r /diff_drive_controller/odom:=/wheel/odometry
-            """
-        ],
-        condition=IfCondition(use_ekf),
-    )
-
-    eimu_node = Node(
-        package='eimu_ros',
-        executable='eimu_ros',
-        name='eimu_ros',
-        output='screen',
-        parameters=[
-            eimu_config_file
-        ],
-        condition=IfCondition(use_ekf)
-    )
-
-    ekf_node = Node(
-        package='robot_localization',
-        executable='ekf_node',
-        name='ekf_filter_node',
-        output='screen',
-        parameters=[
-            ekf_config_path
-        ],
-        condition=IfCondition(use_ekf),
-        remappings=[("odometry/filtered", "/odom")]
-    ) 
 
     # Delay start of robot_controller after `joint_state_broadcaster`
     start_robot_base_controller_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
             on_exit=[robot_base_controller_spawner],
-        )
-    )
-
-    start_robot_base_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=joint_state_broadcaster_spawner,
-            on_exit=[robot_base_controller_spawner_no_ekf],
         )
     )
 
@@ -174,13 +124,6 @@ def generate_launch_description():
                     'max_angle_deg': 150.0}
                     ],
         remappings=[("filtered_scan", "lidar/scan")]
-    )
-
-    start_rp_lidar_c1_node_after_robot_base_controller_spawner_no_ekf = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=robot_base_controller_spawner_no_ekf,
-            on_exit=[rp_lidar_c1_node],
-        )
     )
 
     start_rp_lidar_c1_node_after_robot_base_controller_spawner = RegisterEventHandler(
@@ -231,7 +174,7 @@ def generate_launch_description():
     ld = LaunchDescription()
 
     # add the necessary declared launch arguments to the launch description
-    ld.add_action(declare_use_ekf_cmd)
+    ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_lidar_cmd)
     ld.add_action(declare_camera_cmd)
     
@@ -241,11 +184,7 @@ def generate_launch_description():
     ld.add_action(controller_manager)
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(start_robot_base_controller_spawner_after_joint_state_broadcaster_spawner)
-    ld.add_action(start_robot_base_controller_spawner_no_ekf_after_joint_state_broadcaster_spawner)
-    ld.add_action(eimu_node)
-    ld.add_action(ekf_node)
     ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner)
-    ld.add_action(start_rp_lidar_c1_node_after_robot_base_controller_spawner_no_ekf)
     ld.add_action(lidar_angle_filter_node)
     ld.add_action(camera_launch)
     ld.add_action(twist_mux_node)

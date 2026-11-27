@@ -30,7 +30,7 @@ controller_node:
       use_fixed_curvature_lookahead: false
       curvature_lookahead_dist: 1.0
       interpolate_curvature_after_goal: false
-      use_obstacle_regulated_linear_velocity_scaling: true
+      use_obstacle_regulated_linear_velocity_scaling: false
       obstacle_scaling_dist: 0.4
       obstacle_scaling_gain: 0.8
       min_approach_linear_velocity: 0.05
@@ -53,7 +53,7 @@ localizer_node:
       noise_translation_to_rotation: 0.1
       initial_pose:
         x: 0.0
-        y: 1.0
+        y: 0.0
         yaw: 0.0
         std_dev_xy: 0.1
         std_dev_yaw: 0.01
@@ -66,14 +66,14 @@ maps_manager_node:
       freq: 10.0 
       plugin: easynav_costmap_maps_manager/CostmapMapsManager
       package: mobo_bot_navigation
-      map_path_file: maps/sim/room_with_walls.yaml
-      # map_path_file: maps/sim/bookstore.yaml
+      # map_path_file: maps/sim/room_with_walls.yaml
       filters: [obstacles, inflation]
       obstacles:
         plugin: easynav_costmap_maps_manager/CostmapMapsManager/ObstaclesFilter
       inflation:
         plugin: easynav_costmap_maps_manager/CostmapMapsManager/InflationFilter
         inflation_radius: 0.5
+        inscribed_radius: 0.01
         cost_scaling_factor: 5.0
 
 # planner_node:

@@ -17,32 +17,11 @@ def generate_launch_description():
   #--------------------------------------------------------------------------
 
   # Launch configuration variables specific to simulation
-  map_name = LaunchConfiguration('map_name')
-  use_ekf = LaunchConfiguration('use_ekf')
   use_sim_time = LaunchConfiguration('use_sim_time')
-  slam_params_name = LaunchConfiguration('slam_params_name')
-  nav_params_name = LaunchConfiguration('nav_params_name')
-  serialized_map_name = LaunchConfiguration('serialized_map_name')
-  serialized_map_location = LaunchConfiguration('serialized_map_location')
-  use_slam = LaunchConfiguration('use_slam')
-
-  declare_use_ekf_cmd = DeclareLaunchArgument(
-      name='use_ekf',
-      default_value='False',
-      description='fuse odometry and imu data if true'
-  )
-
-  declare_map_name_cmd = DeclareLaunchArgument(
-    name='map_name',
-    default_value='',
-    description='name of the map file')
-  
-  map_path = PathJoinSubstitution([
-          navigation_pkg_path,
-          "maps", "hardware",
-          PythonExpression(expression=["'", map_name, "'", " + '.yaml'"])
-      ]
-  )  
+  use_costmap = LaunchConfiguration('use_costmap')
+  map_name = LaunchConfiguration('map_name')
+  use_lidar = LaunchConfiguration('use_lidar')
+  use_camera = LaunchConfiguration('use_camera')
 
   declare_use_sim_time_cmd = DeclareLaunchArgument(
     name='use_sim_time',
@@ -50,49 +29,40 @@ def generate_launch_description():
     description='whether to use simulation clock or not'
   )
 
-
-  declare_nav_params_name_cmd = DeclareLaunchArgument(
-    name='nav_params_name',
-    default_value='nav2_params',
-    description='name of the nav2 parameter file (without extension)'
-  )
-  
-  nav_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", nav_params_name, "'", " + '.yaml'"])
-      ]
+  declare_use_lidar_cmd = DeclareLaunchArgument(
+    name='use_lidar',
+    default_value='True',
+    description='launch lidar node if true'
   )
 
-  declare_slam_params_name_cmd = DeclareLaunchArgument(
-    name='slam_params_name',
-    default_value='slam_toolbox_localization_params',
-    description='name of the slam toolbox parameter file (without extension)'
-  )
-
-  slam_params_file = PathJoinSubstitution([
-          navigation_pkg_path,
-          "config",
-          PythonExpression(expression=["'", slam_params_name, "'", " + '.yaml'"])
-      ]
-  )
-
-  declare_serialized_map_name_cmd = DeclareLaunchArgument(
-      name='serialized_map_name',
-      default_value='',
-      description='name of the serialized_map (without extension)'
-    )
-  
-  declare_serialized_map_location_cmd = DeclareLaunchArgument(
-      name='serialized_map_location',
-      default_value=os.path.join(navigation_pkg_path, 'maps', 'hardware'),
-      description='location of the serialized_map'
-    )
-
-  declare_use_slam_cmd = DeclareLaunchArgument(
-    name='use_slam',
+  declare_use_camera_cmd = DeclareLaunchArgument(
+    name='use_camera',
     default_value='False',
-    description='whether to use navigation while mapping'
+    description='launch camera node if true'
+  )
+
+  declare_use_costmap_cmd = DeclareLaunchArgument(
+    name='use_costmap',
+    default_value='False',
+    description='whether to use easynav costmap or simple map'
+  )
+
+  declare_map_name_cmd = DeclareLaunchArgument(
+    name='map_name',
+    default_value='',
+    description='name of the map file (without extension)'
+  )
+  
+  simple_map_path = PathJoinSubstitution([
+          "maps", "hardware",
+          PythonExpression(expression=["'", map_name, "'", " + '.map'"])
+      ]
+  )
+
+  costmap_map_path = PathJoinSubstitution([
+          "maps", "hardware",
+          PythonExpression(expression=["'", map_name, "'", " + '.yaml'"])
+      ]
   )
  
   #-----------------------------------------------------------------------------
@@ -103,9 +73,8 @@ def generate_launch_description():
             ),
             launch_arguments={
               'use_sim_time': use_sim_time,
-              'use_ekf': use_ekf,
-              'use_lidar': 'True',
-              'use_camera': 'False',
+              'use_lidar': use_lidar,
+              'use_camera': use_camera,
             }.items(),
   )
 
@@ -115,12 +84,9 @@ def generate_launch_description():
             ), 
             launch_arguments={
               'use_sim_time': use_sim_time,
-              'use_slam': use_slam,
-              'nav_params': nav_params_file,
-              'map': map_path,
-              'slam_params': slam_params_file,
-              'serialized_map_name': serialized_map_name,
-              'serialized_map_location': serialized_map_location,
+              'use_costmap': use_costmap,
+              'simple_map_path': simple_map_path,
+              'costmap_map_path': costmap_map_path
             }.items()
   )
 
@@ -130,14 +96,11 @@ def generate_launch_description():
   ld = LaunchDescription()
  
   # add the necessary declared launch arguments to the launch description
-  ld.add_action(declare_map_name_cmd)
-  ld.add_action(declare_use_ekf_cmd)
   ld.add_action(declare_use_sim_time_cmd)
-  ld.add_action(declare_nav_params_name_cmd)
-  ld.add_action(declare_slam_params_name_cmd)
-  ld.add_action(declare_use_slam_cmd)
-  ld.add_action(declare_serialized_map_name_cmd)
-  ld.add_action(declare_serialized_map_location_cmd)
+  ld.add_action(declare_use_costmap_cmd)
+  ld.add_action(declare_map_name_cmd)
+  ld.add_action(declare_use_lidar_cmd)
+  ld.add_action(declare_use_camera_cmd)
  
   # Add the nodes to the launch description
   ld.add_action(robot_launch)
